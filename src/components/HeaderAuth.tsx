@@ -48,7 +48,7 @@ export default function HeaderAuth() {
       {isAdmin && (
         <Link
           href="/admin"
-          className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-amber-400/90 transition-colors hover:bg-amber-500/10 sm:inline-flex"
+          className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-amber-400/90 transition-colors hover:bg-amber-500/10"
         >
           <Shield className="h-4 w-4" />
           後台
