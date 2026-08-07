@@ -1,18 +1,9 @@
 import { createServerClient as createSupabaseServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { getSupabaseEnv, isSupabaseConfigured } from "@/lib/supabase/env";
 
-function getSupabaseEnv() {
-  return {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-    anonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
-  };
-}
-
-export function isSupabaseConfigured(): boolean {
-  const { url, anonKey } = getSupabaseEnv();
-  return Boolean(url && anonKey);
-}
+export { isSupabaseConfigured };
 
 /** Cookie-aware client（會員 session、RLS auth.uid） */
 export async function createAuthServerClient() {
