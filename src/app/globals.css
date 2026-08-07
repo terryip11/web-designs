@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #09090b;
+  --foreground: #fafafa;
 }
 
 @theme inline {
@@ -12,15 +12,233 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+select option {
+  background: #18181b;
+  color: #fafafa;
+}
+
+/* 草圖編輯器：整頁模式，避免整頁上下捲動 */
+body:has(.sketch-fullpage) {
+  overflow: hidden;
+}
+
+body:has(.sketch-fullpage) footer {
+  display: none;
+}
+
+body:has(.sketch-fullpage) main {
+  overflow: hidden;
+}
+
+/* 草圖元件進場特效 */
+@keyframes sketch-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sketch-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sketch-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sketch-slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(56px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sketch-slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-56px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sketch-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sketch-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  75% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sketch-flip-in {
+  from {
+    opacity: 0;
+    transform: perspective(400px) rotateX(-75deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(400px) rotateX(0);
+  }
+}
+
+.sketch-anim-fade-in {
+  opacity: 0;
+  animation: sketch-fade-in 0.65s ease-out forwards;
+}
+
+.sketch-anim-slide-up {
+  opacity: 0;
+  animation: sketch-slide-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-slide-down {
+  opacity: 0;
+  animation: sketch-slide-down 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-slide-left {
+  opacity: 0;
+  animation: sketch-slide-left 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-slide-right {
+  opacity: 0;
+  animation: sketch-slide-right 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-zoom-in {
+  opacity: 0;
+  animation: sketch-zoom-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-bounce-in {
+  opacity: 0;
+  animation: sketch-bounce-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-flip-in {
+  opacity: 0;
+  transform-origin: center top;
+  animation: sketch-flip-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes sketch-scroll-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sketch-blur-in {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes sketch-rotate-in {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes sketch-hover-lift-demo {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+  50% {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.sketch-anim-scroll-reveal {
+  opacity: 0;
+  animation: sketch-scroll-reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-blur-in {
+  opacity: 0;
+  animation: sketch-blur-in 0.75s ease-out forwards;
+}
+
+.sketch-anim-rotate-in {
+  opacity: 0;
+  animation: sketch-rotate-in 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.sketch-anim-hover-lift {
+  animation: sketch-hover-lift-demo 1.4s ease-in-out 2;
+}
+
+.sketch-hover-lift-active {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
 }

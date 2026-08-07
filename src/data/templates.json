@@ -1,0 +1,223 @@
+[
+  {
+    "id": "restaurant-warm-01",
+    "name": "暖色餐飲 · 極簡",
+    "category": "餐飲",
+    "style": ["極簡", "溫暖"],
+    "colors": ["#E8A87C", "#FDF6EC", "#2D3436"],
+    "thumbnail": "/templates/restaurant-warm-01/cover.svg",
+    "previews": {
+      "desktop": ["/templates/restaurant-warm-01/desktop.svg"],
+      "mobile": ["/templates/restaurant-warm-01/mobile.svg"]
+    },
+    "includedPages": ["首頁", "菜單", "關於我們", "聯絡我們"],
+    "suitableFor": "餐廳、咖啡廳、輕食店",
+    "basePrice": 12800,
+    "compatibleFeatures": ["contact-form", "booking", "gallery", "multilingual", "google-map", "blog", "seo", "cms"],
+    "featured": true
+  },
+  {
+    "id": "ecommerce-dark-02",
+    "name": "深色電商 · 質感",
+    "category": "電商",
+    "style": ["現代", "高端"],
+    "colors": ["#1A1A2E", "#E94560", "#F5F5F5"],
+    "thumbnail": "/templates/ecommerce-dark-02/cover.svg",
+    "previews": {
+      "desktop": ["/templates/ecommerce-dark-02/desktop.svg"],
+      "mobile": ["/templates/ecommerce-dark-02/mobile.svg"]
+    },
+    "includedPages": ["首頁", "商品列表", "商品詳情", "購物車", "關於"],
+    "suitableFor": "服飾、配件、數位商品",
+    "basePrice": 52000,
+    "compatibleFeatures": ["contact-form", "ecommerce", "member-login", "gallery", "multilingual", "seo", "cms"],
+    "featured": true
+  },
+  {
+    "id": "corporate-clean-03",
+    "name": "企業官網 · 專業",
+    "category": "企業",
+    "style": ["專業", "簡潔"],
+    "colors": ["#2563EB", "#FFFFFF", "#1E293B"],
+    "thumbnail": "/templates/corporate-clean-03/cover.svg",
+    "previews": {
+      "desktop": ["/templates/corporate-clean-03/desktop.svg"],
+      "mobile": ["/templates/corporate-clean-03/mobile.svg"]
+    },
+    "includedPages": ["首頁", "服務介紹", "團隊", "案例", "聯絡"],
+    "suitableFor": "顧問公司、律師事務所、B2B 服務",
+    "basePrice": 32000,
+    "compatibleFeatures": ["contact-form", "blog", "gallery", "multilingual", "member-login", "seo", "cms"],
+    "featured": true
+  },
+  {
+    "id": "portfolio-creative-04",
+    "name": "個人品牌 · 創意",
+    "category": "個人品牌",
+    "style": ["創意", "大膽"],
+    "colors": ["#7C3AED", "#FBBF24", "#18181B"],
+    "thumbnail": "/templates/portfolio-creative-04/cover.svg",
+    "previews": {
+      "desktop": ["/templates/portfolio-creative-04/desktop.svg"],
+      "mobile": ["/templates/portfolio-creative-04/mobile.svg"]
+    },
+    "includedPages": ["首頁", "作品集", "關於", "聯絡"],
+    "suitableFor": "設計師、攝影師、自由工作者",
+    "basePrice": 9800,
+    "compatibleFeatures": ["contact-form", "gallery", "blog", "multilingual", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "medical-trust-05",
+    "name": "醫療健康 · 信賴",
+    "category": "醫療",
+    "style": ["乾淨", "可信"],
+    "colors": ["#0EA5E9", "#F0FDFA", "#334155"],
+    "thumbnail": "/templates/medical-trust-05/cover.svg",
+    "previews": {
+      "desktop": ["/templates/medical-trust-05/desktop.svg"],
+      "mobile": ["/templates/medical-trust-05/mobile.svg"]
+    },
+    "includedPages": ["首頁", "服務項目", "醫師團隊", "預約", "聯絡"],
+    "suitableFor": "診所、牙醫、健康中心",
+    "basePrice": 24000,
+    "compatibleFeatures": ["contact-form", "booking", "gallery", "google-map", "multilingual", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "education-bright-06",
+    "name": "教育培訓 · 清晰",
+    "category": "教育",
+    "style": ["簡潔", "活潑"],
+    "colors": ["#F59E0B", "#FFFBEB", "#1C1917"],
+    "thumbnail": "/templates/education-bright-06/cover.svg",
+    "previews": {
+      "desktop": ["/templates/education-bright-06/desktop.svg"],
+      "mobile": ["/templates/education-bright-06/mobile.svg"]
+    },
+    "includedPages": ["首頁", "課程介紹", "師資", "報名", "聯絡"],
+    "suitableFor": "補習社、語言中心、興趣班",
+    "basePrice": 16800,
+    "compatibleFeatures": ["contact-form", "booking", "blog", "gallery", "multilingual", "member-login", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "beauty-elegant-07",
+    "name": "美容沙龍 · 輕奢",
+    "category": "美容",
+    "style": ["輕奢", "現代"],
+    "colors": ["#BE185D", "#FDF2F8", "#44403C"],
+    "thumbnail": "/templates/beauty-elegant-07/cover.svg",
+    "previews": {
+      "desktop": ["/templates/beauty-elegant-07/desktop.svg"],
+      "mobile": ["/templates/beauty-elegant-07/mobile.svg"]
+    },
+    "includedPages": ["首頁", "服務價目", "作品集", "預約", "聯絡"],
+    "suitableFor": "美容院、髮廊、美甲店",
+    "basePrice": 14500,
+    "compatibleFeatures": ["contact-form", "booking", "gallery", "google-map", "multilingual", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "fitness-energy-08",
+    "name": "健身運動 · 活力",
+    "category": "健身",
+    "style": ["活潑", "深色"],
+    "colors": ["#22C55E", "#0A0A0A", "#FAFAFA"],
+    "thumbnail": "/templates/fitness-energy-08/cover.svg",
+    "previews": {
+      "desktop": ["/templates/fitness-energy-08/desktop.svg"],
+      "mobile": ["/templates/fitness-energy-08/mobile.svg"]
+    },
+    "includedPages": ["首頁", "課程時間表", "教練團隊", "會籍", "聯絡"],
+    "suitableFor": "健身房、瑜伽館、CrossFit",
+    "basePrice": 18500,
+    "compatibleFeatures": ["contact-form", "booking", "gallery", "member-login", "blog", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "property-luxe-09",
+    "name": "地產物業 · 經典",
+    "category": "地產",
+    "style": ["高端", "經典"],
+    "colors": ["#92400E", "#FFFBEB", "#1C1917"],
+    "thumbnail": "/templates/property-luxe-09/cover.svg",
+    "previews": {
+      "desktop": ["/templates/property-luxe-09/desktop.svg"],
+      "mobile": ["/templates/property-luxe-09/mobile.svg"]
+    },
+    "includedPages": ["首頁", "樓盤搜尋", "物業詳情", "關於", "聯絡"],
+    "suitableFor": "地產代理、物業管理、租賃平台",
+    "basePrice": 38000,
+    "compatibleFeatures": ["contact-form", "gallery", "multilingual", "member-login", "google-map", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "hotel-resort-10",
+    "name": "酒店住宿 · 輕奢",
+    "category": "酒店",
+    "style": ["輕奢", "溫暖"],
+    "colors": ["#0369A1", "#F0F9FF", "#78350F"],
+    "thumbnail": "/templates/hotel-resort-10/cover.svg",
+    "previews": {
+      "desktop": ["/templates/hotel-resort-10/desktop.svg"],
+      "mobile": ["/templates/hotel-resort-10/mobile.svg"]
+    },
+    "includedPages": ["首頁", "房型", "設施", "訂房", "聯絡"],
+    "suitableFor": "酒店、民宿、Serviced Apartment",
+    "basePrice": 35000,
+    "compatibleFeatures": ["contact-form", "booking", "gallery", "multilingual", "google-map", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "wedding-romantic-11",
+    "name": "婚禮活動 · 浪漫",
+    "category": "活動婚禮",
+    "style": ["溫暖", "創意"],
+    "colors": ["#F472B6", "#FFF1F2", "#57534E"],
+    "thumbnail": "/templates/wedding-romantic-11/cover.svg",
+    "previews": {
+      "desktop": ["/templates/wedding-romantic-11/desktop.svg"],
+      "mobile": ["/templates/wedding-romantic-11/mobile.svg"]
+    },
+    "includedPages": ["首頁", "服務套餐", "案例作品", "預約", "聯絡"],
+    "suitableFor": "婚禮統籌、活動策劃、派對佈置",
+    "basePrice": 15800,
+    "compatibleFeatures": ["contact-form", "booking", "gallery", "blog", "multilingual", "seo", "cms"],
+    "featured": false
+  },
+  {
+    "id": "tech-saas-12",
+    "name": "科技 SaaS · 科技感",
+    "category": "科技",
+    "style": ["科技感", "現代"],
+    "colors": ["#6366F1", "#0F172A", "#E2E8F0"],
+    "thumbnail": "/templates/tech-saas-12/cover.svg",
+    "previews": {
+      "desktop": ["/templates/tech-saas-12/desktop.svg"],
+      "mobile": ["/templates/tech-saas-12/mobile.svg"]
+    },
+    "includedPages": ["首頁", "功能", "定價", "客戶案例", "聯絡"],
+    "suitableFor": "初創公司、SaaS 產品、App 推廣",
+    "basePrice": 28000,
+    "compatibleFeatures": ["contact-form", "blog", "multilingual", "member-login", "seo", "cms"],
+    "featured": true
+  },
+  {
+    "id": "ngo-warm-13",
+    "name": "非牟利 · 關懷",
+    "category": "非牟利",
+    "style": ["溫暖", "可信"],
+    "colors": ["#059669", "#ECFDF5", "#374151"],
+    "thumbnail": "/templates/ngo-warm-13/cover.svg",
+    "previews": {
+      "desktop": ["/templates/ngo-warm-13/desktop.svg"],
+      "mobile": ["/templates/ngo-warm-13/mobile.svg"]
+    },
+    "includedPages": ["首頁", "我們的工作", "捐款", "活動", "聯絡"],
+    "suitableFor": "慈善機構、社福組織、基金會",
+    "basePrice": 11500,
+    "compatibleFeatures": ["contact-form", "gallery", "blog", "multilingual", "ecommerce", "seo", "cms"],
+    "featured": false
+  }
+]

@@ -1,0 +1,229 @@
+{
+  "layouts": [
+    {
+      "id": "single-column",
+      "name": "單欄式",
+      "description": "內容居中、閱讀動線清晰，適合品牌故事與文章型頁面",
+      "price": 0,
+      "included": true
+    },
+    {
+      "id": "two-column",
+      "name": "雙欄式",
+      "description": "左文右圖或左側導航，適合企業官網與服務介紹",
+      "price": 1500
+    },
+    {
+      "id": "three-column-grid",
+      "name": "三欄網格",
+      "description": "卡片並排展示，適合電商、作品集與案例列表",
+      "price": 2000
+    },
+    {
+      "id": "full-hero",
+      "name": "全寬 Hero + 內容區",
+      "description": "大型 Banner 下方接內容區，適合餐飲、酒店與 Landing Page",
+      "price": 2500
+    },
+    {
+      "id": "magazine",
+      "name": "雜誌式排版",
+      "description": "不規則區塊、大小混排，適合創意與時尚品牌",
+      "price": 3500
+    },
+    {
+      "id": "asymmetric",
+      "name": "不對稱排版",
+      "description": "左右非 50:50 比例，營造高端設計感",
+      "price": 3000
+    },
+    {
+      "id": "split-screen",
+      "name": "分割畫面",
+      "description": "左右各佔一半，適合品牌首頁與登陸頁",
+      "price": 2800
+    },
+    {
+      "id": "sidebar-left",
+      "name": "左側邊欄",
+      "description": "固定左側導航 + 右側內容，適合後台風格或文件站",
+      "price": 2200
+    },
+    {
+      "id": "card-masonry",
+      "name": "瀑布流卡片",
+      "description": " Pinterest 式不規則卡片堆疊",
+      "price": 3200
+    }
+  ],
+  "navigation": [
+    {
+      "id": "sticky-top",
+      "name": "固定頂部導航",
+      "description": "滾動時導航列固定於頂部",
+      "price": 0,
+      "included": true
+    },
+    {
+      "id": "transparent-nav",
+      "name": "透明 → 實色導航",
+      "description": "首屏透明，滾動後變為實色背景",
+      "price": 2000
+    },
+    {
+      "id": "hamburger-mobile",
+      "name": "漢堡選單（手機版）",
+      "description": "行動裝置側滑或全屏選單",
+      "price": 0,
+      "included": true
+    },
+    {
+      "id": "mega-menu",
+      "name": "Mega Menu 大型選單",
+      "description": "滑鼠懸停展開多欄分類選單",
+      "price": 3500
+    },
+    {
+      "id": "side-drawer",
+      "name": "側邊抽屜導航",
+      "description": "從左或右滑出的側邊導航面板",
+      "price": 2500
+    },
+    {
+      "id": "bottom-tab",
+      "name": "底部 Tab 導航",
+      "description": "固定於螢幕底部，適合 App 風格網站",
+      "price": 3000
+    },
+    {
+      "id": "anchor-single-page",
+      "name": "錨點單頁導航",
+      "description": "同一頁面內跳轉至各內容區塊",
+      "price": 1200
+    },
+    {
+      "id": "breadcrumb",
+      "name": "麵包屑導航",
+      "description": "顯示目前頁面層級路徑",
+      "price": 800
+    },
+    {
+      "id": "search-nav",
+      "name": "搜尋列導航",
+      "description": "導航列整合搜尋框，適合電商與內容站",
+      "price": 1800
+    },
+    {
+      "id": "language-switcher",
+      "name": "語言切換列",
+      "description": "導航顯示中/英（或多語）切換器",
+      "price": 1200
+    },
+    {
+      "id": "floating-action",
+      "name": "浮動操作按鈕",
+      "description": "右下角浮動 WhatsApp / 聯絡按鈕",
+      "price": 600
+    }
+  ],
+  "animationTiers": [
+    {
+      "id": "standard",
+      "name": "標準動效",
+      "description": "滾動淡入、按鈕與卡片 Hover 微互動",
+      "price": 0,
+      "included": true,
+      "effects": ["fade-in", "hover"]
+    },
+    {
+      "id": "advanced",
+      "name": "進階動效",
+      "description": "飛入（左/右/上/下）、交錯延遲、平滑滾動",
+      "price": 3500,
+      "effects": ["fade-in", "hover", "slide-in", "stagger", "smooth-scroll"]
+    },
+    {
+      "id": "premium",
+      "name": "高端動效",
+      "description": "視差滾動、頁面轉場、數字計數動畫",
+      "price": 8000,
+      "effects": ["fade-in", "hover", "slide-in", "stagger", "smooth-scroll", "parallax", "page-transition", "counter"]
+    },
+    {
+      "id": "ultimate",
+      "name": "頂級動效",
+      "description": "Lottie 動畫、自訂 Preloader、游標磁吸特效",
+      "price": 15000,
+      "effects": ["fade-in", "hover", "slide-in", "stagger", "smooth-scroll", "parallax", "page-transition", "counter", "lottie", "preloader", "cursor"]
+    }
+  ],
+  "heroTypes": [
+    {
+      "id": "full-width-image",
+      "name": "全幅影像 Hero",
+      "description": "大圖背景搭配標語與 CTA 按鈕",
+      "price": 0,
+      "included": true
+    },
+    {
+      "id": "video-background",
+      "name": "全屏影片背景",
+      "description": "自動播放循環影片作為首屏背景",
+      "price": 4500
+    },
+    {
+      "id": "carousel-slider",
+      "name": "輪播 Slider",
+      "description": "多張 Banner 自動或手動切換",
+      "price": 2800
+    },
+    {
+      "id": "split-hero",
+      "name": "分割雙欄 Hero",
+      "description": "左側文案、右側影像的經典配置",
+      "price": 1800
+    },
+    {
+      "id": "minimal-text",
+      "name": "極簡文字 Hero",
+      "description": "純文字排版，強調品牌標語",
+      "price": 800
+    },
+    {
+      "id": "parallax-hero",
+      "name": "視差捲動 Hero",
+      "description": "背景與前景不同速度滾動，營造深度感",
+      "price": 3200
+    },
+    {
+      "id": "gradient-animated",
+      "name": "動態漸層 Hero",
+      "description": "漸層色彩緩慢流動，視覺吸睛",
+      "price": 2500
+    },
+    {
+      "id": "hero-with-form",
+      "name": "Hero 嵌入表單",
+      "description": "首屏直接展示 Email / 預約表單",
+      "price": 2200
+    },
+    {
+      "id": "stats-counter",
+      "name": "數據統計 Hero",
+      "description": "首屏展示關鍵數字與成就統計",
+      "price": 1800
+    },
+    {
+      "id": "diagonal-split",
+      "name": "斜角分割 Hero",
+      "description": "對角線分割圖文，設計感強烈",
+      "price": 2400
+    },
+    {
+      "id": "fullscreen-cta",
+      "name": "全屏 CTA Hero",
+      "description": "整屏聚焦單一呼籲行動，轉化導向",
+      "price": 1500
+    }
+  ]
+}

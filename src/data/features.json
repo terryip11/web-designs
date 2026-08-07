@@ -1,0 +1,73 @@
+[
+  {
+    "id": "contact-form",
+    "name": "聯絡表單",
+    "description": "訪客可透過表單直接與您聯繫，自動寄送通知信",
+    "price": 0,
+    "category": "基礎功能",
+    "included": true
+  },
+  {
+    "id": "booking",
+    "name": "線上預約",
+    "description": "客戶可選擇日期與時段進行預約，含後台管理",
+    "price": 4500,
+    "category": "互動功能"
+  },
+  {
+    "id": "gallery",
+    "name": "相簿 / 作品集",
+    "description": "圖文展示區塊，支援分類與燈箱放大瀏覽",
+    "price": 2800,
+    "category": "內容展示"
+  },
+  {
+    "id": "blog",
+    "name": "部落格 / 最新消息",
+    "description": "文章列表與詳情頁，方便發布動態內容",
+    "price": 5500,
+    "category": "內容展示"
+  },
+  {
+    "id": "multilingual",
+    "name": "多語系",
+    "description": "支援中英文切換，適合國際化品牌",
+    "price": 8500,
+    "category": "進階功能"
+  },
+  {
+    "id": "google-map",
+    "name": "Google 地圖",
+    "description": "嵌入地圖顯示店面位置與導航",
+    "price": 800,
+    "category": "基礎功能"
+  },
+  {
+    "id": "member-login",
+    "name": "會員登入",
+    "description": "會員註冊、登入與專屬內容區域",
+    "price": 12000,
+    "category": "進階功能"
+  },
+  {
+    "id": "ecommerce",
+    "name": "金流 / 購物車",
+    "description": "完整電商功能，含商品管理、購物車與線上付款",
+    "price": 28000,
+    "category": "電商"
+  },
+  {
+    "id": "seo",
+    "name": "SEO 優化",
+    "description": "Meta 標籤、sitemap、結構化資料等 SEO 基礎設定",
+    "price": 4500,
+    "category": "行銷"
+  },
+  {
+    "id": "cms",
+    "name": "後台 CMS",
+    "description": "客戶可自行更新文字、圖片與頁面內容",
+    "price": 12000,
+    "category": "進階功能"
+  }
+]
