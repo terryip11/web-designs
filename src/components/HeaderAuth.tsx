@@ -11,7 +11,7 @@ export default function HeaderAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/me")
+    fetch("/api/auth/me", { cache: "no-store" })
       .then((r) => r.json())
       .then((data) => {
         setEmail(data.user?.email ?? null);

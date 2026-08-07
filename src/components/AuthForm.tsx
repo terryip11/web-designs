@@ -57,8 +57,8 @@ export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
         return;
       }
 
-      router.push(safeNext);
       router.refresh();
+      window.location.href = safeNext;
       return;
     }
 
@@ -88,8 +88,8 @@ export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
       return;
     }
 
-    router.push(safeNext);
     router.refresh();
+    window.location.href = safeNext;
   }
 
   return (
