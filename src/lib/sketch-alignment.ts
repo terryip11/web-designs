@@ -19,7 +19,8 @@ export function snapBlockPosition(
   canvasWidth: number,
   canvasHeight: number
 ): { x: number; y: number; guides: AlignmentGuide[] } {
-  let { x, y, w, h } = moving;
+  let { x, y } = moving;
+  const { w, h } = moving;
   const guides: AlignmentGuide[] = [];
 
   const xTargets: number[] = [];
