@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -17,6 +17,19 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DesignPick — 網站設計選配平台",
   description: "瀏覽介面樣式、選擇功能模組，快速組合您的專屬網站方案",
+  applicationName: "DesignPick",
+  appleWebApp: {
+    capable: true,
+    title: "DesignPick",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#7c3aed",
 };
 
 export default function RootLayout({
