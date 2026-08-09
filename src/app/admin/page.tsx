@@ -2,9 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import AdminInquiryFilters from "@/components/AdminInquiryFilters";
-import AdminInquiryTable, {
-  type AdminInquiryRow,
-} from "@/components/AdminInquiryTable";
+import AdminInquiryManager from "@/components/AdminInquiryManager";
+import type { AdminInquiryRow } from "@/components/AdminInquiryManager";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { requireAdmin } from "@/lib/auth/admin";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -36,7 +35,7 @@ export default async function AdminPage({
   let query = adminClient
     .from("inquiries")
     .select(
-      "id, name, email, phone, company, template_name, total_price, currency, created_at, selected_features, sketch_urls, message, status, email_customer_sent, email_notify_sent"
+      "id, name, email, phone, company, template_name, total_price, currency, created_at, selected_features, sketch_urls, message, status, email_customer_sent, email_notify_sent, admin_notes"
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -93,13 +92,7 @@ export default async function AdminPage({
       </Suspense>
 
       <RevealOnScroll delay={0.05}>
-        {rows.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-700 p-12 text-center text-zinc-500">
-            尚無符合條件的詢價紀錄
-          </div>
-        ) : (
-          <AdminInquiryTable rows={rows} />
-        )}
+        <AdminInquiryManager rows={rows} />
       </RevealOnScroll>
     </div>
   );

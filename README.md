@@ -54,6 +54,7 @@ supabase/migrations/001_inquiries.sql
 005_membership.sql
 006_admin.sql
 007_inquiry_status.sql
+008_admin_notes.sql
 ```
 
 ### 2. Auth URL Configuration
