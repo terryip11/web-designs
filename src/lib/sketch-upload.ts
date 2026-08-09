@@ -1,5 +1,7 @@
 import { createServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
 
+const MAX_SKETCH_BYTES = 5 * 1024 * 1024;
+
 export interface SketchUploadInput {
   pageName: string;
   device: string;
@@ -25,6 +27,15 @@ export async function uploadSketchPages(
     if (!base64) continue;
 
     const buffer = Buffer.from(base64, "base64");
+    if (buffer.byteLength > MAX_SKETCH_BYTES) {
+      console.warn("Sketch page exceeds size limit:", page.pageName);
+      continue;
+    }
+
+    if (!page.dataUrl.startsWith("data:image/png")) {
+      console.warn("Sketch page invalid mime:", page.pageName);
+      continue;
+    }
     const safeName = page.pageName.replace(/[^\w\u4e00-\u9fff-]+/g, "-").slice(0, 40);
     const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}/${safeName || "sketch"}.png`;
 

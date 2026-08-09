@@ -1,11 +1,20 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { formatPrice } from "@/lib/data";
-import { getCurrentUser } from "@/lib/auth/session";
-import { requireAdmin } from "@/lib/auth/admin";
+import { Suspense } from "react";
+import AdminInquiryFilters from "@/components/AdminInquiryFilters";
+import AdminInquiryTable, {
+  type AdminInquiryRow,
+} from "@/components/AdminInquiryTable";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import { requireAdmin } from "@/lib/auth/admin";
+import { getCurrentUser } from "@/lib/auth/session";
+import { formatPrice } from "@/lib/data";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; status?: string }>;
+}) {
   const { authorized, adminClient } = await requireAdmin();
 
   if (!authorized) {
@@ -22,20 +31,39 @@ export default async function AdminPage() {
     );
   }
 
-  const { data: inquiries, error } = await adminClient
+  const { q, status } = await searchParams;
+
+  let query = adminClient
     .from("inquiries")
     .select(
-      "id, name, email, phone, company, template_name, total_price, currency, created_at, selected_features, sketch_urls, message"
+      "id, name, email, phone, company, template_name, total_price, currency, created_at, selected_features, sketch_urls, message, status, email_customer_sent, email_notify_sent"
     )
     .order("created_at", { ascending: false })
-    .limit(100);
+    .limit(200);
+
+  if (status) {
+    query = query.eq("status", status);
+  }
+
+  if (q?.trim()) {
+    const safe = q.trim().replace(/[%_,]/g, "");
+    if (safe) {
+      const term = `%${safe}%`;
+      query = query.or(
+        `name.ilike.${term},email.ilike.${term},template_name.ilike.${term},company.ilike.${term}`
+      );
+    }
+  }
+
+  const { data: inquiries, error } = await query;
 
   if (error) {
     console.error("Admin inquiries fetch:", error);
   }
 
-  const rows = inquiries ?? [];
+  const rows = (inquiries ?? []) as AdminInquiryRow[];
   const totalValue = rows.reduce((sum, r) => sum + (r.total_price ?? 0), 0);
+  const newCount = rows.filter((r) => (r.status ?? "new") === "new").length;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
@@ -47,7 +75,7 @@ export default async function AdminPage() {
             </p>
             <h1 className="mt-1 text-3xl font-bold text-white">客戶詢價管理</h1>
             <p className="mt-2 text-sm text-zinc-500">
-              共 {rows.length} 筆紀錄 · 參考總額{" "}
+              共 {rows.length} 筆 · 新詢價 {newCount} · 參考總額{" "}
               {formatPrice(totalValue)} HKD
             </p>
           </div>
@@ -60,67 +88,17 @@ export default async function AdminPage() {
         </div>
       </RevealOnScroll>
 
+      <Suspense fallback={null}>
+        <AdminInquiryFilters />
+      </Suspense>
+
       <RevealOnScroll delay={0.05}>
         {rows.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-zinc-700 p-12 text-center text-zinc-500">
-            尚無詢價紀錄
+            尚無符合條件的詢價紀錄
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-zinc-800">
-            <table className="w-full min-w-[720px] text-left text-sm">
-              <thead>
-                <tr className="border-b border-zinc-800 bg-zinc-900/80 text-xs text-zinc-500">
-                  <th className="px-4 py-3 font-medium">時間</th>
-                  <th className="px-4 py-3 font-medium">客戶</th>
-                  <th className="px-4 py-3 font-medium">介面</th>
-                  <th className="px-4 py-3 font-medium">參考價</th>
-                  <th className="px-4 py-3 font-medium">草圖</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="border-b border-zinc-800/80 hover:bg-zinc-900/40"
-                  >
-                    <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">
-                      {new Date(row.created_at).toLocaleString("zh-HK")}
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-white">{row.name}</p>
-                      <p className="text-xs text-zinc-500">{row.email}</p>
-                      {row.phone && (
-                        <p className="text-xs text-zinc-600">{row.phone}</p>
-                      )}
-                    </td>
-                    <td className="px-4 py-3 text-zinc-300">{row.template_name}</td>
-                    <td className="px-4 py-3 text-violet-400 whitespace-nowrap">
-                      {formatPrice(row.total_price)} {row.currency}
-                    </td>
-                    <td className="px-4 py-3">
-                      {Array.isArray(row.sketch_urls) && row.sketch_urls.length > 0 ? (
-                        <div className="flex flex-wrap gap-1">
-                          {(row.sketch_urls as string[]).map((url, i) => (
-                            <a
-                              key={url}
-                              href={url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs text-emerald-400 hover:underline"
-                            >
-                              圖{i + 1}
-                            </a>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="text-zinc-600">—</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <AdminInquiryTable rows={rows} />
         )}
       </RevealOnScroll>
     </div>

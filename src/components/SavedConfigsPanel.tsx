@@ -28,6 +28,23 @@ export default function SavedConfigsPanel({
     if (res.ok) setConfigs((c) => c.filter((x) => x.id !== id));
   }
 
+  async function handleRename(id: string, currentName: string) {
+    const next = window.prompt("重新命名方案", currentName);
+    if (!next?.trim() || next.trim() === currentName) return;
+    setLoadingId(id);
+    const res = await fetch(`/api/saved-configs/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: next.trim() }),
+    });
+    setLoadingId(null);
+    if (res.ok) {
+      setConfigs((c) =>
+        c.map((x) => (x.id === id ? { ...x, name: next.trim() } : x))
+      );
+    }
+  }
+
   function handleLoad(config: SavedConfig) {
     loadConfiguration({
       selectedTemplateId: config.template_id,
@@ -75,6 +92,14 @@ export default function SavedConfigsPanel({
             >
               <FolderOpen className="h-3.5 w-3.5" />
               載入
+            </button>
+            <button
+              type="button"
+              onClick={() => handleRename(config.id, config.name)}
+              disabled={loadingId === config.id}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-white disabled:opacity-50"
+            >
+              重新命名
             </button>
             <button
               type="button"

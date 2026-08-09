@@ -1,4 +1,4 @@
-import type { User } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 import {
   createAuthServerClient,
   createServiceRoleClient,
@@ -22,6 +22,24 @@ async function ensureAdminProfileFlag(user: User) {
     .from("profiles")
     .update({ is_admin: true, updated_at: new Date().toISOString() })
     .eq("id", user.id);
+}
+
+export async function isAdminWithClient(
+  supabase: SupabaseClient,
+  user: User
+): Promise<boolean> {
+  const adminEmails = getAdminEmails();
+  if (user.email && adminEmails.includes(user.email.toLowerCase())) {
+    return true;
+  }
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .single();
+
+  return data?.is_admin === true;
 }
 
 export async function isAdmin(user: User | null): Promise<boolean> {
@@ -60,4 +78,12 @@ export async function requireAdmin() {
     supabase,
     adminClient: createServiceRoleClient(),
   };
+}
+
+export async function requireAdminApi() {
+  const result = await requireAdmin();
+  if (!result.authorized || !result.adminClient) {
+    return null;
+  }
+  return { user: result.user, adminClient: result.adminClient };
 }
