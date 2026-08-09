@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Monitor, Smartphone } from "lucide-react";
-import DevicePreview from "@/components/DevicePreview";
+import TemplateDemoSection from "@/components/TemplateDemoSection";
 import TemplateDetailActions from "@/components/TemplateDetailActions";
 import { formatPrice, getTemplateById, templates } from "@/lib/data";
+import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
 import { getEstimatedDeliveryWeeks } from "@/lib/template-meta";
 
 export function generateStaticParams() {
@@ -19,28 +19,15 @@ export default async function TemplateDetailPage({
   const template = getTemplateById(id);
   if (!template) notFound();
 
+  const demo = getDemoByTemplateId(id);
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="grid gap-12 lg:grid-cols-2">
-        {/* Previews */}
-        <div className="space-y-6">
-          <div>
-            <div className="mb-3 flex items-center gap-2 text-sm text-zinc-500">
-              <Monitor className="h-4 w-4" />
-              桌面版預覽
-            </div>
-            <DevicePreview template={template} device="desktop" catalogMode />
-          </div>
-          <div className="max-w-xs">
-            <div className="mb-3 flex items-center gap-2 text-sm text-zinc-500">
-              <Smartphone className="h-4 w-4" />
-              手機版預覽
-            </div>
-            <DevicePreview template={template} device="mobile" catalogMode />
-          </div>
+        <div>
+          <TemplateDemoSection templateId={id} />
         </div>
 
-        {/* Info */}
         <div>
           <div className="flex flex-wrap gap-2">
             <span className="rounded-md bg-zinc-800 px-2.5 py-1 text-xs text-zinc-400">
@@ -54,6 +41,11 @@ export default async function TemplateDetailPage({
                 {s}
               </span>
             ))}
+            {demo?.status === "live" && (
+              <span className="rounded-md bg-emerald-500/15 px-2.5 py-1 text-xs text-emerald-400">
+                完整 Demo
+              </span>
+            )}
           </div>
 
           <h1 className="mt-4 text-3xl font-bold text-white">{template.name}</h1>

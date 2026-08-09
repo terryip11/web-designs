@@ -1,7 +1,10 @@
 import { type NextRequest } from "next/server";
+import { resolveDemoRewrite } from "@/lib/demo-sites/routing";
 import { updateSession } from "@/lib/supabase/proxy";
 
 export async function proxy(request: NextRequest) {
+  const demoRewrite = resolveDemoRewrite(request);
+  if (demoRewrite) return demoRewrite;
   return updateSession(request);
 }
 

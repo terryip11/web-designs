@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Pencil } from "lucide-react";
+import { ArrowRight, ExternalLink, Pencil } from "lucide-react";
 import { useConfiguratorStore } from "@/store/configurator-store";
 import { useSketchStore } from "@/store/sketch-store";
+import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
+import { getDemoPath } from "@/lib/demo-sites/urls";
 
 export default function TemplateDetailActions({
   templateId,
@@ -15,6 +17,8 @@ export default function TemplateDetailActions({
   const setTemplate = useConfiguratorStore((s) => s.setTemplate);
   const applyTemplateToActivePage = useSketchStore((s) => s.applyTemplateToActivePage);
   const setLinkedTemplate = useSketchStore((s) => s.setLinkedTemplate);
+  const demo = getDemoByTemplateId(templateId);
+  const demoPath = getDemoPath(templateId);
 
   function handleSketchFromTemplate() {
     if (
@@ -61,6 +65,17 @@ export default function TemplateDetailActions({
           <Pencil className="h-4 w-4" />
           用此結構畫草圖
         </button>
+        {demo?.status === "live" && demoPath && (
+          <Link
+            href={demoPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/50 bg-emerald-500/15 px-6 py-3 font-medium text-emerald-200 transition-colors hover:bg-emerald-500/25"
+          >
+            完整 Demo 網站
+            <ExternalLink className="h-4 w-4" />
+          </Link>
+        )}
       </div>
       <p className="text-xs text-zinc-600">
         「用此結構畫草圖」會依此模板的頁面架構生成 wireframe，再到草圖畫板微調。

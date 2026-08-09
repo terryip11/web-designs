@@ -9,6 +9,7 @@ import HeaderAuth from "@/components/HeaderAuth";
 const navItems = [
 
   { href: "/templates", label: "介面庫" },
+  { href: "/demos", label: "展示站" },
 
   { href: "/sketch", label: "介面草圖" },
 
