@@ -1,10 +1,8 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import PropertyShell from "@/components/demos/property/PropertyShell";
-import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
+import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import { PROPERTY_BRAND } from "@/lib/demo-sites/property-data";
-
-const TEMPLATE_ID = "property-luxe-09";
 
 export async function generateMetadata({
   params,
@@ -12,7 +10,9 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  if (id !== TEMPLATE_ID) return { title: "Demo — DesignPick" };
+  if (resolveLiveDemo(id)?.variant !== "property") {
+    return { title: "Demo — DesignPick" };
+  }
   return { title: `關於我們 — ${PROPERTY_BRAND.name}` };
 }
 
@@ -22,10 +22,10 @@ export default async function DemoAboutPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const demo = getDemoByTemplateId(id);
-  if (!demo || demo.status !== "live" || id !== TEMPLATE_ID) notFound();
+  const resolved = resolveLiveDemo(id);
+  if (!resolved || resolved.variant !== "property") notFound();
 
-  const basePath = `/demos/${id}`;
+  const basePath = resolved.basePath;
 
   return (
     <PropertyShell basePath={basePath}>

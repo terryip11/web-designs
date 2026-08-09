@@ -36,10 +36,16 @@ export const DEMO_SITES: DemoSiteConfig[] = [
   {
     templateId: "medical-trust-05",
     slug: "medical-trust-05",
-    brandName: "信賴醫療",
+    brandName: "信賴醫療中心",
     tagline: "專業可信赖的醫療服務",
-    status: "coming-soon",
-    pages: [],
+    status: "live",
+    pages: [
+      { path: "", label: "首頁" },
+      { path: "/services", label: "服務項目" },
+      { path: "/doctors", label: "醫師團隊" },
+      { path: "/booking", label: "預約" },
+      { path: "/contact", label: "聯絡" },
+    ],
   },
   {
     templateId: "corporate-clean-03",

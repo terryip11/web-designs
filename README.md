@@ -109,21 +109,42 @@ npm run typecheck  # TypeScript 檢查
 
 完整可瀏覽的 Demo 網站，供客戶預覽交付品質：
 
+| Demo | 路徑 | 子網域（設定後） |
+|------|------|------------------|
+| 麗致物業 | `/demos/property-luxe-09` | `property-luxe-09.designpick.hk` |
+| 信賴醫療中心 | `/demos/medical-trust-05` | `medical-trust-05.designpick.hk` |
+
 - **展示站目錄** `/demos`
-- **麗致物業 Demo** `/demos/property-luxe-09`（5 頁：首頁、樓盤、物業詳情、關於、聯絡）
-- 模板詳情頁會嵌入 iframe 預覽 +「開啟 Demo 網站」按鈕
+- 模板詳情頁嵌入 iframe 預覽 +「開啟 Demo 網站」按鈕
+- Demo 頁可「全螢幕（無展示列）」分享予客戶
 
-### 子網域（選填）
+### 子網域設定（designpick.hk）
 
-在 Vercel 設定 wildcard 網域 `*.yourdomain.com`，並加入環境變數：
+**1. Vercel → Project → Settings → Domains**
+
+- 加入主網域：`designpick.hk`（或你的主站網域）
+- 加入 wildcard：`*.designpick.hk`
+
+**2. DNS（域名 registrar）**
+
+| 類型 | 名稱 | 值 |
+|------|------|-----|
+| A | `@` | Vercel 提供的 IP |
+| CNAME | `*` | `cname.vercel-dns.com` |
+
+**3. Vercel 環境變數**
 
 ```
-NEXT_PUBLIC_DEMO_ROOT_DOMAIN=yourdomain.com
+NEXT_PUBLIC_DEMO_ROOT_DOMAIN=designpick.hk
+NEXT_PUBLIC_SITE_URL=https://designpick.hk
 ```
 
-之後 `https://property-luxe-09.yourdomain.com` 會自動對應到 `/demos/property-luxe-09`。
+**4. 驗證**
 
-新增 Demo：在 `src/lib/demo-sites/registry.ts` 註冊，並建立對應頁面元件。
+- `https://property-luxe-09.designpick.hk` → 麗致物業 Demo
+- `https://medical-trust-05.designpick.hk` → 信賴醫療 Demo
+
+新增 Demo：在 `src/lib/demo-sites/registry.ts` 註冊 + `variants.ts` 指定類型 + 建立頁面元件。
 
 ## 授權
 

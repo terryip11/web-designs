@@ -3,18 +3,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Bath, BedDouble, Check, MapPin, Maximize2, Phone } from "lucide-react";
 import PropertyShell from "@/components/demos/property/PropertyShell";
-import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
+import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import {
   getPropertyBySlug,
   PROPERTY_BRAND,
   PROPERTY_LISTINGS,
 } from "@/lib/demo-sites/property-data";
 
-const TEMPLATE_ID = "property-luxe-09";
+const PROPERTY_TEMPLATE_ID = "property-luxe-09";
 
 export function generateStaticParams() {
   return PROPERTY_LISTINGS.map((p) => ({
-    id: TEMPLATE_ID,
+    id: PROPERTY_TEMPLATE_ID,
     slug: p.slug,
   }));
 }
@@ -35,13 +35,13 @@ export default async function DemoPropertyDetailPage({
   params: Promise<{ id: string; slug: string }>;
 }) {
   const { id, slug } = await params;
-  const demo = getDemoByTemplateId(id);
-  if (!demo || demo.status !== "live" || id !== TEMPLATE_ID) notFound();
+  const resolved = resolveLiveDemo(id);
+  if (!resolved || resolved.variant !== "property") notFound();
 
   const property = getPropertyBySlug(slug);
   if (!property) notFound();
 
-  const basePath = `/demos/${id}`;
+  const basePath = resolved.basePath;
 
   return (
     <PropertyShell basePath={basePath}>
