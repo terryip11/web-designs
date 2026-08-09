@@ -15,6 +15,7 @@ import {
   type InquirySummaryInput,
 } from "@/lib/inquiry-summary";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { uploadClientAssets } from "@/lib/client-asset-upload";
 import { uploadSketchPages } from "@/lib/sketch-upload";
 import {
   createAuthServerClient,
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
       totalPrice,
       currency = CURRENCY_CODE,
       sketchPages,
+      clientAssets,
     } = parsed.data;
 
     const validation = validateContactForm({
@@ -100,6 +102,10 @@ export async function POST(request: Request) {
 
     const sketchUrls = sketchPages?.length
       ? await uploadSketchPages(sketchPages)
+      : [];
+
+    const assetUrls = clientAssets?.length
+      ? await uploadClientAssets(clientAssets)
       : [];
 
     const summaryInput: InquirySummaryInput = {
@@ -168,6 +174,7 @@ export async function POST(request: Request) {
         total_price: totalPrice ?? 0,
         currency: currency ?? CURRENCY_CODE,
         sketch_urls: sketchUrls,
+        asset_urls: assetUrls,
         user_id: user?.id ?? null,
         status: "new",
       })

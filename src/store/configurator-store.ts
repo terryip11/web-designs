@@ -10,6 +10,7 @@ import {
   getDefaultDesignSelections,
   getNavigationById,
 } from "@/lib/design-options";
+import { getRecommendedFeaturesForTemplate } from "@/lib/template-meta";
 
 interface ConfiguratorState {
   selectedTemplateId: string | null;
@@ -40,9 +41,11 @@ interface ConfiguratorState {
 function getDefaultFeatures(templateId: string): string[] {
   const template = getTemplateById(templateId);
   if (!template) return [];
-  return getCompatibleFeatures(template)
+  const included = getCompatibleFeatures(template)
     .filter((f) => f.included)
     .map((f) => f.id);
+  const recommended = getRecommendedFeaturesForTemplate(template);
+  return [...new Set([...included, ...recommended])];
 }
 
 const defaultDesign = getDefaultDesignSelections();

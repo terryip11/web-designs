@@ -34,7 +34,11 @@ import { buildInquiryWhatsAppMessage } from "@/lib/inquiry-summary";
 
 import { exportAllSketchPages } from "@/lib/sketch-export";
 
+import { readFileAsDataUrl } from "@/lib/read-file-data-url";
+
 import { getWhatsAppUrl, SITE_CONTACT } from "@/lib/site-contact";
+
+import MaterialChecklist from "@/components/MaterialChecklist";
 
 import { createBrowserClient } from "@/lib/supabase/client";
 
@@ -78,6 +82,7 @@ export default function ContactForm() {
 
   const [company, setCompany] = useState("");
   const [website, setWebsite] = useState("");
+  const [assetFiles, setAssetFiles] = useState<File[]>([]);
 
   const [message, setMessage] = useState("");
 
@@ -249,6 +254,20 @@ export default function ContactForm() {
 
 
 
+      const clientAssets = await Promise.all(
+
+        assetFiles.map(async (file) => ({
+
+          fileName: file.name,
+
+          dataUrl: await readFileAsDataUrl(file),
+
+        }))
+
+      );
+
+
+
       const res = await fetch("/api/inquiries", {
 
         method: "POST",
@@ -304,6 +323,8 @@ export default function ContactForm() {
           currency: CURRENCY_CODE,
 
           sketchPages,
+
+          clientAssets,
 
           privacyAccepted: true,
 
@@ -647,6 +668,44 @@ export default function ContactForm() {
         </label>
 
         <FieldError message={fieldErrors.privacy} />
+
+      </div>
+
+
+
+      <MaterialChecklist />
+
+
+
+      <div>
+
+        <label htmlFor="contact-assets" className="mb-1.5 block text-sm text-zinc-400">
+
+          上傳 Logo / 參考圖（選填，最多 5 張，每張 5MB）
+
+        </label>
+
+        <input
+
+          id="contact-assets"
+
+          type="file"
+
+          accept="image/png,image/jpeg,image/webp,image/svg+xml"
+
+          multiple
+
+          onChange={(e) => setAssetFiles(Array.from(e.target.files ?? []).slice(0, 5))}
+
+          className="block w-full text-sm text-zinc-400 file:mr-3 file:rounded-lg file:border-0 file:bg-zinc-800 file:px-3 file:py-2 file:text-zinc-200"
+
+        />
+
+        {assetFiles.length > 0 && (
+
+          <p className="mt-1 text-xs text-zinc-500">已選 {assetFiles.length} 個檔案</p>
+
+        )}
 
       </div>
 

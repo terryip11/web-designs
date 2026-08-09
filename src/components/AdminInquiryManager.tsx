@@ -5,6 +5,8 @@ import { useState } from "react";
 import {
   ChevronDown,
   ChevronUp,
+  ClipboardCopy,
+  Download,
   MessageCircle,
   Pencil,
   Plus,
@@ -36,6 +38,9 @@ export interface AdminInquiryRow {
   email_customer_sent: boolean;
   email_notify_sent: boolean;
   admin_notes?: string | null;
+  template_id?: string | null;
+  design_selections?: unknown;
+  asset_urls?: unknown;
 }
 
 function buildWhatsAppReply(row: AdminInquiryRow) {
@@ -50,6 +55,7 @@ export default function AdminInquiryManager({ rows }: { rows: AdminInquiryRow[] 
   const [busyId, setBusyId] = useState<string | null>(null);
   const [formMode, setFormMode] = useState<"create" | "edit" | null>(null);
   const [editingRow, setEditingRow] = useState<AdminInquiryRow | null>(null);
+  const [copiedSpecId, setCopiedSpecId] = useState<string | null>(null);
 
   function refresh() {
     router.refresh();
@@ -108,6 +114,23 @@ export default function AdminInquiryManager({ rows }: { rows: AdminInquiryRow[] 
     }
   }
 
+  async function copyProductionSpec(id: string) {
+    try {
+      const res = await fetch(`/api/admin/inquiries/${id}/spec`);
+      if (!res.ok) throw new Error("匯出失敗");
+      const text = await res.text();
+      await navigator.clipboard.writeText(text);
+      setCopiedSpecId(id);
+      setTimeout(() => setCopiedSpecId(null), 2000);
+    } catch {
+      alert("複製製作規格失敗");
+    }
+  }
+
+  function downloadProductionSpec(id: string) {
+    window.open(`/api/admin/inquiries/${id}/spec`, "_blank");
+  }
+
   return (
     <>
       <div className="mb-4 flex justify-end">
@@ -152,6 +175,9 @@ export default function AdminInquiryManager({ rows }: { rows: AdminInquiryRow[] 
               const expanded = expandedId === row.id;
               const sketchUrls = Array.isArray(row.sketch_urls)
                 ? (row.sketch_urls as string[])
+                : [];
+              const assetUrls = Array.isArray(row.asset_urls)
+                ? (row.asset_urls as string[])
                 : [];
               const disabled = busyId === row.id;
 
@@ -243,6 +269,24 @@ export default function AdminInquiryManager({ rows }: { rows: AdminInquiryRow[] 
                       <button
                         type="button"
                         disabled={disabled}
+                        onClick={() => copyProductionSpec(row.id)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-amber-500/30 px-2 py-1 text-xs text-amber-400 hover:bg-amber-500/10 disabled:opacity-50"
+                      >
+                        <ClipboardCopy className="h-3 w-3" />
+                        {copiedSpecId === row.id ? "已複製" : "規格"}
+                      </button>
+                      <button
+                        type="button"
+                        disabled={disabled}
+                        onClick={() => downloadProductionSpec(row.id)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-amber-500/30 px-2 py-1 text-xs text-amber-400 hover:bg-amber-500/10 disabled:opacity-50"
+                      >
+                        <Download className="h-3 w-3" />
+                        .md
+                      </button>
+                      <button
+                        type="button"
+                        disabled={disabled}
                         onClick={() => deleteInquiry(row)}
                         className="inline-flex items-center gap-1 rounded-lg border border-red-500/30 px-2 py-1 text-xs text-red-400 hover:bg-red-500/10 disabled:opacity-50"
                       >
@@ -291,6 +335,21 @@ export default function AdminInquiryManager({ rows }: { rows: AdminInquiryRow[] 
                                 className="text-emerald-400 hover:underline"
                               >
                                 草圖 {i + 1}
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                        {assetUrls.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {assetUrls.map((url, i) => (
+                              <a
+                                key={url}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sky-400 hover:underline"
+                              >
+                                素材 {i + 1}
                               </a>
                             ))}
                           </div>

@@ -29,6 +29,15 @@ export const inquiryBodySchema = z.object({
   totalPrice: z.number().int().min(0).optional(),
   currency: z.string().max(8).optional(),
   sketchPages: z.array(sketchPageSchema).max(20).optional(),
+  clientAssets: z
+    .array(
+      z.object({
+        fileName: z.string(),
+        dataUrl: z.string().max(6_000_000),
+      })
+    )
+    .max(5)
+    .optional(),
   privacyAccepted: z.literal(true),
   website: z.string().optional(),
 });

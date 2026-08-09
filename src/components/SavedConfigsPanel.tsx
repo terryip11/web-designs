@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { FolderOpen, Loader2, Trash2 } from "lucide-react";
+import { FolderOpen, Link2, Loader2, Trash2 } from "lucide-react";
 import { useConfiguratorStore } from "@/store/configurator-store";
 import { useSketchStore } from "@/store/sketch-store";
 import { formatPrice } from "@/lib/data";
+import { buildConfigureShareUrl } from "@/lib/template-meta";
 import type { SavedConfig } from "@/types";
 
 export default function SavedConfigsPanel({
@@ -43,6 +44,16 @@ export default function SavedConfigsPanel({
         c.map((x) => (x.id === id ? { ...x, name: next.trim() } : x))
       );
     }
+  }
+
+  async function handleShare(config: SavedConfig) {
+    if (!config.template_id) return;
+    const url = buildConfigureShareUrl(window.location.origin, {
+      selectedTemplateId: config.template_id,
+      selectedFeatureIds: config.selected_features,
+      designSelections: config.design_selections,
+    });
+    await navigator.clipboard.writeText(url);
   }
 
   function handleLoad(config: SavedConfig) {
@@ -85,6 +96,15 @@ export default function SavedConfigsPanel({
             </p>
           </div>
           <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => handleShare(config)}
+              disabled={!config.template_id}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-white disabled:opacity-50"
+            >
+              <Link2 className="h-3.5 w-3.5" />
+              分享
+            </button>
             <button
               type="button"
               onClick={() => handleLoad(config)}

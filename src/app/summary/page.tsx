@@ -6,6 +6,7 @@ import { useState } from "react";
 import DevicePreview from "@/components/DevicePreview";
 import SketchPreviewCard from "@/components/SketchPreviewCard";
 import SaveConfigButton from "@/components/SaveConfigButton";
+import ShareConfigButton from "@/components/ShareConfigButton";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { formatPrice, getFeatureById, PRICE_DISCLAIMER } from "@/lib/data";
 import {
@@ -87,7 +88,8 @@ export default function SummaryPage() {
               您的專屬方案，價格參考香港市場行情（HKD）
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <ShareConfigButton />
             <button
               type="button"
               onClick={copySummary}

@@ -10,16 +10,19 @@ import FeatureCheckbox from "@/components/FeatureCheckbox";
 import LivePreviewPanel from "@/components/LivePreviewPanel";
 import OrderSummary from "@/components/OrderSummary";
 import DesignFlowBanner from "@/components/DesignFlowBanner";
+import TemplateIndustryBanner from "@/components/TemplateIndustryBanner";
 import { useSketchDesignSuggestions } from "@/components/SketchDesignSuggestions";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { getCompatibleFeatures, templates } from "@/lib/data";
 import {
   animationTiers,
   getAnimationTierTooltipLines,
+  getDefaultDesignSelections,
   heroTypes,
   layouts,
   navigationOptions,
 } from "@/lib/design-options";
+import { parseConfigureShareParams } from "@/lib/template-meta";
 import { useConfiguratorStore } from "@/store/configurator-store";
 
 function ConfigureContent() {
@@ -36,15 +39,26 @@ function ConfigureContent() {
   const toggleNavigation = useConfiguratorStore((s) => s.toggleNavigation);
   const setAnimationTier = useConfiguratorStore((s) => s.setAnimationTier);
   const setHeroType = useConfiguratorStore((s) => s.setHeroType);
+  const loadConfiguration = useConfiguratorStore((s) => s.loadConfiguration);
   const reset = useConfiguratorStore((s) => s.reset);
   const getTemplate = useConfiguratorStore((s) => s.getTemplate);
   const getTotalPrice = useConfiguratorStore((s) => s.getTotalPrice);
 
   useEffect(() => {
+    const shared = parseConfigureShareParams(searchParams);
+    if (shared?.selectedTemplateId) {
+      loadConfiguration({
+        selectedTemplateId: shared.selectedTemplateId,
+        selectedFeatureIds: shared.selectedFeatureIds ?? [],
+        designSelections:
+          shared.designSelections ?? getDefaultDesignSelections(),
+      });
+      return;
+    }
     if (templateParam && templateParam !== selectedTemplateId) {
       setTemplate(templateParam);
     }
-  }, [templateParam, selectedTemplateId, setTemplate]);
+  }, [searchParams, templateParam, selectedTemplateId, setTemplate, loadConfiguration]);
 
   const template = getTemplate();
   const totalPrice = getTotalPrice();
@@ -97,6 +111,8 @@ function ConfigureContent() {
       </RevealOnScroll>
 
       {sketchSuggestBanner}
+
+      {template && <TemplateIndustryBanner template={template} />}
 
       {!template && (
         <RevealOnScroll delay={0.1}>

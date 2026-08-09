@@ -4,6 +4,7 @@ import { Monitor, Smartphone } from "lucide-react";
 import DevicePreview from "@/components/DevicePreview";
 import TemplateDetailActions from "@/components/TemplateDetailActions";
 import { formatPrice, getTemplateById, templates } from "@/lib/data";
+import { getEstimatedDeliveryWeeks } from "@/lib/template-meta";
 
 export function generateStaticParams() {
   return templates.map((t) => ({ id: t.id }));
@@ -61,6 +62,9 @@ export default async function TemplateDetailPage({
           <p className="mt-6 text-2xl font-bold text-violet-400">
             {formatPrice(template.basePrice)}{" "}
             <span className="text-base font-normal text-zinc-500">起 · 香港參考價</span>
+          </p>
+          <p className="mt-2 text-sm text-zinc-500">
+            預估交付：{getEstimatedDeliveryWeeks(template)} 週（視素材準備進度）
           </p>
 
           <div className="mt-8">
