@@ -1,95 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
-import { getAuthCallbackUrl } from "@/lib/auth/site-url";
-import { createBrowserClient } from "@/lib/supabase/client";
+import { signIn, signUp } from "@/lib/auth/actions";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
 
 interface AuthFormProps {
   mode: "login" | "signup";
   next?: string;
 }
 
+type AuthResult = {
+  error?: string;
+  needsVerification?: boolean;
+  email?: string;
+} | null;
+
 export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
   const isLogin = mode === "login";
   const safeNext = next.startsWith("/") ? next : "/account";
+  const action = isLogin ? signIn : signUp;
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  const [state, formAction, pending] = useActionState(
+    async (_prev: AuthResult, formData: FormData): Promise<AuthResult> => {
+      formData.set("next", safeNext);
+      const result = await action(formData);
+      return result ?? null;
+    },
+    null
+  );
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    const email = String(formData.get("email") ?? "").trim();
-    const password = String(formData.get("password") ?? "");
-    const displayName = String(formData.get("displayName") ?? "").trim();
-
-    if (!email || !password) {
-      setError("請填寫 Email 與密碼");
-      setLoading(false);
-      return;
+  useEffect(() => {
+    if (state?.needsVerification && state.email) {
+      router.push(`/verify-email?email=${encodeURIComponent(state.email)}`);
     }
+  }, [state, router]);
 
-    const supabase = createBrowserClient();
-
-    if (isLogin) {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (signInError) {
-        if (signInError.message.toLowerCase().includes("email not confirmed")) {
-          setError("請先至 Email 信箱點擊驗證連結");
-          router.push(`/verify-email?email=${encodeURIComponent(email)}`);
-        } else {
-          setError("Email 或密碼不正確");
-        }
-        setLoading(false);
-        return;
-      }
-
-      router.refresh();
-      window.location.href = safeNext;
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("密碼至少 6 個字元");
-      setLoading(false);
-      return;
-    }
-
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { display_name: displayName || undefined },
-        emailRedirectTo: getAuthCallbackUrl(safeNext),
-      },
-    });
-
-    if (signUpError) {
-      setError(signUpError.message);
-      setLoading(false);
-      return;
-    }
-
-    if (!data.session) {
-      router.push(`/verify-email?email=${encodeURIComponent(email)}`);
-      return;
-    }
-
-    router.refresh();
-    window.location.href = safeNext;
+  if (!isSupabaseConfigured()) {
+    return (
+      <p className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+        Supabase 尚未設定。請在 `.env.local` 填入{" "}
+        <code className="text-amber-100">NEXT_PUBLIC_SUPABASE_URL</code> 與{" "}
+        <code className="text-amber-100">NEXT_PUBLIC_SUPABASE_ANON_KEY</code>，然後重新啟動{" "}
+        <code className="text-amber-100">npm run dev</code>。
+      </p>
+    );
   }
 
   return (
@@ -105,7 +64,7 @@ export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form action={formAction} className="space-y-5">
         {!isLogin && (
           <div>
             <label htmlFor="displayName" className="mb-1.5 block text-sm text-zinc-400">
@@ -155,10 +114,10 @@ export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
           )}
         </div>
 
-        {error && (
+        {state?.error && (
           <div className="space-y-2">
-            <p className="text-sm text-red-400">{error}</p>
-            {error.includes("驗證") && (
+            <p className="text-sm text-red-400">{state.error}</p>
+            {state.error.includes("驗證") && (
               <Link href="/verify-email" className="text-xs text-violet-400 hover:underline">
                 前往驗證說明
               </Link>
@@ -168,10 +127,10 @@ export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={pending}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-violet-600 px-4 py-3 font-medium text-white hover:bg-violet-500 disabled:opacity-60"
         >
-          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+          {pending && <Loader2 className="h-4 w-4 animate-spin" />}
           {isLogin ? "登入" : "註冊"}
         </button>
 
