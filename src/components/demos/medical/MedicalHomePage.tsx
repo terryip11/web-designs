@@ -14,38 +14,38 @@ export default function MedicalHomePage({ basePath }: { basePath: string }) {
 
   return (
     <MedicalShell basePath={basePath}>
-      <section className="relative overflow-hidden bg-white">
-        <div className="mx-auto grid max-w-7xl lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-            <p className="text-sm font-medium uppercase tracking-wider text-[#0EA5E9]">
+      <section className="relative overflow-hidden bg-[#F0FDFA]">
+        <div className="mx-auto grid max-w-7xl lg:grid-cols-2 lg:items-stretch">
+          <div className="order-2 flex flex-col justify-center bg-white px-4 py-12 sm:px-6 lg:order-1 lg:bg-transparent lg:px-8 lg:py-24">
+            <p className="text-sm font-medium uppercase tracking-wider text-sky-500">
               {MEDICAL_BRAND.englishName}
             </p>
-            <h1 className="mt-4 text-4xl font-bold leading-tight text-[#334155] sm:text-5xl">
+            <h1 className="mt-4 text-4xl font-bold leading-tight text-slate-800 sm:text-5xl">
               專業醫療
               <br />
-              <span className="text-[#0EA5E9]">值得信賴</span>
+              <span className="text-sky-500">值得信賴</span>
             </h1>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-[#64748B]">
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-slate-600">
               一站式家庭醫學、牙科及物理治療服務。經驗團隊、清晰流程，讓您安心就醫。
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
                 href={`${basePath}/booking`}
-                className="inline-flex items-center gap-2 rounded-full bg-[#0EA5E9] px-7 py-3.5 font-medium text-white hover:bg-[#0284C7]"
+                className="inline-flex items-center gap-2 rounded-full bg-sky-500 px-7 py-3.5 font-medium text-white hover:bg-sky-600"
               >
                 <Calendar className="h-4 w-4" />
                 網上預約
               </Link>
               <Link
                 href={`${basePath}/services`}
-                className="inline-flex items-center gap-2 rounded-full border border-[#0EA5E9]/30 px-7 py-3.5 font-medium text-[#0EA5E9] hover:bg-[#0EA5E9]/5"
+                className="inline-flex items-center gap-2 rounded-full border border-sky-500/40 px-7 py-3.5 font-medium text-sky-600 hover:bg-sky-50"
               >
                 查看服務
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
-          <div className="relative min-h-[360px] lg:min-h-[560px]">
+          <div className="relative order-1 min-h-[280px] sm:min-h-[360px] lg:order-2 lg:min-h-[560px]">
             <Image
               src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80"
               alt="醫療中心"
@@ -54,7 +54,6 @@ export default function MedicalHomePage({ basePath }: { basePath: string }) {
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-transparent lg:from-white/20" />
           </div>
         </div>
       </section>

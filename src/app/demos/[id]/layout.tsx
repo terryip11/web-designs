@@ -15,11 +15,11 @@ export default async function DemoSiteLayout({
   if (!demo) notFound();
 
   return (
-    <>
+    <div className="demo-site-root">
       <Suspense fallback={null}>
         <DemoShowcaseBar templateId={id} />
       </Suspense>
       {children}
-    </>
+    </div>
   );
 }

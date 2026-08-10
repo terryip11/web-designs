@@ -1,26 +1,24 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
-function isStandaloneDemoRoute(pathname: string): boolean {
-  return /^\/demos\/[^/]+/.test(pathname);
-}
-
-export default function AppShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const standaloneDemo = isStandaloneDemoRoute(pathname);
-
-  if (standaloneDemo) {
+export default function AppShell({
+  children,
+  isDemoRoute = false,
+}: {
+  children: React.ReactNode;
+  isDemoRoute?: boolean;
+}) {
+  if (isDemoRoute) {
     return <>{children}</>;
   }
 
   return (
-    <>
+    <div className="designpick-app flex min-h-full flex-1 flex-col bg-zinc-950 text-zinc-100">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-    </>
+    </div>
   );
 }

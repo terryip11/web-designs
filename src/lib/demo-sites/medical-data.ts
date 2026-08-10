@@ -43,7 +43,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
     duration: "約 45 分鐘",
     priceFrom: "HK$680 起",
     image:
-      "https://images.unsplash.com/photo-1629909613654-28e37737a753?w=800&q=80",
+      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=80",
   },
   {
     slug: "physiotherapy",

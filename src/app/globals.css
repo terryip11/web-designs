@@ -13,9 +13,13 @@
 }
 
 body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* 主站深色主題（由 AppShell 套用，不污染 Demo 展示站） */
+.designpick-app {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 select option {
@@ -34,6 +38,14 @@ body:has(.sketch-fullpage) footer {
 
 body:has(.sketch-fullpage) main {
   overflow: hidden;
+}
+
+/* Demo 展示站：獨立淺色主題，完全隔離主站 */
+.demo-site-root {
+  isolation: isolate;
+  min-height: 100vh;
+  background: #ffffff;
+  color: #334155;
 }
 
 /* 草圖元件進場特效 */

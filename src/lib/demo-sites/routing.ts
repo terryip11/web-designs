@@ -24,5 +24,7 @@ export function resolveDemoRewrite(request: NextRequest): NextResponse | null {
   const url = request.nextUrl.clone();
   const suffix = url.pathname === "/" ? "" : url.pathname;
   url.pathname = `/demos/${slug}${suffix}`;
-  return NextResponse.rewrite(url);
+  const response = NextResponse.rewrite(url);
+  response.headers.set("x-next-pathname", url.pathname);
+  return response;
 }

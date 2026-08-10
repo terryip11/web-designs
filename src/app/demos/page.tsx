@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import DemosPageShowcase from "@/components/demos/DemosPageShowcase";
 import { getTemplateById } from "@/lib/data";
-import { DEMO_SITES, getLiveDemos } from "@/lib/demo-sites/registry";
-import { getDemoPath } from "@/lib/demo-sites/urls";
+import { DEMO_SITES } from "@/lib/demo-sites/registry";
 
 export const metadata = {
   title: "模板展示站 — DesignPick",
@@ -11,7 +10,7 @@ export const metadata = {
 };
 
 export default function DemosIndexPage() {
-  const live = getLiveDemos();
+  const comingSoon = DEMO_SITES.filter((d) => d.status === "coming-soon");
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -24,39 +23,14 @@ export default function DemosIndexPage() {
 
       <section className="mb-14">
         <h2 className="mb-4 text-lg font-semibold text-white">已上線 Demo</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {live.map((demo) => {
-            const template = getTemplateById(demo.templateId);
-            const path = getDemoPath(demo.templateId);
-            if (!template || !path) return null;
-            return (
-              <Link
-                key={demo.templateId}
-                href={path}
-                className="group rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 transition hover:border-emerald-500/50"
-              >
-                <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs text-emerald-300">
-                  已上線
-                </span>
-                <h3 className="mt-3 font-semibold text-white group-hover:text-emerald-200">
-                  {demo.brandName}
-                </h3>
-                <p className="mt-1 text-sm text-zinc-500">{template.name}</p>
-                <p className="mt-3 text-sm text-zinc-400">{demo.tagline}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm text-emerald-400">
-                  開啟 Demo
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
+        <DemosPageShowcase />
       </section>
 
+      {comingSoon.length > 0 && (
       <section>
         <h2 className="mb-4 text-lg font-semibold text-white">即將推出</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {DEMO_SITES.filter((d) => d.status === "coming-soon").map((demo) => {
+          {comingSoon.map((demo) => {
             const template = getTemplateById(demo.templateId);
             if (!template) return null;
             return (
@@ -81,6 +55,7 @@ export default function DemosIndexPage() {
           })}
         </div>
       </section>
+      )}
     </div>
   );
 }

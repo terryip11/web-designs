@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ExternalLink, Monitor, Smartphone } from "lucide-react";
+import { ExternalLink, Smartphone } from "lucide-react";
+import DemoPreviewFrame from "@/components/demos/DemoPreviewFrame";
 import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
 import { getDemoPath } from "@/lib/demo-sites/urls";
 
@@ -52,19 +53,10 @@ export default function TemplateDemoSection({
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-zinc-700/50 bg-zinc-900 shadow-2xl">
-        <div className="flex items-center gap-2 border-b border-zinc-800 px-4 py-2 text-xs text-zinc-500">
-          <Monitor className="h-3.5 w-3.5" />
-          桌面預覽
-        </div>
-        <div className="relative aspect-[16/10] w-full">
-          <iframe
-            src={`${demoPath}?embed=1`}
-            title={`${demo.brandName} Demo`}
-            className="absolute inset-0 h-full w-full border-0 bg-white"
-          />
-        </div>
-      </div>
+      <DemoPreviewFrame
+        src={`${demoPath}?embed=1`}
+        title={`${demo.brandName} — DesignPick Demo`}
+      />
 
       <p className="flex items-center gap-2 text-xs text-zinc-600">
         <Smartphone className="h-3.5 w-3.5" />

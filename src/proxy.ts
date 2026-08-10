@@ -5,7 +5,12 @@ import { updateSession } from "@/lib/supabase/proxy";
 export async function proxy(request: NextRequest) {
   const demoRewrite = resolveDemoRewrite(request);
   if (demoRewrite) return demoRewrite;
-  return updateSession(request);
+
+  const response = await updateSession(request);
+  if (response.status < 300 || response.status >= 400) {
+    response.headers.set("x-next-pathname", request.nextUrl.pathname);
+  }
+  return response;
 }
 
 export const config = {

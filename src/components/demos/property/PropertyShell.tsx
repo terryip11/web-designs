@@ -35,7 +35,7 @@ export default function PropertyShell({
 
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-[#1C1917]">
-      <header className="sticky top-0 z-50 border-b border-[#92400E]/10 bg-[#FFFBEB]/95 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-amber-900/10 bg-[#FFFBEB] shadow-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <Link href={href("")} className="group flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#92400E] text-sm font-bold text-[#FFFBEB]">
