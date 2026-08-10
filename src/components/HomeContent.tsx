@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Layers, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
+import { ArrowRight, ExternalLink, Layers, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
+import HomeDemoShowcase from "@/components/HomeDemoShowcase";
 import TemplateCard from "@/components/TemplateCard";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import type { Template } from "@/types";
@@ -75,6 +76,13 @@ export default function HomeContent({ featured }: HomeContentProps) {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
+                  href="/demos"
+                  className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-6 py-3 font-medium text-emerald-300 transition-colors hover:border-emerald-500/60 hover:bg-emerald-500/15"
+                >
+                  瀏覽展示站
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+                <Link
                   href="/configure"
                   className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-6 py-3 font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:text-white"
                 >
@@ -86,11 +94,15 @@ export default function HomeContent({ featured }: HomeContentProps) {
         </div>
       </section>
 
+      <RevealOnScroll>
+        <HomeDemoShowcase />
+      </RevealOnScroll>
+
       <section className="border-y border-zinc-800/80 bg-zinc-900/30">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <RevealOnScroll>
             <h2 className="text-center text-2xl font-bold text-white">
-              四步完成專業選配
+              五步完成專業選配
             </h2>
           </RevealOnScroll>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -120,7 +132,7 @@ export default function HomeContent({ featured }: HomeContentProps) {
           <div className="flex items-end justify-between">
             <div>
               <h2 className="text-2xl font-bold text-white">精選介面</h2>
-              <p className="mt-2 text-zinc-500">最受歡迎的設計風格</p>
+              <p className="mt-2 text-zinc-500">Wireframe 預覽 · 快速篩選行業與風格</p>
             </div>
             <Link
               href="/templates"
