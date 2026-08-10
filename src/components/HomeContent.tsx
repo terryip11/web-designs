@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink, Layers, Monitor, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
+import { ArrowRight, Layers, Monitor, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
 import HomeDemoShowcase from "@/components/HomeDemoShowcase";
 import TemplateCard from "@/components/TemplateCard";
 import RevealOnScroll from "@/components/RevealOnScroll";
@@ -75,13 +75,6 @@ export default function HomeContent({ featured }: HomeContentProps) {
                 >
                   先畫草圖
                   <Pencil className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/demos"
-                  className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-medium text-white transition-colors hover:bg-emerald-500"
-                >
-                  展示站
-                  <ExternalLink className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/templates"
