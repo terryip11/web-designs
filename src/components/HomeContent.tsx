@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink, Layers, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
+import { ArrowRight, ExternalLink, Layers, Monitor, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
 import HomeDemoShowcase from "@/components/HomeDemoShowcase";
 import TemplateCard from "@/components/TemplateCard";
 import RevealOnScroll from "@/components/RevealOnScroll";
@@ -60,7 +60,15 @@ export default function HomeContent({ featured }: HomeContentProps) {
                 介面、雙欄版面、導航、飛入動效、功能模組 — 像選配一樣簡單，
                 即時產生方案摘要與香港市場參考報價（HKD）。
               </p>
-              <div className="mt-10 flex flex-wrap gap-4">
+              <Link
+                href="/demos"
+                className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-300 transition-colors hover:border-emerald-500/50 hover:bg-emerald-500/15 hover:text-emerald-200"
+              >
+                <Monitor className="h-4 w-4" />
+                展示站 — 瀏覽完整 Demo 網站
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
                 <Link
                   href="/sketch"
                   className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-medium text-white transition-colors hover:bg-violet-500"
@@ -69,18 +77,18 @@ export default function HomeContent({ featured }: HomeContentProps) {
                   <Pencil className="h-4 w-4" />
                 </Link>
                 <Link
+                  href="/demos"
+                  className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-medium text-white transition-colors hover:bg-emerald-500"
+                >
+                  展示站
+                  <ExternalLink className="h-4 w-4" />
+                </Link>
+                <Link
                   href="/templates"
                   className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-6 py-3 font-medium text-zinc-300 transition-colors hover:border-zinc-600 hover:text-white"
                 >
                   瀏覽介面庫
                   <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link
-                  href="/demos"
-                  className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-6 py-3 font-medium text-emerald-300 transition-colors hover:border-emerald-500/60 hover:bg-emerald-500/15"
-                >
-                  瀏覽展示站
-                  <ExternalLink className="h-4 w-4" />
                 </Link>
                 <Link
                   href="/configure"
