@@ -35,12 +35,71 @@ export interface AnalyticsSummary {
   topPages: TopPageRow[];
 }
 
+interface AnalyticsRpcPayload {
+  counts: {
+    online_now: number;
+    views_24h: number;
+    visitors_24h: number;
+    unique_ips_24h: number;
+    views_7d: number;
+  };
+  top_pages: { path: string; views: number }[];
+  recent_views: PageViewRow[];
+  recent_ips: RecentIpRow[];
+}
+
 function isMissingTableError(message: string) {
   return message.includes("page_views") && message.includes("does not exist");
 }
 
+function isMissingRpcError(message: string) {
+  return (
+    message.includes("admin_analytics_summary") &&
+    (message.includes("does not exist") || message.includes("Could not find"))
+  );
+}
+
+function emptySummary(): AnalyticsSummary {
+  return {
+    configured: false,
+    onlineNow: 0,
+    views24h: 0,
+    visitors24h: 0,
+    uniqueIps24h: 0,
+    views7d: 0,
+    recentViews: [],
+    recentIps: [],
+    topPages: [],
+  };
+}
+
+function mapRpcPayload(payload: AnalyticsRpcPayload): AnalyticsSummary {
+  const { counts, top_pages, recent_views, recent_ips } = payload;
+
+  return {
+    configured: true,
+    onlineNow: counts.online_now ?? 0,
+    views24h: counts.views_24h ?? 0,
+    visitors24h: counts.visitors_24h ?? 0,
+    uniqueIps24h: counts.unique_ips_24h ?? 0,
+    views7d: counts.views_7d ?? 0,
+    recentViews: recent_views ?? [],
+    recentIps: recent_ips ?? [],
+    topPages: (top_pages ?? []).map((row) => ({
+      path: row.path,
+      label: formatPathLabel(row.path),
+      views: row.views,
+    })),
+  };
+}
+
 function buildRecentIps(
-  rows: { ip_hash: string | null; ip_masked: string | null; path: string; created_at: string }[]
+  rows: {
+    ip_hash: string | null;
+    ip_masked: string | null;
+    path: string;
+    created_at: string;
+  }[]
 ): RecentIpRow[] {
   const byHash = new Map<string, RecentIpRow>();
 
@@ -71,21 +130,10 @@ function buildRecentIps(
     .slice(0, 10);
 }
 
-export async function getAnalyticsSummary(
+/** Legacy fallback when `012_analytics_rpc.sql` has not been applied yet. */
+async function getAnalyticsSummaryLegacy(
   adminClient: SupabaseClient
 ): Promise<AnalyticsSummary> {
-  const empty: AnalyticsSummary = {
-    configured: false,
-    onlineNow: 0,
-    views24h: 0,
-    visitors24h: 0,
-    uniqueIps24h: 0,
-    views7d: 0,
-    recentViews: [],
-    recentIps: [],
-    topPages: [],
-  };
-
   const now = Date.now();
   const since5m = new Date(now - 5 * 60 * 1000).toISOString();
   const since24h = new Date(now - 24 * 60 * 60 * 1000).toISOString();
@@ -152,46 +200,57 @@ export async function getAnalyticsSummary(
     ipRows24hRes.error;
 
   if (firstError) {
-    if (isMissingTableError(firstError.message)) return empty;
-    console.error("[analytics] summary:", firstError.message);
-    return empty;
+    if (isMissingTableError(firstError.message)) return emptySummary();
+    console.error("[analytics] legacy summary:", firstError.message);
+    return emptySummary();
   }
-
-  const onlineVisitors = new Set(
-    (onlineRes.data ?? []).map((row) => row.visitor_id)
-  );
-  const unique24h = new Set(
-    (visitors24hRes.data ?? []).map((row) => row.visitor_id)
-  );
-  const uniqueIps = new Set(
-    (ips24hRes.data ?? []).map((row) => row.ip_hash).filter(Boolean)
-  );
 
   const pathCounts = new Map<string, number>();
   for (const row of topRes.data ?? []) {
     pathCounts.set(row.path, (pathCounts.get(row.path) ?? 0) + 1);
   }
 
-  const topPages = [...pathCounts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
-    .map(([path, views]) => ({
-      path,
-      label: formatPathLabel(path),
-      views,
-    }));
-
-  const recentRows = (recentRes.data ?? []) as PageViewRow[];
-
   return {
     configured: true,
-    onlineNow: onlineVisitors.size,
+    onlineNow: new Set((onlineRes.data ?? []).map((row) => row.visitor_id)).size,
     views24h: views24hRes.count ?? 0,
-    visitors24h: unique24h.size,
-    uniqueIps24h: uniqueIps.size,
+    visitors24h: new Set(
+      (visitors24hRes.data ?? []).map((row) => row.visitor_id)
+    ).size,
+    uniqueIps24h: new Set(
+      (ips24hRes.data ?? []).map((row) => row.ip_hash).filter(Boolean)
+    ).size,
     views7d: views7dRes.count ?? 0,
-    recentViews: recentRows,
+    recentViews: (recentRes.data ?? []) as PageViewRow[],
     recentIps: buildRecentIps(ipRows24hRes.data ?? []),
-    topPages,
+    topPages: [...pathCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+      .map(([path, views]) => ({
+        path,
+        label: formatPathLabel(path),
+        views,
+      })),
   };
+}
+
+export async function getAnalyticsSummary(
+  adminClient: SupabaseClient
+): Promise<AnalyticsSummary> {
+  const { data, error } = await adminClient.rpc("admin_analytics_summary");
+
+  if (!error && data) {
+    return mapRpcPayload(data as AnalyticsRpcPayload);
+  }
+
+  if (error) {
+    if (isMissingTableError(error.message)) return emptySummary();
+    if (isMissingRpcError(error.message)) {
+      return getAnalyticsSummaryLegacy(adminClient);
+    }
+    console.error("[analytics] rpc summary:", error.message);
+    return getAnalyticsSummaryLegacy(adminClient);
+  }
+
+  return emptySummary();
 }

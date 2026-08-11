@@ -71,6 +71,29 @@ export default function PrivacyPage() {
               <code className="text-zinc-300">203.186.45.xxx</code>
               ），完整 IP 不會寫入資料庫；紀錄保留約 30 天後自動刪除，僅供網站管理員在後台查看流量概況。
             </p>
+            <p className="mt-3">
+              若網站管理員已設定 Google Analytics 4（GA4），Google 可能透過 Cookie
+              收集匿名使用資料（例如頁面瀏覽、裝置類型、大致地區），用於分析搜尋與流量來源。您可透過瀏覽器封鎖
+              Cookie，或使用{" "}
+              <a
+                href="https://tools.google.com/dlpage/gaoptout"
+                className="text-violet-400 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Google Analytics 停用外掛
+              </a>{" "}
+              選擇退出。詳見{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                className="text-violet-400 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Google 私隱政策
+              </a>
+              。
+            </p>
           </section>
 
           <p className="border-t border-zinc-800 pt-6 text-zinc-500">

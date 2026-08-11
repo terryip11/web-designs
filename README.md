@@ -46,6 +46,8 @@ npm run dev
 | `RESEND_API_KEY` | | Email 發送 |
 | `EMAIL_FROM` | | 寄件者 |
 | `NOTIFY_EMAIL` | | 新詢價通知收件者 |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | | GA4 Measurement ID（例 `G-XXXXXXXXXX`） |
+| `ANALYTICS_IP_SALT` | | 後台 IP 雜湊鹽（選填） |
 
 \* 圖片相關功能（Demo 展示圖、草圖上傳、客戶素材）需設定 R2。未設定 `NEXT_PUBLIC_R2_PUBLIC_URL` 時，Demo 圖會暫用 manifest 內的 Unsplash 來源作本機 fallback。
 
@@ -108,6 +110,8 @@ supabase/migrations/001_inquiries.sql
 009_client_assets.sql
 010_page_views.sql
 011_page_views_ip.sql
+012_analytics_rpc.sql
+013_revoke_legacy_storage_upload.sql
 ```
 
 ### 2. Auth URL Configuration

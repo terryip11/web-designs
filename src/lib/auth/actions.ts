@@ -1,8 +1,10 @@
 "use server";
 
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createAuthServerClient } from "@/lib/supabase/server";
 import { getAuthCallbackUrl } from "@/lib/auth/site-url";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function signUp(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
@@ -91,6 +93,26 @@ export async function resendVerificationEmail(email: string) {
   const trimmed = email.trim();
   if (!trimmed) {
     return { error: "請提供 Email" };
+  }
+
+  const headersList = await headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    headersList.get("x-real-ip") ??
+    "unknown";
+
+  const ipRate = checkRateLimit(`auth:resend:ip:${ip}`, 3, 60 * 60 * 1000);
+  if (!ipRate.ok) {
+    return { error: "發送過於頻繁，請稍後再試" };
+  }
+
+  const emailRate = checkRateLimit(
+    `auth:resend:email:${trimmed.toLowerCase()}`,
+    2,
+    60 * 60 * 1000
+  );
+  if (!emailRate.ok) {
+    return { error: "此 Email 驗證信已多次發送，請稍後再試" };
   }
 
   const supabase = await createAuthServerClient();

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import AppShell from "@/components/AppShell";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
 import { getRootMetadata } from "@/lib/seo/metadata";
@@ -40,6 +41,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SeoJsonLd />
+        <GoogleAnalytics enabled={!isAdminRoute} />
         <ServiceWorkerRegister />
         <AppShell isDemoRoute={isDemoRoute} isAdminRoute={isAdminRoute}>
           {children}

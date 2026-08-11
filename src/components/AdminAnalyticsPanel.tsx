@@ -53,8 +53,9 @@ export default function AdminAnalyticsPanel({
         <h2 className="text-lg font-semibold text-white">網站瀏覽統計</h2>
         <p className="mt-2 text-sm text-zinc-400">
           請在 Supabase SQL Editor 依序執行{" "}
-          <code className="text-amber-300">010_page_views.sql</code> 與{" "}
-          <code className="text-amber-300">011_page_views_ip.sql</code>{" "}
+          <code className="text-amber-300">010_page_views.sql</code>、{" "}
+          <code className="text-amber-300">011_page_views_ip.sql</code> 與{" "}
+          <code className="text-amber-300">012_analytics_rpc.sql</code>{" "}
           後重新整理。
         </p>
       </section>
