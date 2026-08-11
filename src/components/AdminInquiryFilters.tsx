@@ -16,7 +16,7 @@ export default function AdminInquiryFilters() {
     if (nextQ.trim()) params.set("q", nextQ.trim());
     if (nextStatus) params.set("status", nextStatus);
     const query = params.toString();
-    router.push(query ? `/admin?${query}` : "/admin");
+    router.push(query ? `/admin/inquiries?${query}` : "/admin/inquiries");
   }
 
   return (

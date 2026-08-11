@@ -6,11 +6,13 @@ import Header from "@/components/Header";
 export default function AppShell({
   children,
   isDemoRoute = false,
+  isAdminRoute = false,
 }: {
   children: React.ReactNode;
   isDemoRoute?: boolean;
+  isAdminRoute?: boolean;
 }) {
-  if (isDemoRoute) {
+  if (isDemoRoute || isAdminRoute) {
     return <>{children}</>;
   }
 

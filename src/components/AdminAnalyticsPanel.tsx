@@ -62,17 +62,8 @@ export default function AdminAnalyticsPanel({
   }
 
   return (
-    <section className="mb-10">
+    <section>
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-emerald-400/80">
-            即時統計
-          </p>
-          <h2 className="mt-1 text-xl font-semibold text-white">網站瀏覽</h2>
-          <p className="mt-1 text-sm text-zinc-500">
-            公開頁面瀏覽；IP 以遮罩顯示，完整 IP 不儲存（保留 30 天）
-          </p>
-        </div>
         <div className="flex items-center gap-2 text-xs text-zinc-500">
           <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
           即時在線以 5 分鐘內活動計算

@@ -31,6 +31,7 @@ export default async function RootLayout({
   const headersList = await headers();
   const pathname = headersList.get("x-next-pathname") ?? "";
   const isDemoRoute = /^\/demos\/[^/]+/.test(pathname);
+  const isAdminRoute = pathname.startsWith("/admin");
 
   return (
     <html
@@ -40,7 +41,9 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <SeoJsonLd />
         <ServiceWorkerRegister />
-        <AppShell isDemoRoute={isDemoRoute}>{children}</AppShell>
+        <AppShell isDemoRoute={isDemoRoute} isAdminRoute={isAdminRoute}>
+          {children}
+        </AppShell>
       </body>
     </html>
   );
