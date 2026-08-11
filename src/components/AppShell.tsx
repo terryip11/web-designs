@@ -1,18 +1,21 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
-export default function AppShell({
-  children,
-  isDemoRoute = false,
-  isAdminRoute = false,
-}: {
-  children: React.ReactNode;
-  isDemoRoute?: boolean;
-  isAdminRoute?: boolean;
-}) {
-  if (isDemoRoute || isAdminRoute) {
+function isDemoPath(pathname: string) {
+  return /^\/demos\/[^/]+/.test(pathname);
+}
+
+function isAdminPath(pathname: string) {
+  return pathname.startsWith("/admin");
+}
+
+export default function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname() ?? "";
+
+  if (isDemoPath(pathname) || isAdminPath(pathname)) {
     return <>{children}</>;
   }
 

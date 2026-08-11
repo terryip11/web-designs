@@ -22,8 +22,10 @@ function GoogleAnalyticsPageView() {
   return null;
 }
 
-export default function GoogleAnalytics({ enabled = true }: { enabled?: boolean }) {
+export default function GoogleAnalytics() {
+  const pathname = usePathname() ?? "";
   const measurementId = getGaMeasurementId();
+  const enabled = !pathname.startsWith("/admin");
 
   if (!enabled || !isGaEnabled(measurementId)) {
     return null;

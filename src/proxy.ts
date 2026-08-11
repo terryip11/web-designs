@@ -8,8 +8,8 @@ export async function proxy(request: NextRequest) {
   if (demoRewrite) return demoRewrite;
 
   const response = await updateSession(request);
+  response.headers.set("x-next-pathname", request.nextUrl.pathname);
   if (response.status < 300 || response.status >= 400) {
-    response.headers.set("x-next-pathname", request.nextUrl.pathname);
     enqueuePageViewTrack(request, response);
   }
   return response;

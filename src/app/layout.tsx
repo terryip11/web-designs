@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import AppShell from "@/components/AppShell";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -29,11 +28,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-next-pathname") ?? "";
-  const isDemoRoute = /^\/demos\/[^/]+/.test(pathname);
-  const isAdminRoute = pathname.startsWith("/admin");
-
   return (
     <html
       lang="zh-Hant"
@@ -41,11 +35,9 @@ export default async function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SeoJsonLd />
-        <GoogleAnalytics enabled={!isAdminRoute} />
+        <GoogleAnalytics />
         <ServiceWorkerRegister />
-        <AppShell isDemoRoute={isDemoRoute} isAdminRoute={isAdminRoute}>
-          {children}
-        </AppShell>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
