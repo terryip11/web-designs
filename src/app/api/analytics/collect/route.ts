@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { buildIpFields, resolveClientIp } from "@/lib/analytics/ip";
-import { shouldTrackPageView } from "@/lib/analytics/paths";
+import { isSuspiciousPath, shouldTrackPageView } from "@/lib/analytics/paths";
 import { isValidVisitorId } from "@/lib/analytics/visitor-id";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createServiceRoleClient } from "@/lib/supabase/server";
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
       resolveClientIp(clientIp ?? null, null) ??
       resolveClientIp(request.headers.get("x-forwarded-for"), ip);
     const { ip_hash, ip_masked, ip_address } = buildIpFields(resolvedIp);
+    const isSuspicious = isSuspiciousPath(path);
 
     const { error } = await supabase.from("page_views").insert({
       visitor_id: visitorId,
@@ -81,10 +82,28 @@ export async function POST(request: Request) {
       ip_hash,
       ip_masked,
       ip_address,
+      is_suspicious: isSuspicious,
     });
 
     if (error) {
       if (error.message.includes("does not exist")) {
+        return NextResponse.json({ ok: true });
+      }
+      if (error.message.includes("is_suspicious")) {
+        const retry = await supabase.from("page_views").insert({
+          visitor_id: visitorId,
+          path,
+          referrer: referrer ?? null,
+          user_agent: userAgent ?? null,
+          ip_hash,
+          ip_masked,
+          ip_address,
+        });
+        if (retry.error) {
+          console.error("[analytics/collect]", retry.error.message);
+          return NextResponse.json({ ok: false }, { status: 500 });
+        }
+        void purgeOldPageViews(supabase);
         return NextResponse.json({ ok: true });
       }
       console.error("[analytics/collect]", error.message);

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { formatPathLabel } from "@/lib/analytics/paths";
+import { formatPathLabel, getSuspiciousPathLabel } from "@/lib/analytics/paths";
 
 export interface PageViewRow {
   id: string;
@@ -25,6 +25,15 @@ export interface TopPageRow {
   views: number;
 }
 
+export interface SuspiciousActivityRow {
+  path: string;
+  label: string;
+  ip_address: string | null;
+  ip_masked: string | null;
+  hits: number;
+  last_seen: string;
+}
+
 export interface AnalyticsSummary {
   configured: boolean;
   onlineNow: number;
@@ -32,8 +41,10 @@ export interface AnalyticsSummary {
   visitors24h: number;
   uniqueIps24h: number;
   views7d: number;
+  suspicious24h: number;
   recentViews: PageViewRow[];
   recentIps: RecentIpRow[];
+  suspiciousActivity: SuspiciousActivityRow[];
   topPages: TopPageRow[];
 }
 
@@ -44,10 +55,18 @@ interface AnalyticsRpcPayload {
     visitors_24h: number;
     unique_ips_24h: number;
     views_7d: number;
+    suspicious_24h: number;
   };
   top_pages: { path: string; views: number }[];
   recent_views: PageViewRow[];
   recent_ips: RecentIpRow[];
+  suspicious_activity: {
+    path: string;
+    ip_address: string | null;
+    ip_masked: string | null;
+    hits: number;
+    last_seen: string;
+  }[];
 }
 
 function isMissingTableError(message: string) {
@@ -69,14 +88,17 @@ function emptySummary(): AnalyticsSummary {
     visitors24h: 0,
     uniqueIps24h: 0,
     views7d: 0,
+    suspicious24h: 0,
     recentViews: [],
     recentIps: [],
+    suspiciousActivity: [],
     topPages: [],
   };
 }
 
 function mapRpcPayload(payload: AnalyticsRpcPayload): AnalyticsSummary {
-  const { counts, top_pages, recent_views, recent_ips } = payload;
+  const { counts, top_pages, recent_views, recent_ips, suspicious_activity } =
+    payload;
 
   return {
     configured: true,
@@ -85,8 +107,17 @@ function mapRpcPayload(payload: AnalyticsRpcPayload): AnalyticsSummary {
     visitors24h: counts.visitors_24h ?? 0,
     uniqueIps24h: counts.unique_ips_24h ?? 0,
     views7d: counts.views_7d ?? 0,
+    suspicious24h: counts.suspicious_24h ?? 0,
     recentViews: recent_views ?? [],
     recentIps: recent_ips ?? [],
+    suspiciousActivity: (suspicious_activity ?? []).map((row) => ({
+      path: row.path,
+      label: getSuspiciousPathLabel(row.path),
+      ip_address: row.ip_address,
+      ip_masked: row.ip_masked,
+      hits: row.hits,
+      last_seen: row.last_seen,
+    })),
     topPages: (top_pages ?? []).map((row) => ({
       path: row.path,
       label: formatPathLabel(row.path),
@@ -160,43 +191,59 @@ async function getAnalyticsSummaryLegacy(
     recentRes,
     topRes,
     ipRows24hRes,
+    suspiciousRes,
   ] = await Promise.all([
     adminClient
       .from("page_views")
       .select("visitor_id")
-      .gte("created_at", since5m),
+      .gte("created_at", since5m)
+      .eq("is_suspicious", false),
     adminClient
       .from("page_views")
       .select("id", { count: "exact", head: true })
-      .gte("created_at", since24h),
+      .gte("created_at", since24h)
+      .eq("is_suspicious", false),
     adminClient
       .from("page_views")
       .select("visitor_id")
-      .gte("created_at", since24h),
+      .gte("created_at", since24h)
+      .eq("is_suspicious", false),
     adminClient
       .from("page_views")
       .select("ip_hash")
       .gte("created_at", since24h)
+      .eq("is_suspicious", false)
       .not("ip_hash", "is", null),
     adminClient
       .from("page_views")
       .select("id", { count: "exact", head: true })
-      .gte("created_at", since7d),
+      .gte("created_at", since7d)
+      .eq("is_suspicious", false),
     adminClient
       .from("page_views")
       .select("id, path, referrer, ip_address, ip_masked, ip_hash, created_at")
+      .eq("is_suspicious", false)
       .order("created_at", { ascending: false })
       .limit(15),
     adminClient
       .from("page_views")
       .select("path")
       .gte("created_at", since24h)
+      .eq("is_suspicious", false)
       .limit(5000),
     adminClient
       .from("page_views")
       .select("ip_hash, ip_address, ip_masked, path, created_at")
       .gte("created_at", since24h)
+      .eq("is_suspicious", false)
       .not("ip_hash", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(500),
+    adminClient
+      .from("page_views")
+      .select("path, ip_address, ip_masked, ip_hash, created_at")
+      .gte("created_at", since24h)
+      .eq("is_suspicious", true)
       .order("created_at", { ascending: false })
       .limit(500),
   ]);
@@ -209,7 +256,8 @@ async function getAnalyticsSummaryLegacy(
     views7dRes.error ??
     recentRes.error ??
     topRes.error ??
-    ipRows24hRes.error;
+    ipRows24hRes.error ??
+    suspiciousRes.error;
 
   if (firstError) {
     if (isMissingTableError(firstError.message)) return emptySummary();
@@ -220,6 +268,29 @@ async function getAnalyticsSummaryLegacy(
   const pathCounts = new Map<string, number>();
   for (const row of topRes.data ?? []) {
     pathCounts.set(row.path, (pathCounts.get(row.path) ?? 0) + 1);
+  }
+
+  const suspiciousRows = suspiciousRes.data ?? [];
+  const suspiciousByKey = new Map<string, SuspiciousActivityRow>();
+  for (const row of suspiciousRows) {
+    if (!row.ip_hash) continue;
+    const key = `${row.path}:${row.ip_hash}`;
+    const existing = suspiciousByKey.get(key);
+    if (!existing) {
+      suspiciousByKey.set(key, {
+        path: row.path,
+        label: getSuspiciousPathLabel(row.path),
+        ip_address: row.ip_address ?? null,
+        ip_masked: row.ip_masked ?? null,
+        hits: 1,
+        last_seen: row.created_at,
+      });
+      continue;
+    }
+    existing.hits += 1;
+    if (row.created_at > existing.last_seen) {
+      existing.last_seen = row.created_at;
+    }
   }
 
   return {
@@ -233,8 +304,12 @@ async function getAnalyticsSummaryLegacy(
       (ips24hRes.data ?? []).map((row) => row.ip_hash).filter(Boolean)
     ).size,
     views7d: views7dRes.count ?? 0,
+    suspicious24h: suspiciousRows.length,
     recentViews: (recentRes.data ?? []) as PageViewRow[],
     recentIps: buildRecentIps(ipRows24hRes.data ?? []),
+    suspiciousActivity: [...suspiciousByKey.values()]
+      .sort((a, b) => b.last_seen.localeCompare(a.last_seen))
+      .slice(0, 15),
     topPages: [...pathCounts.entries()]
       .sort((a, b) => b[1] - a[1])
       .slice(0, 8)

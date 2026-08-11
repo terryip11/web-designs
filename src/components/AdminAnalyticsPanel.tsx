@@ -1,4 +1,4 @@
-import { Eye, Globe, MapPin, TrendingUp, Users } from "lucide-react";
+import { AlertTriangle, Eye, Globe, MapPin, TrendingUp, Users } from "lucide-react";
 import type { AnalyticsSummary } from "@/lib/analytics/queries";
 import { formatAdminIp } from "@/lib/analytics/queries";
 import { formatPathLabel } from "@/lib/analytics/paths";
@@ -57,7 +57,8 @@ export default function AdminAnalyticsPanel({
           <code className="text-amber-300">010_page_views.sql</code>、{" "}
           <code className="text-amber-300">011_page_views_ip.sql</code> 與{" "}
           <code className="text-amber-300">012_analytics_rpc.sql</code>、{" "}
-          <code className="text-amber-300">014_page_views_ip_full.sql</code>{" "}
+          <code className="text-amber-300">014_page_views_ip_full.sql</code>、{" "}
+          <code className="text-amber-300">015_page_views_suspicious.sql</code>{" "}
           後重新整理。
         </p>
       </section>
@@ -69,9 +70,49 @@ export default function AdminAnalyticsPanel({
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div className="flex items-center gap-2 text-xs text-zinc-500">
           <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          即時在線以 5 分鐘內活動計算 · IP 僅管理員可見，保留 30 天
+          即時在線以 5 分鐘內活動計算 · 一般流量不含可疑探測 · IP 僅管理員可見
         </div>
       </div>
+
+      {analytics.suspicious24h > 0 && (
+        <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5">
+          <div className="mb-4 flex items-start gap-3">
+            <div className="rounded-lg bg-amber-500/20 p-2 text-amber-400">
+              <AlertTriangle className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-amber-200">
+                可疑探測（近 24 小時 · {analytics.suspicious24h} 次）
+              </h3>
+              <p className="mt-1 text-xs text-amber-200/70">
+                自動掃描路徑（如 WordPress、.env），已自一般瀏覽統計排除；多數為
+                bot，不代表網站已被入侵。
+              </p>
+            </div>
+          </div>
+          <ul className="space-y-3">
+            {analytics.suspiciousActivity.map((row) => (
+              <li
+                key={`${row.path}-${row.last_seen}-${formatAdminIp(row)}`}
+                className="flex items-start justify-between gap-3 border-b border-amber-500/15 pb-3 last:border-0 last:pb-0"
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-amber-100">{row.label}</p>
+                  <p className="truncate font-mono text-xs text-amber-200/80">
+                    {row.path}
+                  </p>
+                  <p className="mt-1 text-xs text-amber-200/60">
+                    IP {formatAdminIp(row)} · {row.hits} 次
+                  </p>
+                </div>
+                <time className="shrink-0 text-xs text-amber-200/50">
+                  {formatTime(row.last_seen)}
+                </time>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard
