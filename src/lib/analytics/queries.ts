@@ -5,11 +5,13 @@ export interface PageViewRow {
   id: string;
   path: string;
   referrer: string | null;
+  ip_address: string | null;
   ip_masked: string | null;
   created_at: string;
 }
 
 export interface RecentIpRow {
+  ip_address: string | null;
   ip_masked: string;
   ip_hash: string;
   last_path: string;
@@ -93,9 +95,17 @@ function mapRpcPayload(payload: AnalyticsRpcPayload): AnalyticsSummary {
   };
 }
 
+export function formatAdminIp(row: {
+  ip_address?: string | null;
+  ip_masked?: string | null;
+}) {
+  return row.ip_address ?? row.ip_masked ?? "";
+}
+
 function buildRecentIps(
   rows: {
     ip_hash: string | null;
+    ip_address?: string | null;
     ip_masked: string | null;
     path: string;
     created_at: string;
@@ -110,6 +120,7 @@ function buildRecentIps(
     if (!existing) {
       byHash.set(row.ip_hash, {
         ip_hash: row.ip_hash,
+        ip_address: row.ip_address ?? null,
         ip_masked: row.ip_masked,
         last_path: row.path,
         last_seen: row.created_at,
@@ -122,6 +133,7 @@ function buildRecentIps(
     if (row.created_at > existing.last_seen) {
       existing.last_seen = row.created_at;
       existing.last_path = row.path;
+      existing.ip_address = row.ip_address ?? existing.ip_address;
     }
   }
 
@@ -172,7 +184,7 @@ async function getAnalyticsSummaryLegacy(
       .gte("created_at", since7d),
     adminClient
       .from("page_views")
-      .select("id, path, referrer, ip_masked, ip_hash, created_at")
+      .select("id, path, referrer, ip_address, ip_masked, ip_hash, created_at")
       .order("created_at", { ascending: false })
       .limit(15),
     adminClient
@@ -182,7 +194,7 @@ async function getAnalyticsSummaryLegacy(
       .limit(5000),
     adminClient
       .from("page_views")
-      .select("ip_hash, ip_masked, path, created_at")
+      .select("ip_hash, ip_address, ip_masked, path, created_at")
       .gte("created_at", since24h)
       .not("ip_hash", "is", null)
       .order("created_at", { ascending: false })

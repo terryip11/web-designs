@@ -1,5 +1,6 @@
 import { Eye, Globe, MapPin, TrendingUp, Users } from "lucide-react";
 import type { AnalyticsSummary } from "@/lib/analytics/queries";
+import { formatAdminIp } from "@/lib/analytics/queries";
 import { formatPathLabel } from "@/lib/analytics/paths";
 
 function formatTime(iso: string) {
@@ -55,7 +56,8 @@ export default function AdminAnalyticsPanel({
           請在 Supabase SQL Editor 依序執行{" "}
           <code className="text-amber-300">010_page_views.sql</code>、{" "}
           <code className="text-amber-300">011_page_views_ip.sql</code> 與{" "}
-          <code className="text-amber-300">012_analytics_rpc.sql</code>{" "}
+          <code className="text-amber-300">012_analytics_rpc.sql</code>、{" "}
+          <code className="text-amber-300">014_page_views_ip_full.sql</code>{" "}
           後重新整理。
         </p>
       </section>
@@ -67,7 +69,7 @@ export default function AdminAnalyticsPanel({
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div className="flex items-center gap-2 text-xs text-zinc-500">
           <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-          即時在線以 5 分鐘內活動計算
+          即時在線以 5 分鐘內活動計算 · IP 僅管理員可見，保留 30 天
         </div>
       </div>
 
@@ -93,7 +95,7 @@ export default function AdminAnalyticsPanel({
         <StatCard
           label="近 24 小時 IP"
           value={analytics.uniqueIps24h}
-          hint="不重複遮罩 IP"
+          hint="不重複 IP"
           icon={MapPin}
         />
         <StatCard
@@ -122,7 +124,7 @@ export default function AdminAnalyticsPanel({
                     </p>
                     <p className="truncate text-xs text-zinc-500">
                       {view.path}
-                      {view.ip_masked ? ` · IP ${view.ip_masked}` : ""}
+                      {formatAdminIp(view) ? ` · IP ${formatAdminIp(view)}` : ""}
                     </p>
                   </div>
                   <time className="shrink-0 text-xs text-zinc-500">
@@ -136,7 +138,7 @@ export default function AdminAnalyticsPanel({
 
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
           <h3 className="text-sm font-semibold text-white">最近 IP（24 小時）</h3>
-          <p className="mt-1 text-xs text-zinc-500">遮罩後顯示，非完整 IP</p>
+          <p className="mt-1 text-xs text-zinc-500">完整 IP，僅管理員可見</p>
           {analytics.recentIps.length === 0 ? (
             <p className="mt-4 text-sm text-zinc-500">暫無 IP 紀錄</p>
           ) : (
@@ -146,7 +148,9 @@ export default function AdminAnalyticsPanel({
                   key={row.ip_hash}
                   className="border-b border-zinc-800/80 pb-3 last:border-0 last:pb-0"
                 >
-                  <p className="font-mono text-sm text-zinc-200">{row.ip_masked}</p>
+                  <p className="font-mono text-sm text-zinc-200">
+                    {formatAdminIp(row)}
+                  </p>
                   <p className="mt-1 truncate text-xs text-zinc-500">
                     {formatPathLabel(row.last_path)} · {row.hits} 次
                   </p>

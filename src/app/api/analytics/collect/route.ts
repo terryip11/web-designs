@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     const resolvedIp =
       resolveClientIp(clientIp ?? null, null) ??
       resolveClientIp(request.headers.get("x-forwarded-for"), ip);
-    const { ip_hash, ip_masked } = buildIpFields(resolvedIp);
+    const { ip_hash, ip_masked, ip_address } = buildIpFields(resolvedIp);
 
     const { error } = await supabase.from("page_views").insert({
       visitor_id: visitorId,
@@ -80,6 +80,7 @@ export async function POST(request: Request) {
       user_agent: userAgent ?? null,
       ip_hash,
       ip_masked,
+      ip_address,
     });
 
     if (error) {

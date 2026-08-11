@@ -41,10 +41,12 @@ export function hashIp(ip: string): string {
 export function buildIpFields(ip: string | null): {
   ip_hash: string | null;
   ip_masked: string | null;
+  ip_address: string | null;
 } {
-  if (!ip) return { ip_hash: null, ip_masked: null };
+  if (!ip) return { ip_hash: null, ip_masked: null, ip_address: null };
   return {
     ip_hash: hashIp(ip),
     ip_masked: maskIp(ip),
+    ip_address: ip,
   };
 }

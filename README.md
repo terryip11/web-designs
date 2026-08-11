@@ -112,6 +112,7 @@ supabase/migrations/001_inquiries.sql
 011_page_views_ip.sql
 012_analytics_rpc.sql
 013_revoke_legacy_storage_upload.sql
+014_page_views_ip_full.sql
 ```
 
 ### 2. Auth URL Configuration
