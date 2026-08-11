@@ -1,13 +1,14 @@
 import Image from "next/image";
 import RestaurantShell from "@/components/demos/restaurant/RestaurantShell";
 import { RESTAURANT_BRAND } from "@/lib/demo-sites/restaurant-data";
+import { demoImage } from "@/lib/images/url";
 
 export default function RestaurantAboutPage({ basePath }: { basePath: string }) {
   return (
     <RestaurantShell basePath={basePath}>
       <section className="relative overflow-hidden py-20">
         <Image
-          src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1400&q=80"
+          src={demoImage("demos/restaurant/about-hero.jpg")}
           alt="餐廳內部"
           fill
           className="object-cover opacity-25"
@@ -59,13 +60,13 @@ export default function RestaurantAboutPage({ basePath }: { basePath: string }) 
                 name: "Marco Chan",
                 role: "行政總廚",
                 bio: "15 年歐陸料理經驗，專注地中海及現代義法菜。",
-                image: "https://images.unsplash.com/photo-1577219491135-ce0267304cbe?w=400&q=80",
+                image: demoImage("demos/restaurant/team/chef.jpg"),
               },
               {
                 name: "Sofia Lam",
                 role: "甜品主廚",
                 bio: "巴黎藍帶畢業，每日現做提拉米蘇及季節甜品。",
-                image: "https://images.unsplash.com/photo-1583394294554-291fc1aeda1f?w=400&q=80",
+                image: demoImage("demos/restaurant/team/sommelier.jpg"),
               },
             ].map((chef) => (
               <div

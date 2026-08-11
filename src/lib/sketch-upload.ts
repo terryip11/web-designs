@@ -1,4 +1,5 @@
-import { createServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { buildUploadKey, uploadToR2 } from "@/lib/r2/upload";
+import { isR2Configured } from "@/lib/r2/env";
 
 const MAX_SKETCH_BYTES = 5 * 1024 * 1024;
 
@@ -17,9 +18,8 @@ export interface SketchUploadResult {
 export async function uploadSketchPages(
   sketchPages: SketchUploadInput[]
 ): Promise<SketchUploadResult[]> {
-  if (!isSupabaseConfigured() || sketchPages.length === 0) return [];
+  if (!isR2Configured() || sketchPages.length === 0) return [];
 
-  const supabase = createServerClient();
   const results: SketchUploadResult[] = [];
 
   for (const page of sketchPages) {
@@ -36,24 +36,25 @@ export async function uploadSketchPages(
       console.warn("Sketch page invalid mime:", page.pageName);
       continue;
     }
-    const safeName = page.pageName.replace(/[^\w\u4e00-\u9fff-]+/g, "-").slice(0, 40);
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}/${safeName || "sketch"}.png`;
 
-    const { error } = await supabase.storage.from("sketches").upload(path, buffer, {
+    const safeName = page.pageName.replace(/[^\w\u4e00-\u9fff-]+/g, "-").slice(0, 40);
+    const key = buildUploadKey(
+      "uploads/sketches",
+      `${safeName || "sketch"}.png`
+    );
+
+    const url = await uploadToR2({
+      key,
+      body: buffer,
       contentType: "image/png",
-      upsert: false,
     });
 
-    if (error) {
-      console.error("Sketch upload error:", error);
-      continue;
-    }
+    if (!url) continue;
 
-    const { data } = supabase.storage.from("sketches").getPublicUrl(path);
     results.push({
       pageName: page.pageName,
       device: page.device,
-      url: data.publicUrl,
+      url,
     });
   }
 

@@ -1,3 +1,5 @@
+import { demoImage } from "@/lib/images/url";
+
 export interface PropertyListing {
   slug: string;
   title: string;
@@ -35,8 +37,7 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     area: 2850,
     type: "出售",
     featured: true,
-    image:
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=80",
+    image: demoImage("demos/property/listings/the-peak-residence.jpg"),
     summary:
       "罕有山頂複式單位，270 度維港全景，私人電梯直達，配備恆溫酒窖與家庭影院。",
     highlights: ["維港全海景", "私人電梯", "雙車位", "會所設施"],
@@ -52,8 +53,7 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     area: 1680,
     type: "出售",
     featured: true,
-    image:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+    image: demoImage("demos/property/listings/mid-levels-penthouse.jpg"),
     summary: "半山傳統豪宅區，高層複式連天台，採光充足，步行至 Central 約 12 分鐘。",
     highlights: ["連私人天台", "步行至 Central", "新裝修", "會所泳池"],
   },
@@ -68,8 +68,7 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     area: 1120,
     type: "出售",
     featured: true,
-    image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80",
+    image: demoImage("demos/property/listings/kowloon-station-tower.jpg"),
     summary: "九龍核心樞紐，高鐵及機場快線上蓋，適合跨境家庭及投資客。",
     highlights: ["交通樞紐", "機場快線", "圓方購物", "高層景觀"],
   },
@@ -83,8 +82,7 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     baths: 4,
     area: 4200,
     type: "出售",
-    image:
-      "https://images.unsplash.com/photo-1605276374104-dee2a0ed4cd6?w=1200&q=80",
+    image: demoImage("demos/property/listings/repulse-bay-villa.jpg"),
     summary: "淺水灣傳統豪宅，私人大花園連泳池，環境清幽，私隱度極高。",
     highlights: ["私人泳池", "大花園", "近 beach", "雙車庫"],
   },
@@ -98,8 +96,7 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     baths: 2,
     area: 2400,
     type: "出租",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80",
+    image: demoImage("demos/property/listings/central-office-suite.jpg"),
     summary: "IFC 高層全層或半層，維港景觀，適合金融及專業服務機構。",
     highlights: ["甲級寫字樓", "全海景", "地鐵直達", "高端配套"],
   },
@@ -113,8 +110,7 @@ export const PROPERTY_LISTINGS: PropertyListing[] = [
     baths: 2,
     area: 680,
     type: "出售",
-    image:
-      "https://images.unsplash.com/photo-1600047509807-ba8f84d663ca?w=1200&q=80",
+    image: demoImage("demos/property/listings/tseung-kwan-o-new.jpg"),
     summary: "全新樓盤，高性價比三房，鄰近大型商場及地鐵站，適合首置家庭。",
     highlights: ["全新樓", "近地鐵", "大型商場", "會所設施"],
   },

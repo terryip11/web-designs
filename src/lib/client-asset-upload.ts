@@ -1,5 +1,6 @@
-import { createServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
 import type { ClientAssetInput } from "@/lib/client-asset-types";
+import { isR2Configured } from "@/lib/r2/env";
+import { buildUploadKey, uploadToR2 } from "@/lib/r2/upload";
 
 const MAX_ASSET_BYTES = 5 * 1024 * 1024;
 
@@ -8,9 +9,8 @@ const ALLOWED_MIME = ["image/png", "image/jpeg", "image/webp", "image/svg+xml"];
 export async function uploadClientAssets(
   assets: ClientAssetInput[]
 ): Promise<string[]> {
-  if (!isSupabaseConfigured() || assets.length === 0) return [];
+  if (!isR2Configured() || assets.length === 0) return [];
 
-  const supabase = createServerClient();
   const urls: string[] = [];
 
   for (const asset of assets.slice(0, 5)) {
@@ -33,20 +33,18 @@ export async function uploadClientAssets(
             ? "webp"
             : "svg";
     const safeName = asset.fileName.replace(/[^\w.\u4e00-\u9fff-]+/g, "-").slice(0, 40);
-    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}/${safeName || "asset"}.${ext}`;
+    const key = buildUploadKey(
+      "uploads/client-assets",
+      `${safeName || "asset"}.${ext}`
+    );
 
-    const { error } = await supabase.storage.from("client-assets").upload(path, buffer, {
+    const url = await uploadToR2({
+      key,
+      body: buffer,
       contentType: mime,
-      upsert: false,
     });
 
-    if (error) {
-      console.error("Client asset upload error:", error);
-      continue;
-    }
-
-    const { data } = supabase.storage.from("client-assets").getPublicUrl(path);
-    urls.push(data.publicUrl);
+    if (url) urls.push(url);
   }
 
   return urls;

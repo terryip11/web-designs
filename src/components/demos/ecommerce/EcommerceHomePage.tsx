@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import EcommerceShell from "@/components/demos/ecommerce/EcommerceShell";
 import { ECOMMERCE_BRAND, ECOMMERCE_PRODUCTS } from "@/lib/demo-sites/ecommerce-data";
+import { demoImage } from "@/lib/images/url";
 
 export default function EcommerceHomePage({ basePath }: { basePath: string }) {
   const featured = ECOMMERCE_PRODUCTS.slice(0, 4);
@@ -12,7 +13,7 @@ export default function EcommerceHomePage({ basePath }: { basePath: string }) {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1400&q=80"
+            src={demoImage("demos/ecommerce/hero.jpg")}
             alt="店內陳列"
             fill
             priority

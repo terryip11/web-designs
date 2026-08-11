@@ -1,3 +1,5 @@
+import { demoImage } from "@/lib/images/url";
+
 export const ECOMMERCE_BRAND = {
   name: "NOIR 選物",
   englishName: "NOIR Curated",
@@ -24,7 +26,7 @@ export const ECOMMERCE_PRODUCTS: EcommerceProduct[] = [
     category: "服飾",
     price: "HK$1,680",
     description: "意大利亞麻混紡，輕盈透氣，適合春夏通勤。",
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80",
+    image: demoImage("demos/ecommerce/products/linen-blazer.jpg"),
     tags: ["新品"],
   },
   {
@@ -33,7 +35,7 @@ export const ECOMMERCE_PRODUCTS: EcommerceProduct[] = [
     category: "家居",
     price: "HK$580",
     description: "本地陶藝師手作，每件紋理獨一無二。",
-    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+    image: demoImage("demos/ecommerce/products/ceramic-vase.jpg"),
   },
   {
     slug: "leather-tote",
@@ -41,7 +43,7 @@ export const ECOMMERCE_PRODUCTS: EcommerceProduct[] = [
     category: "配件",
     price: "HK$2,280",
     description: "全粒面牛皮，可放 13 吋筆電，附可拆肩帶。",
-    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
+    image: demoImage("demos/ecommerce/products/leather-tote.jpg"),
     tags: ["熱賣"],
   },
   {
@@ -50,7 +52,7 @@ export const ECOMMERCE_PRODUCTS: EcommerceProduct[] = [
     category: "配件",
     price: "HK$720",
     description: "100% 桑蠶絲，手工捲邊，適合送禮。",
-    image: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800&q=80",
+    image: demoImage("demos/ecommerce/products/silk-scarf.jpg"),
   },
   {
     slug: "minimal-watch",
@@ -58,7 +60,7 @@ export const ECOMMERCE_PRODUCTS: EcommerceProduct[] = [
     category: "腕錶",
     price: "HK$4,800",
     description: "日本自動機芯，藍寶石水晶镜面，防水 50m。",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80",
+    image: demoImage("demos/ecommerce/products/minimal-watch.jpg"),
   },
   {
     slug: "soy-candle",
@@ -66,7 +68,7 @@ export const ECOMMERCE_PRODUCTS: EcommerceProduct[] = [
     category: "家居",
     price: "HK$320",
     description: "雪松與佛手柑調，燃燒時間約 45 小時。",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+    image: demoImage("demos/ecommerce/products/soy-candle.jpg"),
   },
 ];
 

@@ -7,6 +7,7 @@ import {
   MENU_ITEMS,
   RESTAURANT_BRAND,
 } from "@/lib/demo-sites/restaurant-data";
+import { demoImage } from "@/lib/images/url";
 
 export default function RestaurantHomePage({ basePath }: { basePath: string }) {
   const featuredDishes = MENU_ITEMS.filter((item) =>
@@ -48,7 +49,7 @@ export default function RestaurantHomePage({ basePath }: { basePath: string }) {
           </div>
           <div className="relative order-1 min-h-[280px] sm:min-h-[360px] lg:order-2 lg:min-h-[560px]">
             <Image
-              src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80"
+              src={demoImage("demos/restaurant/hero-dining.jpg")}
               alt="餐廳用餐環境"
               fill
               priority
@@ -125,7 +126,7 @@ export default function RestaurantHomePage({ basePath }: { basePath: string }) {
           <div className="grid lg:grid-cols-2">
             <div className="relative min-h-[240px] lg:min-h-[360px]">
               <Image
-                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=900&q=80"
+                src={demoImage("demos/restaurant/hero-kitchen.jpg")}
                 alt="餐廳內部"
                 fill
                 className="object-cover opacity-90"

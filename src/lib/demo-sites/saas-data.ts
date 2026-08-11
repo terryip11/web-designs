@@ -1,3 +1,5 @@
+import { demoImage } from "@/lib/images/url";
+
 export const SAAS_BRAND = {
   name: "FlowStack",
   englishName: "FlowStack",
@@ -97,7 +99,7 @@ export const SAAS_CUSTOMERS: SaasCustomer[] = [
     quote: "FlowStack 幫我們把訂單處理時間從 2 小時縮短到 15 分鐘。",
     author: "陳穎欣",
     role: "營運總監",
-    logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&q=80",
+    logo: demoImage("demos/saas/customers/nova-retail.jpg"),
   },
   {
     slug: "apex-legal",
@@ -106,7 +108,7 @@ export const SAAS_CUSTOMERS: SaasCustomer[] = [
     quote: "合約審批流程完全數碼化，合規審計一次過關。",
     author: "David Wong",
     role: "合夥人",
-    logo: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=200&q=80",
+    logo: demoImage("demos/saas/customers/apex-legal.jpg"),
   },
   {
     slug: "green-logistics",
@@ -115,6 +117,6 @@ export const SAAS_CUSTOMERS: SaasCustomer[] = [
     quote: "跨部門協作透明化，客戶投訴率下降 30%。",
     author: "李美儀",
     role: "CEO",
-    logo: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=200&q=80",
+    logo: demoImage("demos/saas/customers/green-logistics.jpg"),
   },
 ];

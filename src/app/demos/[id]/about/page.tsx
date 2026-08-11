@@ -7,6 +7,7 @@ import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import { PROPERTY_BRAND } from "@/lib/demo-sites/property-data";
 import { RESTAURANT_BRAND } from "@/lib/demo-sites/restaurant-data";
 import { ECOMMERCE_BRAND } from "@/lib/demo-sites/ecommerce-data";
+import { demoImage } from "@/lib/images/url";
 
 export async function generateMetadata({
   params,
@@ -53,7 +54,7 @@ export default async function DemoAboutPage({
     <PropertyShell basePath={basePath}>
       <section className="relative overflow-hidden py-20">
         <Image
-          src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&q=80"
+          src={demoImage("demos/shared/about-hero.jpg")}
           alt="辦公室"
           fill
           className="object-cover opacity-20"

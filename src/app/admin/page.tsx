@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import AdminAnalyticsPanel from "@/components/AdminAnalyticsPanel";
 import AdminInquiryFilters from "@/components/AdminInquiryFilters";
 import AdminInquiryManager from "@/components/AdminInquiryManager";
 import type { AdminInquiryRow } from "@/components/AdminInquiryManager";
 import RevealOnScroll from "@/components/RevealOnScroll";
+import { getAnalyticsSummary } from "@/lib/analytics/queries";
 import { requireAdmin } from "@/lib/auth/admin";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatPrice } from "@/lib/data";
@@ -31,6 +33,7 @@ export default async function AdminPage({
   }
 
   const { q, status } = await searchParams;
+  const analytics = await getAnalyticsSummary(adminClient);
 
   let query = adminClient
     .from("inquiries")
@@ -72,7 +75,7 @@ export default async function AdminPage({
             <p className="text-xs font-medium uppercase tracking-wide text-amber-400/80">
               管理後台
             </p>
-            <h1 className="mt-1 text-3xl font-bold text-white">客戶詢價管理</h1>
+            <h1 className="mt-1 text-3xl font-bold text-white">管理後台</h1>
             <p className="mt-2 text-sm text-zinc-500">
               共 {rows.length} 筆 · 新詢價 {newCount} · 參考總額{" "}
               {formatPrice(totalValue)} HKD
@@ -85,6 +88,14 @@ export default async function AdminPage({
             返回會員中心
           </Link>
         </div>
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={0.03}>
+        <AdminAnalyticsPanel analytics={analytics} />
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={0.04}>
+        <h2 className="mb-4 text-lg font-semibold text-white">客戶詢價</h2>
       </RevealOnScroll>
 
       <Suspense fallback={null}>

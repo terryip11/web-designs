@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-lg font-semibold text-white">3. 資料儲存</h2>
             <p>
-              需求資料儲存於 Supabase 雲端資料庫；草圖 PNG 可能上傳至 Supabase Storage。我們採取合理技術措施保護資料安全，但不保證絕對安全。
+              需求資料儲存於 Supabase 雲端資料庫；草圖 PNG 及客戶參考素材上傳至 Cloudflare R2 物件儲存。我們採取合理技術措施保護資料安全，但不保證絕對安全。
             </p>
           </section>
 

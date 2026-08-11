@@ -7,6 +7,7 @@ import {
   CORPORATE_CASES,
   CORPORATE_SERVICES,
 } from "@/lib/demo-sites/corporate-data";
+import { demoImage } from "@/lib/images/url";
 
 const ICONS = { target: Target, workflow: Briefcase, cpu: Cpu, shield: Shield } as const;
 
@@ -43,7 +44,7 @@ export default function CorporateHomePage({ basePath }: { basePath: string }) {
           </div>
           <div className="relative min-h-[320px] overflow-hidden rounded-2xl shadow-xl lg:min-h-[420px]">
             <Image
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80"
+              src={demoImage("demos/corporate/hero.jpg")}
               alt="辦公環境"
               fill
               priority

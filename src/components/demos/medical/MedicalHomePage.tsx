@@ -7,6 +7,7 @@ import {
   MEDICAL_DOCTORS,
   MEDICAL_SERVICES,
 } from "@/lib/demo-sites/medical-data";
+import { demoImage } from "@/lib/images/url";
 
 export default function MedicalHomePage({ basePath }: { basePath: string }) {
   const featuredServices = MEDICAL_SERVICES.slice(0, 3);
@@ -47,7 +48,7 @@ export default function MedicalHomePage({ basePath }: { basePath: string }) {
           </div>
           <div className="relative order-1 min-h-[280px] sm:min-h-[360px] lg:order-2 lg:min-h-[560px]">
             <Image
-              src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80"
+              src={demoImage("demos/medical/hero.jpg")}
               alt="醫療中心"
               fill
               priority

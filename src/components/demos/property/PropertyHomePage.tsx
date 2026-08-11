@@ -4,6 +4,7 @@ import { ArrowRight, Building2, Search, Shield, Users } from "lucide-react";
 import PropertyListingCard from "@/components/demos/property/PropertyListingCard";
 import PropertyShell from "@/components/demos/property/PropertyShell";
 import { PROPERTY_BRAND, PROPERTY_LISTINGS } from "@/lib/demo-sites/property-data";
+import { demoImage } from "@/lib/images/url";
 
 export default function PropertyHomePage({ basePath }: { basePath: string }) {
   const featured = PROPERTY_LISTINGS.filter((p) => p.featured);
@@ -12,7 +13,7 @@ export default function PropertyHomePage({ basePath }: { basePath: string }) {
     <PropertyShell basePath={basePath}>
       <section className="relative min-h-[85vh] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"
+          src={demoImage("demos/property/hero.jpg")}
           alt="香港豪宅"
           fill
           priority
