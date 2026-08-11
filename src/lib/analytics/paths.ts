@@ -21,6 +21,7 @@ const PATH_LABELS: Record<string, string> = {
 
 export function shouldTrackPageView(pathname: string): boolean {
   if (!pathname || pathname.length > 500) return false;
+  if (/^\/google[0-9a-f]+\.html$/i.test(pathname)) return false;
   if (SKIP_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return false;
   return pathname.startsWith("/");
 }
