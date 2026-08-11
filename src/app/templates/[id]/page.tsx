@@ -4,10 +4,32 @@ import TemplateDemoSection from "@/components/TemplateDemoSection";
 import TemplateDetailActions from "@/components/TemplateDetailActions";
 import { formatPrice, getTemplateById, templates } from "@/lib/data";
 import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { getEstimatedDeliveryWeeks } from "@/lib/template-meta";
 
 export function generateStaticParams() {
   return templates.map((t) => ({ id: t.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const template = getTemplateById(id);
+  if (!template) {
+    return buildPageMetadata({
+      title: "模板詳情",
+      path: `/templates/${id}`,
+    });
+  }
+
+  return buildPageMetadata({
+    title: template.name,
+    description: `${template.category} · ${template.style.join("、")} · 適合${template.suitableFor}`,
+    path: `/templates/${id}`,
+  });
 }
 
 export default async function TemplateDetailPage({

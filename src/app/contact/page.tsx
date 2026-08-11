@@ -5,6 +5,13 @@ import DesignFlowBanner from "@/components/DesignFlowBanner";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import SketchPreviewCard from "@/components/SketchPreviewCard";
 import SummarySidebar from "@/components/SummarySidebar";
+import { buildPageMetadata } from "@/lib/seo/metadata";
+
+export const metadata = buildPageMetadata({
+  title: "提交需求",
+  description: "提交網站設計方案需求，附上選配摘要與草圖，我們會盡快以 Email 或 WhatsApp 回覆。",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

@@ -1,4 +1,5 @@
 import { type NextRequest, type NextResponse } from "next/server";
+import { resolveClientIp } from "@/lib/analytics/ip";
 import { isBotUserAgent, shouldTrackPageView } from "@/lib/analytics/paths";
 import {
   VISITOR_COOKIE,
@@ -28,6 +29,11 @@ export function enqueuePageViewTrack(
     });
   }
 
+  const clientIp = resolveClientIp(
+    request.headers.get("x-forwarded-for"),
+    request.headers.get("x-real-ip")
+  );
+
   const collectUrl = new URL("/api/analytics/collect", request.url);
 
   void fetch(collectUrl, {
@@ -36,6 +42,7 @@ export function enqueuePageViewTrack(
     body: JSON.stringify({
       path,
       visitorId,
+      clientIp,
       referrer: request.headers.get("referer")?.slice(0, 500) ?? null,
       userAgent: request.headers.get("user-agent")?.slice(0, 200) ?? null,
     }),

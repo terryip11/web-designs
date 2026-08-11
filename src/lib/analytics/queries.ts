@@ -5,7 +5,16 @@ export interface PageViewRow {
   id: string;
   path: string;
   referrer: string | null;
+  ip_masked: string | null;
   created_at: string;
+}
+
+export interface RecentIpRow {
+  ip_masked: string;
+  ip_hash: string;
+  last_path: string;
+  last_seen: string;
+  hits: number;
 }
 
 export interface TopPageRow {
@@ -19,13 +28,47 @@ export interface AnalyticsSummary {
   onlineNow: number;
   views24h: number;
   visitors24h: number;
+  uniqueIps24h: number;
   views7d: number;
   recentViews: PageViewRow[];
+  recentIps: RecentIpRow[];
   topPages: TopPageRow[];
 }
 
 function isMissingTableError(message: string) {
   return message.includes("page_views") && message.includes("does not exist");
+}
+
+function buildRecentIps(
+  rows: { ip_hash: string | null; ip_masked: string | null; path: string; created_at: string }[]
+): RecentIpRow[] {
+  const byHash = new Map<string, RecentIpRow>();
+
+  for (const row of rows) {
+    if (!row.ip_hash || !row.ip_masked) continue;
+
+    const existing = byHash.get(row.ip_hash);
+    if (!existing) {
+      byHash.set(row.ip_hash, {
+        ip_hash: row.ip_hash,
+        ip_masked: row.ip_masked,
+        last_path: row.path,
+        last_seen: row.created_at,
+        hits: 1,
+      });
+      continue;
+    }
+
+    existing.hits += 1;
+    if (row.created_at > existing.last_seen) {
+      existing.last_seen = row.created_at;
+      existing.last_path = row.path;
+    }
+  }
+
+  return [...byHash.values()]
+    .sort((a, b) => b.last_seen.localeCompare(a.last_seen))
+    .slice(0, 10);
 }
 
 export async function getAnalyticsSummary(
@@ -36,8 +79,10 @@ export async function getAnalyticsSummary(
     onlineNow: 0,
     views24h: 0,
     visitors24h: 0,
+    uniqueIps24h: 0,
     views7d: 0,
     recentViews: [],
+    recentIps: [],
     topPages: [],
   };
 
@@ -50,9 +95,11 @@ export async function getAnalyticsSummary(
     onlineRes,
     views24hRes,
     visitors24hRes,
+    ips24hRes,
     views7dRes,
     recentRes,
     topRes,
+    ipRows24hRes,
   ] = await Promise.all([
     adminClient
       .from("page_views")
@@ -68,11 +115,16 @@ export async function getAnalyticsSummary(
       .gte("created_at", since24h),
     adminClient
       .from("page_views")
+      .select("ip_hash")
+      .gte("created_at", since24h)
+      .not("ip_hash", "is", null),
+    adminClient
+      .from("page_views")
       .select("id", { count: "exact", head: true })
       .gte("created_at", since7d),
     adminClient
       .from("page_views")
-      .select("id, path, referrer, created_at")
+      .select("id, path, referrer, ip_masked, ip_hash, created_at")
       .order("created_at", { ascending: false })
       .limit(15),
     adminClient
@@ -80,15 +132,24 @@ export async function getAnalyticsSummary(
       .select("path")
       .gte("created_at", since24h)
       .limit(5000),
+    adminClient
+      .from("page_views")
+      .select("ip_hash, ip_masked, path, created_at")
+      .gte("created_at", since24h)
+      .not("ip_hash", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(500),
   ]);
 
   const firstError =
     onlineRes.error ??
     views24hRes.error ??
     visitors24hRes.error ??
+    ips24hRes.error ??
     views7dRes.error ??
     recentRes.error ??
-    topRes.error;
+    topRes.error ??
+    ipRows24hRes.error;
 
   if (firstError) {
     if (isMissingTableError(firstError.message)) return empty;
@@ -101,6 +162,9 @@ export async function getAnalyticsSummary(
   );
   const unique24h = new Set(
     (visitors24hRes.data ?? []).map((row) => row.visitor_id)
+  );
+  const uniqueIps = new Set(
+    (ips24hRes.data ?? []).map((row) => row.ip_hash).filter(Boolean)
   );
 
   const pathCounts = new Map<string, number>();
@@ -117,13 +181,17 @@ export async function getAnalyticsSummary(
       views,
     }));
 
+  const recentRows = (recentRes.data ?? []) as PageViewRow[];
+
   return {
     configured: true,
     onlineNow: onlineVisitors.size,
     views24h: views24hRes.count ?? 0,
     visitors24h: unique24h.size,
+    uniqueIps24h: uniqueIps.size,
     views7d: views7dRes.count ?? 0,
-    recentViews: (recentRes.data ?? []) as PageViewRow[],
+    recentViews: recentRows,
+    recentIps: buildRecentIps(ipRows24hRes.data ?? []),
     topPages,
   };
 }

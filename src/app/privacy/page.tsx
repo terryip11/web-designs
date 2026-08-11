@@ -1,10 +1,13 @@
 import Link from "next/link";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { SITE_CONTACT } from "@/lib/site-contact";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
-  title: "私隱政策 — DesignPick",
-};
+export const metadata = buildPageMetadata({
+  title: "私隱政策",
+  description: "DesignPick 如何收集、使用與保護您提交的個人資料與方案選配資訊。",
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
@@ -62,6 +65,11 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-white">6. Cookie 與本地儲存</h2>
             <p>
               本網站使用 localStorage 儲存您的草圖與選配進度，以便您下次瀏覽時繼續編輯。此資料保存在您的瀏覽器本機，不會自動上傳，除非您主動提交需求表單。
+            </p>
+            <p className="mt-3">
+              為改善網站體驗與後台統計，我們亦會記錄匿名瀏覽紀錄（頁面路徑、時間、不重複訪客識別碼）。訪客 IP 僅以遮罩形式儲存（例如{" "}
+              <code className="text-zinc-300">203.186.45.xxx</code>
+              ），完整 IP 不會寫入資料庫；紀錄保留約 30 天後自動刪除，僅供網站管理員在後台查看流量概況。
             </p>
           </section>
 

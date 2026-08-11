@@ -107,6 +107,7 @@ supabase/migrations/001_inquiries.sql
 008_admin_notes.sql
 009_client_assets.sql
 010_page_views.sql
+011_page_views_ip.sql
 ```
 
 ### 2. Auth URL Configuration

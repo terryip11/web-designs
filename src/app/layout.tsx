@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import AppShell from "@/components/AppShell";
+import SeoJsonLd from "@/components/SeoJsonLd";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import { getRootMetadata } from "@/lib/seo/metadata";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,19 +17,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "DesignPick — 網站設計選配平台",
-  description: "瀏覽介面樣式、選擇功能模組，快速組合您的專屬網站方案",
-  applicationName: "DesignPick",
-  appleWebApp: {
-    capable: true,
-    title: "DesignPick",
-    statusBarStyle: "black-translucent",
-  },
-  formatDetection: {
-    telephone: false,
-  },
-};
+export const metadata: Metadata = getRootMetadata();
 
 export const viewport: Viewport = {
   themeColor: "#7c3aed",
@@ -48,6 +38,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <SeoJsonLd />
         <ServiceWorkerRegister />
         <AppShell isDemoRoute={isDemoRoute}>{children}</AppShell>
       </body>

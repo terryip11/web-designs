@@ -1,9 +1,11 @@
 import SketchBoard from "@/components/SketchBoard";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
-  title: "介面草圖 | DesignPick",
-  description: "快速勾勒網站介面草圖，作為選配前的視覺草稿",
-};
+export const metadata = buildPageMetadata({
+  title: "介面草圖",
+  description: "快速勾勒網站介面草圖，作為選配前的視覺草稿。",
+  path: "/sketch",
+});
 
 export default function SketchPage() {
   return (

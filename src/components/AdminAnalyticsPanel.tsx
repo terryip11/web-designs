@@ -1,4 +1,4 @@
-import { Eye, Globe, TrendingUp, Users } from "lucide-react";
+import { Eye, Globe, MapPin, TrendingUp, Users } from "lucide-react";
 import type { AnalyticsSummary } from "@/lib/analytics/queries";
 import { formatPathLabel } from "@/lib/analytics/paths";
 
@@ -52,9 +52,10 @@ export default function AdminAnalyticsPanel({
       <section className="mb-8 rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
         <h2 className="text-lg font-semibold text-white">網站瀏覽統計</h2>
         <p className="mt-2 text-sm text-zinc-400">
-          請在 Supabase SQL Editor 執行{" "}
-          <code className="text-amber-300">010_page_views.sql</code>{" "}
-          後重新整理，即可在此查看訪客瀏覽紀錄。
+          請在 Supabase SQL Editor 依序執行{" "}
+          <code className="text-amber-300">010_page_views.sql</code> 與{" "}
+          <code className="text-amber-300">011_page_views_ip.sql</code>{" "}
+          後重新整理。
         </p>
       </section>
     );
@@ -69,7 +70,7 @@ export default function AdminAnalyticsPanel({
           </p>
           <h2 className="mt-1 text-xl font-semibold text-white">網站瀏覽</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            追蹤公開頁面瀏覽（不含後台、API 與登入頁）
+            公開頁面瀏覽；IP 以遮罩顯示，完整 IP 不儲存（保留 30 天）
           </p>
         </div>
         <div className="flex items-center gap-2 text-xs text-zinc-500">
@@ -78,7 +79,7 @@ export default function AdminAnalyticsPanel({
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <StatCard
           label="即時在線"
           value={analytics.onlineNow}
@@ -94,8 +95,14 @@ export default function AdminAnalyticsPanel({
         <StatCard
           label="近 24 小時訪客"
           value={analytics.visitors24h}
-          hint="不重複訪客（cookie）"
+          hint="不重複 cookie"
           icon={Globe}
+        />
+        <StatCard
+          label="近 24 小時 IP"
+          value={analytics.uniqueIps24h}
+          hint="不重複遮罩 IP"
+          icon={MapPin}
         />
         <StatCard
           label="近 7 日瀏覽"
@@ -105,8 +112,8 @@ export default function AdminAnalyticsPanel({
         />
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
+      <div className="mt-6 grid gap-6 lg:grid-cols-3">
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 lg:col-span-2">
           <h3 className="text-sm font-semibold text-white">最近瀏覽</h3>
           {analytics.recentViews.length === 0 ? (
             <p className="mt-4 text-sm text-zinc-500">暫無瀏覽紀錄</p>
@@ -121,7 +128,10 @@ export default function AdminAnalyticsPanel({
                     <p className="truncate text-sm text-zinc-200">
                       {formatPathLabel(view.path)}
                     </p>
-                    <p className="truncate text-xs text-zinc-500">{view.path}</p>
+                    <p className="truncate text-xs text-zinc-500">
+                      {view.path}
+                      {view.ip_masked ? ` · IP ${view.ip_masked}` : ""}
+                    </p>
                   </div>
                   <time className="shrink-0 text-xs text-zinc-500">
                     {formatTime(view.created_at)}
@@ -133,28 +143,53 @@ export default function AdminAnalyticsPanel({
         </div>
 
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
-          <h3 className="text-sm font-semibold text-white">熱門頁面（24 小時）</h3>
-          {analytics.topPages.length === 0 ? (
-            <p className="mt-4 text-sm text-zinc-500">暫無資料</p>
+          <h3 className="text-sm font-semibold text-white">最近 IP（24 小時）</h3>
+          <p className="mt-1 text-xs text-zinc-500">遮罩後顯示，非完整 IP</p>
+          {analytics.recentIps.length === 0 ? (
+            <p className="mt-4 text-sm text-zinc-500">暫無 IP 紀錄</p>
           ) : (
             <ul className="mt-4 space-y-3">
-              {analytics.topPages.map((page) => (
+              {analytics.recentIps.map((row) => (
                 <li
-                  key={page.path}
-                  className="flex items-center justify-between gap-3"
+                  key={row.ip_hash}
+                  className="border-b border-zinc-800/80 pb-3 last:border-0 last:pb-0"
                 >
-                  <div className="min-w-0">
-                    <p className="truncate text-sm text-zinc-200">{page.label}</p>
-                    <p className="truncate text-xs text-zinc-500">{page.path}</p>
-                  </div>
-                  <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-300">
-                    {page.views}
-                  </span>
+                  <p className="font-mono text-sm text-zinc-200">{row.ip_masked}</p>
+                  <p className="mt-1 truncate text-xs text-zinc-500">
+                    {formatPathLabel(row.last_path)} · {row.hits} 次
+                  </p>
+                  <time className="text-xs text-zinc-600">
+                    {formatTime(row.last_seen)}
+                  </time>
                 </li>
               ))}
             </ul>
           )}
         </div>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900/40 p-5">
+        <h3 className="text-sm font-semibold text-white">熱門頁面（24 小時）</h3>
+        {analytics.topPages.length === 0 ? (
+          <p className="mt-4 text-sm text-zinc-500">暫無資料</p>
+        ) : (
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            {analytics.topPages.map((page) => (
+              <li
+                key={page.path}
+                className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800/60 px-3 py-2"
+              >
+                <div className="min-w-0">
+                  <p className="truncate text-sm text-zinc-200">{page.label}</p>
+                  <p className="truncate text-xs text-zinc-500">{page.path}</p>
+                </div>
+                <span className="shrink-0 rounded-full bg-zinc-800 px-2.5 py-1 text-xs text-zinc-300">
+                  {page.views}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

@@ -9,6 +9,7 @@ import SaasHomePage from "@/components/demos/saas/SaasHomePage";
 import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
 import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import type { DemoVariant } from "@/lib/demo-sites/variants";
+import { buildDemoMetadata, buildPageMetadata } from "@/lib/seo/metadata";
 import { CORPORATE_BRAND } from "@/lib/demo-sites/corporate-data";
 import { ECOMMERCE_BRAND } from "@/lib/demo-sites/ecommerce-data";
 import { MEDICAL_BRAND } from "@/lib/demo-sites/medical-data";
@@ -53,8 +54,14 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   const resolved = resolveLiveDemo(id);
-  if (!resolved) return { title: "Demo — DesignPick" };
-  return HOME_META[resolved.variant];
+  if (!resolved) {
+    return buildPageMetadata({
+      title: "Demo 展示站",
+      path: `/demos/${id}`,
+    });
+  }
+  const meta = HOME_META[resolved.variant];
+  return buildDemoMetadata(meta.title, meta.description, id);
 }
 
 export default async function DemoHomePage({

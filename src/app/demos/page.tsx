@@ -3,11 +3,13 @@ import { ExternalLink } from "lucide-react";
 import DemosPageShowcase from "@/components/demos/DemosPageShowcase";
 import { getTemplateById } from "@/lib/data";
 import { DEMO_SITES } from "@/lib/demo-sites/registry";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
-  title: "模板展示站 — DesignPick",
-  description: "DesignPick 完整網站 Demo，供客戶預覽交付品質",
-};
+export const metadata = buildPageMetadata({
+  title: "模板展示站",
+  description: "DesignPick 完整網站 Demo，依行業瀏覽展示站，供客戶預覽交付品質。",
+  path: "/demos",
+});
 
 export default function DemosIndexPage() {
   const comingSoon = DEMO_SITES.filter((d) => d.status === "coming-soon");
