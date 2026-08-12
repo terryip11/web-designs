@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import RevealOnScroll from "@/components/RevealOnScroll";
-import { getBlogPost, getBlogSlugs } from "@/lib/blog/posts";
+import { getPublishedBlogPostBySlug } from "@/lib/blog/queries";
+import { renderBlogParagraph } from "@/lib/blog/render";
 import { buildPageMetadata } from "@/lib/seo/metadata";
+import { createServerClient } from "@/lib/supabase/server";
 
-export function generateStaticParams() {
-  return getBlogSlugs().map((slug) => ({ slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -14,7 +14,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const supabase = createServerClient();
+  const post = await getPublishedBlogPostBySlug(supabase, slug);
   if (!post) return { title: "文章 — DesignPick" };
 
   return buildPageMetadata({
@@ -32,26 +33,14 @@ function formatDate(value: string) {
   });
 }
 
-function renderParagraph(text: string) {
-  const parts = text.split(/\*\*(.*?)\*\*/g);
-  return parts.map((part, index) =>
-    index % 2 === 1 ? (
-      <strong key={index} className="font-semibold text-zinc-200">
-        {part}
-      </strong>
-    ) : (
-      part
-    )
-  );
-}
-
 export default async function BlogPostPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getBlogPost(slug);
+  const supabase = createServerClient();
+  const post = await getPublishedBlogPostBySlug(supabase, slug);
   if (!post) notFound();
 
   return (
@@ -74,7 +63,7 @@ export default async function BlogPostPage({
       <RevealOnScroll delay={0.05}>
         <div className="prose prose-invert mt-10 max-w-none space-y-5 text-base leading-relaxed text-zinc-300">
           {post.content.map((paragraph) => (
-            <p key={paragraph.slice(0, 40)}>{renderParagraph(paragraph)}</p>
+            <p key={paragraph.slice(0, 48)}>{renderBlogParagraph(paragraph)}</p>
           ))}
         </div>
 

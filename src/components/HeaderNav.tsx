@@ -11,6 +11,7 @@ export const headerNavItems = [
   { href: "/sketch", label: "介面草圖" },
   { href: "/configure", label: "方案選配" },
   { href: "/summary", label: "方案摘要" },
+  { href: "/blog", label: "資訊" },
   { href: "/contact", label: "聯絡我們" },
 ] as const;
 

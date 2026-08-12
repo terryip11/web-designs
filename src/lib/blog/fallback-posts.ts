@@ -1,14 +1,5 @@
-export interface BlogPost {
-  slug: string;
-  title: string;
-  description: string;
-  publishedAt: string;
-  readingMinutes: number;
-  tags: string[];
-  content: string[];
-}
-
-export const BLOG_POSTS: BlogPost[] = [
+/** 資料庫未就緒時的後備文章（migration 016 執行前） */
+export const BLOG_POSTS_FALLBACK = [
   {
     slug: "hong-kong-sme-website-cost-2026",
     title: "香港中小企做網站要幾多錢？2026 參考指南",
@@ -95,19 +86,4 @@ export const BLOG_POSTS: BlogPost[] = [
       "DesignPick 展示站可以俾你預覽現代化設計同行業功能。可先選配方案、估價，再決定係全面重做定分階段上線。",
     ],
   },
-];
-
-export function getBlogPosts(): BlogPost[] {
-  return [...BLOG_POSTS].sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
-}
-
-export function getBlogPost(slug: string): BlogPost | undefined {
-  return BLOG_POSTS.find((post) => post.slug === slug);
-}
-
-export function getBlogSlugs(): string[] {
-  return BLOG_POSTS.map((post) => post.slug);
-}
+] as const;

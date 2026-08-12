@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Menu,
   MessageSquare,
+  Newspaper,
   User,
   UserCog,
   X,
@@ -40,6 +41,17 @@ const NAV_SECTIONS = [
         href: "/admin/analytics",
         label: "網站瀏覽",
         icon: BarChart3,
+        exact: false,
+      },
+    ],
+  },
+  {
+    label: "內容",
+    items: [
+      {
+        href: "/admin/blog",
+        label: "Blog 文章",
+        icon: Newspaper,
         exact: false,
       },
     ],
