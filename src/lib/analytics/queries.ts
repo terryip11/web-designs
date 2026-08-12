@@ -1,5 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { formatPathLabel, getSuspiciousPathLabel } from "@/lib/analytics/paths";
+import {
+  formatPathLabel,
+  getSuspiciousPathLabel,
+  isQualityPageView,
+} from "@/lib/analytics/paths";
 
 export interface PageViewRow {
   id: string;
@@ -77,6 +81,26 @@ function isMissingRpcError(message: string) {
   return (
     message.includes("admin_analytics_summary") &&
     (message.includes("does not exist") || message.includes("Could not find"))
+  );
+}
+
+function isMissingQualityFilterError(message: string) {
+  return message.includes("is_quality_page_view");
+}
+
+type PageViewFilterRow = {
+  path: string;
+  referrer?: string | null;
+  user_agent?: string | null;
+  is_suspicious?: boolean | null;
+};
+
+function passesQualityFilter(row: PageViewFilterRow): boolean {
+  if (row.is_suspicious) return false;
+  return isQualityPageView(
+    row.path,
+    row.referrer ?? null,
+    row.user_agent ?? null
   );
 }
 
@@ -195,45 +219,45 @@ async function getAnalyticsSummaryLegacy(
   ] = await Promise.all([
     adminClient
       .from("page_views")
-      .select("visitor_id")
+      .select("visitor_id, path, referrer, user_agent, is_suspicious")
       .gte("created_at", since5m)
       .eq("is_suspicious", false),
     adminClient
       .from("page_views")
-      .select("id", { count: "exact", head: true })
+      .select("id, path, referrer, user_agent, is_suspicious")
       .gte("created_at", since24h)
       .eq("is_suspicious", false),
     adminClient
       .from("page_views")
-      .select("visitor_id")
+      .select("visitor_id, path, referrer, user_agent, is_suspicious")
       .gte("created_at", since24h)
       .eq("is_suspicious", false),
     adminClient
       .from("page_views")
-      .select("ip_hash")
+      .select("ip_hash, path, referrer, user_agent, is_suspicious")
       .gte("created_at", since24h)
       .eq("is_suspicious", false)
       .not("ip_hash", "is", null),
     adminClient
       .from("page_views")
-      .select("id", { count: "exact", head: true })
+      .select("id, path, referrer, user_agent, is_suspicious")
       .gte("created_at", since7d)
       .eq("is_suspicious", false),
     adminClient
       .from("page_views")
-      .select("id, path, referrer, ip_address, ip_masked, ip_hash, created_at")
+      .select("id, path, referrer, ip_address, ip_masked, ip_hash, user_agent, is_suspicious, created_at")
       .eq("is_suspicious", false)
       .order("created_at", { ascending: false })
-      .limit(15),
+      .limit(50),
     adminClient
       .from("page_views")
-      .select("path")
+      .select("path, referrer, user_agent, is_suspicious")
       .gte("created_at", since24h)
       .eq("is_suspicious", false)
       .limit(5000),
     adminClient
       .from("page_views")
-      .select("ip_hash, ip_address, ip_masked, path, created_at")
+      .select("ip_hash, ip_address, ip_masked, path, referrer, user_agent, is_suspicious, created_at")
       .gte("created_at", since24h)
       .eq("is_suspicious", false)
       .not("ip_hash", "is", null)
@@ -265,8 +289,17 @@ async function getAnalyticsSummaryLegacy(
     return emptySummary();
   }
 
+  const onlineRows = (onlineRes.data ?? []).filter(passesQualityFilter);
+  const views24hRows = (views24hRes.data ?? []).filter(passesQualityFilter);
+  const visitors24hRows = (visitors24hRes.data ?? []).filter(passesQualityFilter);
+  const ips24hRows = (ips24hRes.data ?? []).filter(passesQualityFilter);
+  const views7dRows = (views7dRes.data ?? []).filter(passesQualityFilter);
+  const recentQuality = (recentRes.data ?? []).filter(passesQualityFilter).slice(0, 10);
+  const topQuality = (topRes.data ?? []).filter(passesQualityFilter);
+  const ipQuality = (ipRows24hRes.data ?? []).filter(passesQualityFilter);
+
   const pathCounts = new Map<string, number>();
-  for (const row of topRes.data ?? []) {
+  for (const row of topQuality) {
     pathCounts.set(row.path, (pathCounts.get(row.path) ?? 0) + 1);
   }
 
@@ -295,18 +328,16 @@ async function getAnalyticsSummaryLegacy(
 
   return {
     configured: true,
-    onlineNow: new Set((onlineRes.data ?? []).map((row) => row.visitor_id)).size,
-    views24h: views24hRes.count ?? 0,
-    visitors24h: new Set(
-      (visitors24hRes.data ?? []).map((row) => row.visitor_id)
-    ).size,
+    onlineNow: new Set(onlineRows.map((row) => row.visitor_id)).size,
+    views24h: views24hRows.length,
+    visitors24h: new Set(visitors24hRows.map((row) => row.visitor_id)).size,
     uniqueIps24h: new Set(
-      (ips24hRes.data ?? []).map((row) => row.ip_hash).filter(Boolean)
+      ips24hRows.map((row) => row.ip_hash).filter(Boolean)
     ).size,
-    views7d: views7dRes.count ?? 0,
+    views7d: views7dRows.length,
     suspicious24h: suspiciousRows.length,
-    recentViews: (recentRes.data ?? []) as PageViewRow[],
-    recentIps: buildRecentIps(ipRows24hRes.data ?? []),
+    recentViews: recentQuality as PageViewRow[],
+    recentIps: buildRecentIps(ipQuality),
     suspiciousActivity: [...suspiciousByKey.values()]
       .sort((a, b) => b.last_seen.localeCompare(a.last_seen))
       .slice(0, 15),
@@ -332,6 +363,9 @@ export async function getAnalyticsSummary(
 
   if (error) {
     if (isMissingTableError(error.message)) return emptySummary();
+    if (isMissingQualityFilterError(error.message)) {
+      return getAnalyticsSummaryLegacy(adminClient);
+    }
     if (isMissingRpcError(error.message)) {
       return getAnalyticsSummaryLegacy(adminClient);
     }

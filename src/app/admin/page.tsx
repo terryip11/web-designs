@@ -104,9 +104,9 @@ export default async function AdminOverviewPage() {
             icon={Users}
           />
           <OverviewCard
-            label="近 24 小時瀏覽"
-            value={analytics.views24h}
-            hint="查看流量詳情"
+            label="近 24 小時訪客"
+            value={analytics.visitors24h}
+            hint="安全探測 · 詳情"
             href="/admin/analytics"
             icon={Eye}
           />
@@ -168,20 +168,20 @@ export default async function AdminOverviewPage() {
                 </dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt className="text-zinc-500">近 24 小時訪客</dt>
+                <dt className="text-zinc-500">近 24 小時訪客（已過濾）</dt>
                 <dd className="font-medium text-white">
                   {analytics.visitors24h} 人
                 </dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt className="text-zinc-500">近 24 小時 IP</dt>
+                <dt className="text-zinc-500">可疑探測（24h）</dt>
                 <dd className="font-medium text-white">
-                  {analytics.uniqueIps24h} 個
+                  {analytics.suspicious24h} 次
                 </dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt className="text-zinc-500">近 7 日瀏覽</dt>
-                <dd className="font-medium text-white">{analytics.views7d} 次</dd>
+                <dt className="text-zinc-500">真實訪客</dt>
+                <dd className="text-xs text-zinc-400">請以 GA4 為準</dd>
               </div>
             </dl>
           </section>

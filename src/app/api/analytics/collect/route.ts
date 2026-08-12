@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { buildIpFields, resolveClientIp } from "@/lib/analytics/ip";
-import { isSuspiciousPath, shouldTrackPageView } from "@/lib/analytics/paths";
+import {
+  isQualityPageView,
+  isSuspiciousPath,
+  shouldTrackPageView,
+} from "@/lib/analytics/paths";
 import { isValidVisitorId } from "@/lib/analytics/visitor-id";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createServiceRoleClient } from "@/lib/supabase/server";
@@ -73,6 +77,14 @@ export async function POST(request: Request) {
       resolveClientIp(request.headers.get("x-forwarded-for"), ip);
     const { ip_hash, ip_masked, ip_address } = buildIpFields(resolvedIp);
     const isSuspicious = isSuspiciousPath(path);
+    const referrerValue = referrer ?? null;
+
+    if (
+      !isSuspicious &&
+      !isQualityPageView(path, referrerValue, userAgent ?? null)
+    ) {
+      return NextResponse.json({ ok: true });
+    }
 
     const { error } = await supabase.from("page_views").insert({
       visitor_id: visitorId,

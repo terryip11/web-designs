@@ -26,7 +26,7 @@ export default async function AdminAnalyticsPage() {
           </p>
           <h1 className="mt-1 text-3xl font-bold text-white">網站瀏覽</h1>
           <p className="mt-2 text-sm text-zinc-500">
-            公開頁面流量、訪客與熱門頁面；IP 以遮罩顯示，保留 30 天
+            安全探測與粗略流量；真實訪客請以 GA4 及詢價列表為準
           </p>
         </div>
       </RevealOnScroll>

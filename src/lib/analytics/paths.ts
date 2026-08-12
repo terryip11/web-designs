@@ -33,6 +33,34 @@ export function isBotUserAgent(userAgent: string | null): boolean {
   );
 }
 
+/** Demo iframe embed on /demos — inflates page-view counts. */
+export function isDemoEmbedRequest(searchParams: URLSearchParams): boolean {
+  return searchParams.get("embed") === "1";
+}
+
+/**
+ * Count toward general traffic stats (excludes bots, localhost, admin, demo iframes).
+ * Suspicious probes are tracked separately via isSuspiciousPath.
+ */
+export function isQualityPageView(
+  pathname: string,
+  referrer: string | null,
+  userAgent: string | null
+): boolean {
+  if (!shouldTrackPageView(pathname)) return false;
+  if (isBotUserAgent(userAgent)) return false;
+  if (referrer && /localhost/i.test(referrer)) return false;
+  if (referrer && /\/admin/i.test(referrer)) return false;
+  if (
+    pathname.startsWith("/demos/") &&
+    referrer &&
+    /desigpick-digital\.com\/demos\/?($|\?|#)/i.test(referrer)
+  ) {
+    return false;
+  }
+  return true;
+}
+
 const SUSPICIOUS_PATH_PATTERNS = [
   /^\/wp-admin/i,
   /^\/wp-login/i,

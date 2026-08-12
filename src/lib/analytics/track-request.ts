@@ -1,6 +1,10 @@
 import { type NextRequest, type NextResponse } from "next/server";
 import { resolveClientIp } from "@/lib/analytics/ip";
-import { isBotUserAgent, shouldTrackPageView } from "@/lib/analytics/paths";
+import {
+  isBotUserAgent,
+  isDemoEmbedRequest,
+  shouldTrackPageView,
+} from "@/lib/analytics/paths";
 import {
   VISITOR_COOKIE,
   createVisitorId,
@@ -15,6 +19,7 @@ export function enqueuePageViewTrack(
 
   const path = request.nextUrl.pathname;
   if (!shouldTrackPageView(path)) return;
+  if (isDemoEmbedRequest(request.nextUrl.searchParams)) return;
   if (isBotUserAgent(request.headers.get("user-agent"))) return;
 
   let visitorId = request.cookies.get(VISITOR_COOKIE)?.value;
