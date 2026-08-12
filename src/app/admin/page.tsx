@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Eye, MessageSquare, TrendingUp, Users } from "lucide-react";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { getAdminInquiries } from "@/lib/admin/inquiries";
+import { getAdminMembers } from "@/lib/admin/members";
 import { getAnalyticsSummary } from "@/lib/analytics/queries";
 import { requireAdmin } from "@/lib/auth/admin";
 import { formatPrice } from "@/lib/data";
@@ -55,8 +56,9 @@ export default async function AdminOverviewPage() {
     );
   }
 
-  const [{ rows: allRows }, analytics] = await Promise.all([
+  const [{ rows: allRows }, { rows: memberRows }, analytics] = await Promise.all([
     getAdminInquiries(adminClient),
+    getAdminMembers(adminClient),
     getAnalyticsSummary(adminClient),
   ]);
 
@@ -95,10 +97,10 @@ export default async function AdminOverviewPage() {
             icon={TrendingUp}
           />
           <OverviewCard
-            label="即時在線"
-            value={analytics.onlineNow}
-            hint="查看網站瀏覽"
-            href="/admin/analytics"
+            label="註冊會員"
+            value={memberRows.length}
+            hint="管理會員"
+            href="/admin/members"
             icon={Users}
           />
           <OverviewCard

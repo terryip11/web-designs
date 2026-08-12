@@ -10,6 +10,7 @@ import {
   Menu,
   MessageSquare,
   User,
+  UserCog,
   X,
 } from "lucide-react";
 
@@ -22,6 +23,12 @@ const NAV_SECTIONS = [
         href: "/admin/inquiries",
         label: "客戶詢價",
         icon: MessageSquare,
+        exact: false,
+      },
+      {
+        href: "/admin/members",
+        label: "會員管理",
+        icon: UserCog,
         exact: false,
       },
     ],
