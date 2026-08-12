@@ -5,20 +5,11 @@ const fallbackByKey = Object.fromEntries(
   demoImageManifest.map((entry) => [entry.key, entry.source])
 );
 
-/**
- * Public URL for a stored object key (R2) or Unsplash fallback from the demo manifest.
- * Demo keys in the manifest use Unsplash until `NEXT_PUBLIC_USE_R2_DEMO_IMAGES=true`
- * (after running `npm run sync-demo-images`).
- */
+/** Public URL for a stored object key (R2) or Unsplash fallback from the demo manifest. */
 export function publicImageUrl(key: string): string {
   const normalized = key.replace(/^\//, "");
   const fallback = fallbackByKey[normalized];
   const r2Base = getR2PublicBaseUrl();
-  const useR2DemoImages = process.env.NEXT_PUBLIC_USE_R2_DEMO_IMAGES === "true";
-
-  if (fallback && !useR2DemoImages) {
-    return fallback;
-  }
 
   if (r2Base) {
     return `${r2Base}/${normalized}`;
@@ -27,7 +18,14 @@ export function publicImageUrl(key: string): string {
   return fallback ?? "";
 }
 
-/** Shorthand for demo site images stored under `demos/`. */
+/**
+ * Demo site images: served via `/api/demo-image/` so the server can read R2
+ * and fall back to Unsplash without relying on client DNS for the R2 subdomain.
+ */
 export function demoImage(key: string): string {
-  return publicImageUrl(key);
+  const normalized = key.replace(/^\//, "");
+  if (fallbackByKey[normalized]) {
+    return `/api/demo-image/${normalized}`;
+  }
+  return publicImageUrl(normalized);
 }
