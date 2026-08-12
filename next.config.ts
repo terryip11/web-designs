@@ -26,9 +26,10 @@ const r2Hostname = getR2ImageHostname();
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      { protocol: "https" as const, hostname: "images.unsplash.com" },
       ...(r2Hostname
         ? [{ protocol: "https" as const, hostname: r2Hostname }]
-        : [{ protocol: "https" as const, hostname: "images.unsplash.com" }]),
+        : []),
     ],
   },
   async headers() {
