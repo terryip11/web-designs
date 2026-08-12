@@ -3,7 +3,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createAuthServerClient } from "@/lib/supabase/server";
-import { getAuthCallbackUrl } from "@/lib/auth/site-url";
+import {
+  getAuthCallbackUrl,
+  getPasswordResetCallbackUrl,
+} from "@/lib/auth/site-url";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function signUp(formData: FormData) {
@@ -135,6 +138,73 @@ export async function signOut() {
   const supabase = await createAuthServerClient();
   await supabase.auth.signOut();
   redirect("/");
+}
+
+export async function requestPasswordReset(formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim();
+  if (!email) {
+    return { error: "請填寫 Email" };
+  }
+
+  const headersList = await headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    headersList.get("x-real-ip") ??
+    "unknown";
+
+  const ipRate = checkRateLimit(`auth:reset:ip:${ip}`, 5, 60 * 60 * 1000);
+  if (!ipRate.ok) {
+    return { error: "請求過於頻繁，請稍後再試" };
+  }
+
+  const emailRate = checkRateLimit(
+    `auth:reset:email:${email.toLowerCase()}`,
+    3,
+    60 * 60 * 1000
+  );
+  if (!emailRate.ok) {
+    return { error: "此 Email 已多次請求重設，請稍後再試" };
+  }
+
+  const supabase = await createAuthServerClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: getPasswordResetCallbackUrl(),
+  });
+
+  if (error) {
+    console.error("[requestPasswordReset]", error.message);
+    return { error: "發送失敗，請稍後再試" };
+  }
+
+  return { success: true, email };
+}
+
+export async function updatePassword(formData: FormData) {
+  const password = String(formData.get("password") ?? "");
+  const confirm = String(formData.get("confirmPassword") ?? "");
+
+  if (password.length < 6) {
+    return { error: "密碼至少 6 個字元" };
+  }
+  if (password !== confirm) {
+    return { error: "兩次輸入的密碼不一致" };
+  }
+
+  const supabase = await createAuthServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "連結已失效，請重新申請重設密碼" };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    return { error: "更新失敗，請稍後再試" };
+  }
+
+  redirect("/account");
 }
 
 export async function updateProfile(formData: FormData) {

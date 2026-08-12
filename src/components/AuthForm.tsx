@@ -112,6 +112,13 @@ export default function AuthForm({ mode, next = "/account" }: AuthFormProps) {
               至少 6 個字元 · 若 Supabase 開啟 Email 驗證，註冊後需確認信箱
             </p>
           )}
+          {isLogin && (
+            <p className="mt-2 text-right text-xs">
+              <Link href="/forgot-password" className="text-violet-400 hover:underline">
+                忘記密碼？
+              </Link>
+            </p>
+          )}
         </div>
 
         {state?.error && (

@@ -17,4 +17,8 @@ export function getAuthCallbackUrl(next = "/account") {
   return `${base}?next=${encodeURIComponent(safeNext)}`;
 }
 
+export function getPasswordResetCallbackUrl() {
+  return getAuthCallbackUrl("/reset-password");
+}
+
 export { getSiteUrl };

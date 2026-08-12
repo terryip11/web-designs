@@ -6,7 +6,7 @@ import { CURRENCY_CODE } from "@/lib/currency";
 export const dynamic = "force-dynamic";
 
 const INQUIRY_SELECT =
-  "id, name, email, phone, company, message, template_id, template_name, total_price, currency, created_at, selected_features, sketch_urls, status, email_customer_sent, email_notify_sent, admin_notes";
+  "id, name, email, phone, company, user_id, message, template_id, template_name, total_price, currency, created_at, selected_features, sketch_urls, status, email_customer_sent, email_notify_sent, admin_notes";
 
 export async function GET(
   _request: Request,

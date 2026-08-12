@@ -14,7 +14,7 @@ export async function getAdminInquiries(
   let query = adminClient
     .from("inquiries")
     .select(
-      "id, name, email, phone, company, template_id, template_name, total_price, currency, created_at, selected_features, design_selections, sketch_urls, asset_urls, message, status, email_customer_sent, email_notify_sent, admin_notes"
+      "id, name, email, phone, company, user_id, template_id, template_name, total_price, currency, created_at, selected_features, design_selections, sketch_urls, asset_urls, message, status, email_customer_sent, email_notify_sent, admin_notes"
     )
     .order("created_at", { ascending: false })
     .limit(limit);

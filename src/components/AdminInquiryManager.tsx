@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
@@ -11,6 +12,7 @@ import {
   Pencil,
   Plus,
   Trash2,
+  UserCheck,
 } from "lucide-react";
 import AdminInquiryForm from "@/components/AdminInquiryForm";
 import { formatPrice } from "@/lib/data";
@@ -27,6 +29,7 @@ export interface AdminInquiryRow {
   email: string;
   phone: string | null;
   company: string | null;
+  user_id: string | null;
   template_name: string;
   total_price: number;
   currency: string;
@@ -192,6 +195,17 @@ export default function AdminInquiryManager({ rows }: { rows: AdminInquiryRow[] 
                   <td className="px-4 py-3">
                     <p className="font-medium text-white">{row.name}</p>
                     <p className="text-xs text-zinc-500">{row.email}</p>
+                    {row.user_id ? (
+                      <Link
+                        href={`/admin/members?q=${encodeURIComponent(row.email)}`}
+                        className="mt-1 inline-flex items-center gap-1 text-xs text-emerald-400 hover:underline"
+                      >
+                        <UserCheck className="h-3 w-3" />
+                        註冊會員
+                      </Link>
+                    ) : (
+                      <span className="mt-1 inline-block text-xs text-zinc-600">訪客詢價</span>
+                    )}
                     {row.phone && (
                       <p className="text-xs text-zinc-600">{row.phone}</p>
                     )}

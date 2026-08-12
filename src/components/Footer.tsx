@@ -18,6 +18,9 @@ export default function Footer() {
           <Link href="/contact" className="hover:text-zinc-300">
             聯絡我們
           </Link>
+          <Link href="/blog" className="hover:text-zinc-300">
+            資訊文章
+          </Link>
           <Link href="/privacy" className="hover:text-zinc-300">
             私隱政策
           </Link>

@@ -3,10 +3,12 @@ import { DemoComingSoon } from "@/components/demos/DemoComingSoon";
 import CorporateHomePage from "@/components/demos/corporate/CorporateHomePage";
 import EcommerceHomePage from "@/components/demos/ecommerce/EcommerceHomePage";
 import MedicalHomePage from "@/components/demos/medical/MedicalHomePage";
+import IndustryHomePage from "@/components/demos/industry/IndustryHomePage";
 import PropertyHomePage from "@/components/demos/property/PropertyHomePage";
 import RestaurantHomePage from "@/components/demos/restaurant/RestaurantHomePage";
 import SaasHomePage from "@/components/demos/saas/SaasHomePage";
 import { getDemoByTemplateId } from "@/lib/demo-sites/registry";
+import { getIndustryBrand } from "@/lib/demo-sites/industry-brands";
 import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import type { DemoVariant } from "@/lib/demo-sites/variants";
 import { buildDemoMetadata, buildPageMetadata } from "@/lib/seo/metadata";
@@ -45,6 +47,10 @@ const HOME_META: Record<
     title: `${SAAS_BRAND.name} — 工作流自動化`,
     description: `${SAAS_BRAND.name} · DesignPick 模板展示`,
   },
+  industry: {
+    title: "DesignPick 模板展示",
+    description: "DesignPick 模板展示站",
+  },
 };
 
 export async function generateMetadata({
@@ -60,7 +66,18 @@ export async function generateMetadata({
       path: `/demos/${id}`,
     });
   }
-  const meta = HOME_META[resolved.variant];
+  const meta =
+    resolved.variant === "industry"
+      ? (() => {
+          const brand = getIndustryBrand(id);
+          return brand
+            ? {
+                title: `${brand.name} — ${brand.tagline.split(" · ")[0]}`,
+                description: `${brand.name} · DesignPick 模板展示`,
+              }
+            : HOME_META.industry;
+        })()
+      : HOME_META[resolved.variant];
   return buildDemoMetadata(meta.title, meta.description, id);
 }
 
@@ -89,6 +106,8 @@ export default async function DemoHomePage({
       return <EcommerceHomePage basePath={basePath} />;
     case "saas":
       return <SaasHomePage basePath={basePath} />;
+    case "industry":
+      return <IndustryHomePage templateId={id} basePath={basePath} />;
     default:
       return <PropertyHomePage basePath={basePath} />;
   }

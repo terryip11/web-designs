@@ -1,4 +1,5 @@
 import templates from "@/data/templates.json";
+import { getBlogSlugs } from "@/lib/blog/posts";
 import { getLiveDemos } from "@/lib/demo-sites/registry";
 
 export function getPublicSitemapPaths(): string[] {
@@ -11,9 +12,12 @@ export function getPublicSitemapPaths(): string[] {
     "/summary",
     "/contact",
     "/privacy",
+    "/blog",
   ];
 
   const templatePages = templates.map((t) => `/templates/${t.id}`);
+
+  const blogPages = getBlogSlugs().map((slug) => `/blog/${slug}`);
 
   const demoPages = getLiveDemos().flatMap((demo) =>
     demo.pages.map((page) =>
@@ -21,5 +25,5 @@ export function getPublicSitemapPaths(): string[] {
     )
   );
 
-  return [...staticPages, ...templatePages, ...demoPages];
+  return [...staticPages, ...templatePages, ...blogPages, ...demoPages];
 }

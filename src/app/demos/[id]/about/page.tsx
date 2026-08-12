@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import IndustryAboutPage from "@/components/demos/industry/IndustryAboutPage";
 import EcommerceAboutPage from "@/components/demos/ecommerce/EcommerceAboutPage";
 import PropertyShell from "@/components/demos/property/PropertyShell";
 import RestaurantAboutPage from "@/components/demos/restaurant/RestaurantAboutPage";
+import { getIndustryBrand } from "@/lib/demo-sites/industry-brands";
 import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import { PROPERTY_BRAND } from "@/lib/demo-sites/property-data";
 import { RESTAURANT_BRAND } from "@/lib/demo-sites/restaurant-data";
@@ -17,6 +19,10 @@ export async function generateMetadata({
   const { id } = await params;
   const resolved = resolveLiveDemo(id);
   if (!resolved) return { title: "Demo — DesignPick" };
+  if (resolved.variant === "industry") {
+    const brand = getIndustryBrand(id);
+    return { title: brand ? `關於 — ${brand.name}` : "Demo — DesignPick" };
+  }
   if (resolved.variant === "restaurant") {
     return { title: `關於我們 — ${RESTAURANT_BRAND.name}` };
   }
@@ -39,6 +45,10 @@ export default async function DemoAboutPage({
   if (!resolved) notFound();
 
   const { basePath, variant } = resolved;
+
+  if (variant === "industry") {
+    return <IndustryAboutPage templateId={id} basePath={basePath} />;
+  }
 
   if (variant === "restaurant") {
     return <RestaurantAboutPage basePath={basePath} />;

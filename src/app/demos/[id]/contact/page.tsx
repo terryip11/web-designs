@@ -1,10 +1,12 @@
 import { notFound } from "next/navigation";
+import IndustryContactPage from "@/components/demos/industry/IndustryContactPage";
 import CorporateContactPage from "@/components/demos/corporate/CorporateContactPage";
 import EcommerceContactPage from "@/components/demos/ecommerce/EcommerceContactPage";
 import MedicalContactPage from "@/components/demos/medical/MedicalContactPage";
 import PropertyContactPage from "@/components/demos/property/PropertyContactPage";
 import RestaurantContactPage from "@/components/demos/restaurant/RestaurantContactPage";
 import SaasContactPage from "@/components/demos/saas/SaasContactPage";
+import { getIndustryBrand } from "@/lib/demo-sites/industry-brands";
 import { resolveLiveDemo } from "@/lib/demo-sites/resolve-demo";
 import { CORPORATE_BRAND } from "@/lib/demo-sites/corporate-data";
 import { ECOMMERCE_BRAND } from "@/lib/demo-sites/ecommerce-data";
@@ -30,7 +32,11 @@ export async function generateMetadata({
   const { id } = await params;
   const resolved = resolveLiveDemo(id);
   if (!resolved) return { title: "Demo — DesignPick" };
-  return { title: `聯絡我們 — ${TITLES[resolved.variant]}` };
+  if (resolved.variant === "industry") {
+    const brand = getIndustryBrand(id);
+    return { title: brand ? `聯絡我們 — ${brand.name}` : "Demo — DesignPick" };
+  }
+  return { title: `聯絡我們 — ${TITLES[resolved.variant as keyof typeof TITLES]}` };
 }
 
 export default async function DemoContactPage({
@@ -55,6 +61,8 @@ export default async function DemoContactPage({
       return <EcommerceContactPage basePath={basePath} />;
     case "saas":
       return <SaasContactPage basePath={basePath} />;
+    case "industry":
+      return <IndustryContactPage templateId={id} basePath={basePath} />;
     default:
       return <PropertyContactPage basePath={basePath} />;
   }
