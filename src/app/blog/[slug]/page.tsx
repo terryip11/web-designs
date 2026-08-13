@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import JsonLdScript from "@/components/JsonLdScript";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { getPublishedBlogPostBySlug } from "@/lib/blog/queries";
 import { renderBlogParagraph } from "@/lib/blog/render";
+import { buildArticleGraph } from "@/lib/seo/geo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/metadata";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -44,7 +46,9 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
+    <>
+      <JsonLdScript data={buildArticleGraph(post)} />
+      <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
       <RevealOnScroll>
         <Link href="/blog" className="text-sm text-violet-400 hover:underline">
           ← 返回文章列表
@@ -89,5 +93,6 @@ export default async function BlogPostPage({
         </div>
       </RevealOnScroll>
     </article>
+    </>
   );
 }

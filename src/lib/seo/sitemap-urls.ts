@@ -12,6 +12,7 @@ export function getPublicSitemapPaths(): string[] {
     "/contact",
     "/privacy",
     "/blog",
+    "/faq",
   ];
 
   const templatePages = templates.map((t) => `/templates/${t.id}`);
