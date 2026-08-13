@@ -5,6 +5,21 @@ import { DEFAULT_DESCRIPTION, SITE_NAME, SITE_TAGLINE } from "@/lib/seo/metadata
 import { SITE_CONTACT } from "@/lib/site-contact";
 import { GEO_FAQ_ITEMS } from "@/lib/seo/geo/faq";
 
+const GEO_BLOG_ARTICLES = [
+  {
+    slug: "what-is-designpick-hong-kong",
+    title: "DesignPick 是什麼？香港網站設計選配平台完整指南",
+  },
+  {
+    slug: "restaurant-website-hong-kong-checklist",
+    title: "香港餐廳做網站要準備什麼？功能清單與參考預算",
+  },
+  {
+    slug: "website-delivery-scope-hong-kong",
+    title: "香港網站設計報價包什麼？交付範圍對照表",
+  },
+] as const;
+
 function getTemplatePriceRange() {
   const prices = templates.map((t) => t.basePrice);
   return {
@@ -71,6 +86,11 @@ export function buildLlmsTxt(): string {
     `- 全站模板基礎價範圍：${formatPrice(min)} – ${formatPrice(max)}`,
     ...getCategoryPricingLines(),
     `- 免責：${PRICE_DISCLAIMER}`,
+    "",
+    "## 資訊文章（GEO 重點）",
+    ...GEO_BLOG_ARTICLES.map(
+      (post) => `- ${post.title}：${siteUrl}/blog/${post.slug}`
+    ),
     "",
     "## 常見問題（摘要）",
     ...GEO_FAQ_ITEMS.map(
