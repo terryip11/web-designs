@@ -15,6 +15,18 @@ const GEO_BLOG_ARTICLES = [
     title: "香港餐廳做網站要準備什麼？功能清單與參考預算",
   },
   {
+    slug: "education-tuition-website-hong-kong",
+    title: "香港補習社／教育中心做網站要準備什麼？",
+  },
+  {
+    slug: "medical-clinic-website-hong-kong",
+    title: "香港診所／牙科網站必備功能與參考預算",
+  },
+  {
+    slug: "ecommerce-website-hong-kong-guide",
+    title: "香港做小規模電商網站要幾錢？功能與流程指南",
+  },
+  {
     slug: "website-delivery-scope-hong-kong",
     title: "香港網站設計報價包什麼？交付範圍對照表",
   },

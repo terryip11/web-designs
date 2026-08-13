@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Layers, Monitor, Palette, Settings, Columns3, Navigation, Zap, Pencil } from "lucide-react";
 import HomeDemoShowcase from "@/components/HomeDemoShowcase";
+import HomeFaqPreview from "@/components/HomeFaqPreview";
 import TemplateCard from "@/components/TemplateCard";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import type { Template } from "@/types";
@@ -175,6 +176,8 @@ export default function HomeContent({ featured }: HomeContentProps) {
           </RevealOnScroll>
         </div>
       </section>
+
+      <HomeFaqPreview />
     </>
   );
 }

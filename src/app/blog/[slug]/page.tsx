@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import JsonLdScript from "@/components/JsonLdScript";
+import BlogGeoLinks from "@/components/BlogGeoLinks";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { getPublishedBlogPostBySlug } from "@/lib/blog/queries";
 import { renderBlogParagraph } from "@/lib/blog/render";
@@ -70,6 +71,8 @@ export default async function BlogPostPage({
             <p key={paragraph.slice(0, 48)}>{renderBlogParagraph(paragraph)}</p>
           ))}
         </div>
+
+        <BlogGeoLinks currentSlug={post.slug} />
 
         <div className="mt-12 rounded-2xl border border-violet-500/20 bg-violet-500/5 p-6">
           <p className="font-medium text-white">想估算你的網站方案？</p>

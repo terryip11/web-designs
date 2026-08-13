@@ -7,7 +7,7 @@ import {
   SITE_NAME,
   SITE_TAGLINE,
 } from "@/lib/seo/metadata";
-import { GEO_FAQ_ITEMS } from "@/lib/seo/geo/faq";
+import { GEO_FAQ_HOME_PREVIEW_IDS, GEO_FAQ_ITEMS } from "@/lib/seo/geo/faq";
 
 function getOrganizationId(siteUrl: string) {
   return `${siteUrl}/#organization`;
@@ -106,6 +106,30 @@ export function buildFaqPageGraph() {
       acceptedAnswer: {
         "@type": "Answer",
         text: item.answer,
+      },
+    })),
+  };
+}
+
+export function buildHomeFaqPreviewGraph() {
+  const siteUrl = getSiteUrl();
+  const items = GEO_FAQ_HOME_PREVIEW_IDS.map((id) =>
+    GEO_FAQ_ITEMS.find((item) => item.id === id)
+  ).filter(Boolean);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${siteUrl}/#faq-preview`,
+    url: siteUrl,
+    inLanguage: "zh-HK",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      "@id": `${siteUrl}/faq#${item!.id}`,
+      name: item!.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item!.answer,
       },
     })),
   };

@@ -5,6 +5,12 @@ export interface GeoFaqItem {
 }
 
 /** 常見問題 — GEO / FAQPage 與 llms.txt 共用單一來源 */
+export const GEO_FAQ_HOME_PREVIEW_IDS = [
+  "what-is-designpick",
+  "pricing-hk",
+  "how-to-quote",
+] as const;
+
 export const GEO_FAQ_ITEMS: GeoFaqItem[] = [
   {
     id: "what-is-designpick",
