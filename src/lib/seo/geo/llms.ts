@@ -30,6 +30,18 @@ const GEO_BLOG_ARTICLES = [
     slug: "website-delivery-scope-hong-kong",
     title: "香港網站設計報價包什麼？交付範圍對照表",
   },
+  {
+    slug: "how-to-choose-web-design-company-hong-kong",
+    title: "香港中小企點揀網頁設計公司？5 項必問清單",
+  },
+  {
+    slug: "wix-vs-custom-website-hong-kong",
+    title: "Wix／WordPress 定係模板選配？香港中小企點決定",
+  },
+  {
+    slug: "domain-hosting-ssl-cost-hong-kong",
+    title: "香港網站域名、主機、SSL 幾錢？上線前費用清單",
+  },
 ] as const;
 
 function getTemplatePriceRange() {

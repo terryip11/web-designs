@@ -25,6 +25,18 @@ const GEO_BLOG_LINKS = [
     slug: "website-delivery-scope-hong-kong",
     title: "報價交付範圍對照",
   },
+  {
+    slug: "how-to-choose-web-design-company-hong-kong",
+    title: "點揀網頁設計公司",
+  },
+  {
+    slug: "wix-vs-custom-website-hong-kong",
+    title: "Wix vs 模板選配",
+  },
+  {
+    slug: "domain-hosting-ssl-cost-hong-kong",
+    title: "域名主機 SSL 費用",
+  },
 ] as const;
 
 export default function BlogGeoLinks({ currentSlug }: { currentSlug: string }) {
