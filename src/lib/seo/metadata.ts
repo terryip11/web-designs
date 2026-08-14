@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getSiteUrl } from "@/lib/auth/site-url";
 
-export const SITE_NAME = "DesignPick";
+export const SITE_NAME = "desigpick-digital";
+export const SITE_ALTERNATE_NAMES = ["desigpick-digital"] as const;
 export const SITE_TAGLINE = "網站設計選配平台";
 export const DEFAULT_DESCRIPTION =
   "瀏覽介面樣式、選擇功能模組，快速組合您的專屬網站方案。香港市場參考報價（HKD），完整 Demo 展示站供客戶預覽。";

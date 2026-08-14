@@ -12,7 +12,7 @@ export default function Header() {
             <Layers className="h-5 w-5 text-white" />
           </div>
           <span className="text-lg font-semibold tracking-tight text-white">
-            Design<span className="text-violet-400">Pick</span>
+            desigpick<span className="text-violet-400">-digital</span>
           </span>
         </Link>
 

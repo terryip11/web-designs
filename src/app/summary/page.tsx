@@ -32,7 +32,7 @@ export default function SummaryPage() {
   async function copySummary() {
     if (!template) return;
     const text = [
-      "【DesignPick 方案摘要】",
+      "【desigpick-digital 方案摘要】",
       "",
       `介面：${template.name}`,
       `行業：${template.category}`,
@@ -117,7 +117,7 @@ export default function SummaryPage() {
       <RevealOnScroll delay={0.08}>
         <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50">
           <div className="border-b border-zinc-800 bg-violet-600/10 px-8 py-6">
-            <p className="text-sm text-violet-400">DesignPick 方案摘要</p>
+            <p className="text-sm text-violet-400">desigpick-digital 方案摘要</p>
             <h2 className="mt-1 text-2xl font-bold text-white">{template.name}</h2>
             <p className="mt-1 text-zinc-400">{template.suitableFor}</p>
           </div>

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = buildPageMetadata({
   title: "網站設計資訊",
   description:
-    "香港中小企網站設計、報價、SEO 與詢價實用文章 — DesignPick 官方資訊。",
+    "香港中小企網站設計、報價、SEO 與詢價實用文章 — desigpick-digital 官方資訊。",
   path: "/blog",
 });
 

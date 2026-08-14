@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { getDemoBySlug } from "@/lib/demo-sites/registry";
 
-/** 從子網域解析 demo slug，例如 property-luxe-09.designpick.hk */
+/** 從子網域解析 demo slug，例如 property-luxe-09.desigpick-digital.com */
 export function getDemoSlugFromHost(host: string): string | null {
   const root = process.env.NEXT_PUBLIC_DEMO_ROOT_DOMAIN?.toLowerCase();
   if (!root) return null;

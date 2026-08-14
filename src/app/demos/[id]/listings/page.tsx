@@ -11,7 +11,7 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   if (resolveLiveDemo(id)?.variant !== "property") {
-    return { title: "Demo — DesignPick" };
+    return { title: "Demo — desigpick-digital" };
   }
   return { title: "樓盤搜尋 — 麗致物業" };
 }

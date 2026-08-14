@@ -3,7 +3,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "忘記密碼",
-  description: "重設 DesignPick 會員密碼。",
+  description: "重設 desigpick-digital 會員密碼。",
   path: "/forgot-password",
   noIndex: true,
 });

@@ -20,7 +20,7 @@ export interface InquirySummaryInput {
 /** 純文字方案摘要（WhatsApp、Email 共用） */
 export function buildInquiryTextSummary(input: InquirySummaryInput): string {
   const lines: string[] = [
-    `你好 ${SITE_CONTACT.contactName}，我在 DesignPick 想查詢網站設計方案。`,
+    `你好 ${SITE_CONTACT.contactName}，我在 desigpick-digital 想查詢網站設計方案。`,
   ];
 
   if (input.customerName?.trim()) {

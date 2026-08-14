@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "DesignPick — 網站設計選配平台",
-    short_name: "DesignPick",
+    name: "desigpick-digital — 網站設計選配平台",
+    short_name: "desigpick-digital",
     description: "瀏覽介面樣式、選擇功能模組，快速組合您的專屬網站方案",
     start_url: "/",
     scope: "/",

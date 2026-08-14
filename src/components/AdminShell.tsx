@@ -138,7 +138,7 @@ function SidebarBrand() {
     <div className="border-b border-zinc-800 px-5 py-5">
       <Link href="/admin" className="block">
         <p className="text-xs font-medium uppercase tracking-wide text-amber-400/80">
-          DesignPick
+          desigpick-digital
         </p>
         <p className="mt-1 text-lg font-semibold text-white">管理後台</p>
       </Link>

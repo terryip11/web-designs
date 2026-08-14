@@ -22,7 +22,7 @@ export default function HomeFaqPreview() {
                 香港做網站常見問題
               </h2>
               <p className="mt-2 text-sm text-zinc-500">
-                快速了解 DesignPick 服務、參考報價與詢價方式
+                快速了解 desigpick-digital 服務、參考報價與詢價方式
               </p>
             </div>
             <Link

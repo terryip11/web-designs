@@ -113,7 +113,7 @@ export default function MedicalShell({
             <p className="mt-2 text-sm text-white/60">{MEDICAL_BRAND.englishName}</p>
             <p className="mt-4 flex items-start gap-2 text-sm leading-relaxed text-white/70">
               <Shield className="mt-0.5 h-4 w-4 shrink-0 text-[#0EA5E9]" />
-              網站內容符合香港醫療廣告相關規定，此為 DesignPick 模板展示。
+              網站內容符合香港醫療廣告相關規定，此為 desigpick-digital 模板展示。
             </p>
           </div>
           <div>
@@ -143,7 +143,7 @@ export default function MedicalShell({
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-white/40">
-          © 2026 {MEDICAL_BRAND.name} · DesignPick 模板展示，非真實醫療機構
+          © 2026 {MEDICAL_BRAND.name} · desigpick-digital 模板展示，非真實醫療機構
         </div>
       </footer>
     </div>

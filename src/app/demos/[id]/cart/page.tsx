@@ -10,7 +10,7 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   if (resolveLiveDemo(id)?.variant !== "ecommerce") {
-    return { title: "Demo — DesignPick" };
+    return { title: "Demo — desigpick-digital" };
   }
   return { title: `購物車 — ${ECOMMERCE_BRAND.name}` };
 }

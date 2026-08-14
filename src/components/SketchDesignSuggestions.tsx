@@ -16,7 +16,7 @@ import {
 import { useConfiguratorStore } from "@/store/configurator-store";
 import { useSketchStore } from "@/store/sketch-store";
 
-const SESSION_KEY = "designpick-sketch-suggestions-applied";
+const SESSION_KEY = "desigpick-digital-sketch-suggestions-applied";
 
 export function useSketchDesignSuggestions(onApplied?: () => void) {
   const pages = useSketchStore((s) => s.pages);

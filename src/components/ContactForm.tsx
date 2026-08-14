@@ -659,7 +659,7 @@ export default function ContactForm() {
 
             </Link>
 
-            ，並同意 DesignPick 為回覆查詢而處理上述個人資料。
+            ，並同意 desigpick-digital 為回覆查詢而處理上述個人資料。
 
             <span className="text-red-400"> *</span>
 

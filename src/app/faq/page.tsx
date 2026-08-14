@@ -8,7 +8,7 @@ import { buildFaqPageGraph } from "@/lib/seo/geo/json-ld";
 export const metadata = buildPageMetadata({
   title: "常見問題",
   description:
-    "DesignPick 香港網站設計平台常見問題：報價、流程、行業模板、Demo 預覽與詢價方式。",
+    "desigpick-digital 香港網站設計平台常見問題：報價、流程、行業模板、Demo 預覽與詢價方式。",
   path: "/faq",
 });
 
@@ -25,7 +25,7 @@ export default function FaqPage() {
             常見問題
           </h1>
           <p className="mt-4 text-zinc-400">
-            關於 DesignPick 服務、香港網站設計參考報價與詢價流程的解答。
+            關於 desigpick-digital 服務、香港網站設計參考報價與詢價流程的解答。
           </p>
         </RevealOnScroll>
 

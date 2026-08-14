@@ -104,7 +104,7 @@ export default function SaasShell({
             {SAAS_BRAND.email} · {SAAS_BRAND.address}
           </p>
           <p className="mt-8 text-center text-xs text-slate-600">
-            © 2026 {SAAS_BRAND.name} · DesignPick 模板展示
+            © 2026 {SAAS_BRAND.name} · desigpick-digital 模板展示
           </p>
         </div>
       </footer>

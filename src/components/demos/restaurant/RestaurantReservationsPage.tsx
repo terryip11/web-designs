@@ -14,7 +14,7 @@ export default function RestaurantReservationsPage({
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
         <h1 className="font-serif text-3xl font-bold text-[#2D3436]">網上訂位</h1>
         <p className="mt-2 text-[#636E72]">
-          填寫以下資料，我們會在 2 小時內確認。此為 DesignPick 模板展示，表單不會提交真實資料。
+          填寫以下資料，我們會在 2 小時內確認。此為 desigpick-digital 模板展示，表單不會提交真實資料。
         </p>
 
         <form className="mt-10 space-y-6 rounded-2xl border border-[#E8A87C]/15 bg-white p-8 shadow-sm">

@@ -5,7 +5,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "私隱政策",
-  description: "DesignPick 如何收集、使用與保護您提交的個人資料與方案選配資訊。",
+  description: "desigpick-digital 如何收集、使用與保護您提交的個人資料與方案選配資訊。",
   path: "/privacy",
 });
 
@@ -22,7 +22,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-lg font-semibold text-white">1. 收集的資料</h2>
             <p>
-              當您透過 DesignPick 提交方案需求時，我們可能收集：姓名、Email、電話、公司／品牌名稱、補充說明，以及您選配的介面模板、功能模組、設計選項、草圖圖片與參考報價等資訊。
+              當您透過 desigpick-digital 提交方案需求時，我們可能收集：姓名、Email、電話、公司／品牌名稱、補充說明，以及您選配的介面模板、功能模組、設計選項、草圖圖片與參考報價等資訊。
             </p>
           </section>
 

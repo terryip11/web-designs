@@ -31,10 +31,10 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   const resolved = resolveLiveDemo(id);
-  if (!resolved) return { title: "Demo — DesignPick" };
+  if (!resolved) return { title: "Demo — desigpick-digital" };
   if (resolved.variant === "industry") {
     const brand = getIndustryBrand(id);
-    return { title: brand ? `聯絡我們 — ${brand.name}` : "Demo — DesignPick" };
+    return { title: brand ? `聯絡我們 — ${brand.name}` : "Demo — desigpick-digital" };
   }
   return { title: `聯絡我們 — ${TITLES[resolved.variant as keyof typeof TITLES]}` };
 }

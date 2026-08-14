@@ -174,7 +174,7 @@ export default function DemoShowcaseExplorer({ compact = false }: { compact?: bo
 
           <DemoPreviewFrame
             src={embedSrc}
-            title={`${selected.brandName} — DesignPick Demo`}
+            title={`${selected.brandName} — desigpick-digital Demo`}
           />
 
           <p className="flex items-center gap-2 text-xs text-zinc-600">

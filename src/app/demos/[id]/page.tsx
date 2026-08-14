@@ -25,31 +25,31 @@ const HOME_META: Record<
 > = {
   property: {
     title: `${PROPERTY_BRAND.name} — 香港高端物業`,
-    description: `${PROPERTY_BRAND.name} · DesignPick 模板展示`,
+    description: `${PROPERTY_BRAND.name} · desigpick-digital 模板展示`,
   },
   medical: {
     title: `${MEDICAL_BRAND.name} — 專業醫療服務`,
-    description: `${MEDICAL_BRAND.name} · DesignPick 模板展示`,
+    description: `${MEDICAL_BRAND.name} · desigpick-digital 模板展示`,
   },
   restaurant: {
     title: `${RESTAURANT_BRAND.name} — 精緻地中海料理`,
-    description: `${RESTAURANT_BRAND.name} · DesignPick 模板展示`,
+    description: `${RESTAURANT_BRAND.name} · desigpick-digital 模板展示`,
   },
   corporate: {
     title: `${CORPORATE_BRAND.name} — 企業顧問服務`,
-    description: `${CORPORATE_BRAND.name} · DesignPick 模板展示`,
+    description: `${CORPORATE_BRAND.name} · desigpick-digital 模板展示`,
   },
   ecommerce: {
     title: `${ECOMMERCE_BRAND.name} — 質感選物`,
-    description: `${ECOMMERCE_BRAND.name} · DesignPick 模板展示`,
+    description: `${ECOMMERCE_BRAND.name} · desigpick-digital 模板展示`,
   },
   saas: {
     title: `${SAAS_BRAND.name} — 工作流自動化`,
-    description: `${SAAS_BRAND.name} · DesignPick 模板展示`,
+    description: `${SAAS_BRAND.name} · desigpick-digital 模板展示`,
   },
   industry: {
-    title: "DesignPick 模板展示",
-    description: "DesignPick 模板展示站",
+    title: "desigpick-digital 模板展示",
+    description: "desigpick-digital 模板展示站",
   },
 };
 
@@ -73,7 +73,7 @@ export async function generateMetadata({
           return brand
             ? {
                 title: `${brand.name} — ${brand.tagline.split(" · ")[0]}`,
-                description: `${brand.name} · DesignPick 模板展示`,
+                description: `${brand.name} · desigpick-digital 模板展示`,
               }
             : HOME_META.industry;
         })()

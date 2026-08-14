@@ -10,7 +10,7 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   if (resolveLiveDemo(id)?.variant !== "saas") {
-    return { title: "Demo — DesignPick" };
+    return { title: "Demo — desigpick-digital" };
   }
   return { title: `客戶案例 — ${SAAS_BRAND.name}` };
 }

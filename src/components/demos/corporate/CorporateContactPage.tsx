@@ -10,7 +10,7 @@ export default function CorporateContactPage({ basePath }: { basePath: string })
           <div>
             <h1 className="text-3xl font-bold text-[#1E293B]">聯絡我們</h1>
             <p className="mt-4 text-slate-600">
-              歡迎預約諮詢或查詢合作。此為 DesignPick 模板展示，表單不會提交真實資料。
+              歡迎預約諮詢或查詢合作。此為 desigpick-digital 模板展示，表單不會提交真實資料。
             </p>
             <ul className="mt-10 space-y-6">
               <li className="flex gap-4">

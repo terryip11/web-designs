@@ -20,7 +20,7 @@ export default function EcommerceCartPage({
     <EcommerceShell basePath={basePath}>
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-white">購物車</h1>
-        <p className="mt-2 text-white/60">此為 DesignPick 模板展示，不會進行真實結帳。</p>
+        <p className="mt-2 text-white/60">此為 desigpick-digital 模板展示，不會進行真實結帳。</p>
 
         <div className="mt-10 space-y-4">
           {items.map((item) => (

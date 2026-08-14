@@ -4,6 +4,7 @@ import { getSiteUrl } from "@/lib/auth/site-url";
 import { formatPrice, PRICE_DISCLAIMER } from "@/lib/data";
 import {
   DEFAULT_DESCRIPTION,
+  SITE_ALTERNATE_NAMES,
   SITE_NAME,
   SITE_TAGLINE,
 } from "@/lib/seo/metadata";
@@ -32,6 +33,7 @@ export function buildOrganizationWebSiteGraph() {
         name: SITE_NAME,
         url: siteUrl,
         description: DEFAULT_DESCRIPTION,
+        alternateName: [...SITE_ALTERNATE_NAMES],
         areaServed: {
           "@type": "Country",
           name: "Hong Kong",

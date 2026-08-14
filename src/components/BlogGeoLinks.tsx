@@ -3,7 +3,7 @@ import Link from "next/link";
 const GEO_BLOG_LINKS = [
   {
     slug: "what-is-designpick-hong-kong",
-    title: "DesignPick 是什麼？",
+    title: "desigpick-digital 是什麼？",
   },
   {
     slug: "restaurant-website-hong-kong-checklist",

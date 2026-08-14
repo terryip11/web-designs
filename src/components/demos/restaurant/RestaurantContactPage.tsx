@@ -10,7 +10,7 @@ export default function RestaurantContactPage({ basePath }: { basePath: string }
           <div>
             <h1 className="font-serif text-3xl font-bold text-[#2D3436]">聯絡我們</h1>
             <p className="mt-4 text-[#636E72]">
-              歡迎致電、電郵或親臨餐廳。此為 DesignPick 模板展示，表單不會提交真實資料。
+              歡迎致電、電郵或親臨餐廳。此為 desigpick-digital 模板展示，表單不會提交真實資料。
             </p>
             <ul className="mt-10 space-y-6">
               <li className="flex gap-4">

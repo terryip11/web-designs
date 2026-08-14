@@ -58,7 +58,7 @@ export async function sendInquiryConfirmationEmail(
   const contactName = process.env.CONTACT_NAME ?? "Terry";
   const html = `
     <div style="font-family:sans-serif;max-width:560px;line-height:1.6;color:#333">
-      <h2 style="color:#7c3aed">DesignPick — 需求已收到</h2>
+      <h2 style="color:#7c3aed">desigpick-digital — 需求已收到</h2>
       <p>${payload.name} 您好，</p>
       <p>我們已收到您的網站設計方案需求，${contactName} 將盡快與您聯繫。</p>
       <p><strong>選定介面：</strong>${payload.templateName}</p>
@@ -72,7 +72,7 @@ export async function sendInquiryConfirmationEmail(
 
   return sendEmail({
     to: payload.email,
-    subject: "DesignPick — 您的方案需求已收到",
+    subject: "desigpick-digital — 您的方案需求已收到",
     html,
   });
 }
@@ -97,7 +97,7 @@ export async function sendInquiryNotifyEmail(
 
   return sendEmail({
     to: notifyTo,
-    subject: `[DesignPick] 新需求 — ${payload.name}`,
+    subject: `[desigpick-digital] 新需求 — ${payload.name}`,
     html,
   });
 }

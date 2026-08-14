@@ -124,14 +124,14 @@ export default function IndustryShell({
             </ul>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-white/50">DesignPick 展示</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-white/50">desigpick-digital 展示</p>
             <p className="mt-4 text-sm text-white/80">
-              此為 DesignPick 模板展示站，供客戶預覽網站設計風格同功能。
+              此為 desigpick-digital 模板展示站，供客戶預覽網站設計風格同功能。
             </p>
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-white/40">
-          © 2026 {brand.name} · DesignPick 模板展示
+          © 2026 {brand.name} · desigpick-digital 模板展示
         </div>
       </footer>
     </div>

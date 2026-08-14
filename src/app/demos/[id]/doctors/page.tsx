@@ -10,7 +10,7 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   if (resolveLiveDemo(id)?.variant !== "medical") {
-    return { title: "Demo — DesignPick" };
+    return { title: "Demo — desigpick-digital" };
   }
   return { title: `醫師團隊 — ${MEDICAL_BRAND.name}` };
 }

@@ -6,7 +6,7 @@ export const SITE_CONTACT = {
   /** 香港 WhatsApp / 來電用 E.164（不含 +） */
   phoneE164: "85261566060",
   defaultWhatsAppMessage:
-    "你好 Terry，我在 DesignPick 網站想查詢網站設計方案。",
+    "你好 Terry，我在 desigpick-digital 網站想查詢網站設計方案。",
 } as const;
 
 export function getWhatsAppUrl(message?: string): string {

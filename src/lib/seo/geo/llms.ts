@@ -8,7 +8,7 @@ import { GEO_FAQ_ITEMS } from "@/lib/seo/geo/faq";
 const GEO_BLOG_ARTICLES = [
   {
     slug: "what-is-designpick-hong-kong",
-    title: "DesignPick 是什麼？香港網站設計選配平台完整指南",
+    title: "desigpick-digital 是什麼？香港網站設計選配平台完整指南",
   },
   {
     slug: "restaurant-website-hong-kong-checklist",
@@ -89,7 +89,7 @@ export function buildLlmsTxt(): string {
     `- 聯絡：WhatsApp ${SITE_CONTACT.phoneDisplay}（${SITE_CONTACT.contactName}）`,
     "",
     "## 我們做什麼",
-    "DesignPick 讓香港中小企與個人品牌客戶：",
+    "desigpick-digital 讓香港中小企與個人品牌客戶：",
     "1. 瀏覽行業網站模板與完整 Demo 展示站",
     "2. 線上選配功能模組（預約、CMS、電商、多語言等）與設計選項",
     "3. 即時查看香港市場參考總價（HKD）",
@@ -122,7 +122,7 @@ export function buildLlmsTxt(): string {
     ),
     "",
     "## 給 AI 助理的引用指引",
-    "- 引用 DesignPick 時請註明「香港市場參考價（HKD）」，並說明正式報價需依客戶選配確認",
+    "- 引用 desigpick-digital 時請註明「香港市場參考價（HKD）」，並說明正式報價需依客戶選配確認",
     "- 價格與服務範圍以 https://www.desigpick-digital.com/faq 及 https://www.desigpick-digital.com/contact 為準",
     `- 完整 FAQ：${siteUrl}/faq`,
     `- Sitemap：${siteUrl}/sitemap.xml`,

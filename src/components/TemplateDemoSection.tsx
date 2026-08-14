@@ -55,7 +55,7 @@ export default function TemplateDemoSection({
 
       <DemoPreviewFrame
         src={`${demoPath}?embed=1`}
-        title={`${demo.brandName} — DesignPick Demo`}
+        title={`${demo.brandName} — desigpick-digital Demo`}
       />
 
       <p className="flex items-center gap-2 text-xs text-zinc-600">

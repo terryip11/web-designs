@@ -18,10 +18,10 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   const resolved = resolveLiveDemo(id);
-  if (!resolved) return { title: "Demo — DesignPick" };
+  if (!resolved) return { title: "Demo — desigpick-digital" };
   if (resolved.variant === "industry") {
     const brand = getIndustryBrand(id);
-    return { title: brand ? `關於 — ${brand.name}` : "Demo — DesignPick" };
+    return { title: brand ? `關於 — ${brand.name}` : "Demo — desigpick-digital" };
   }
   if (resolved.variant === "restaurant") {
     return { title: `關於我們 — ${RESTAURANT_BRAND.name}` };
@@ -30,7 +30,7 @@ export async function generateMetadata({
     return { title: `關於 — ${ECOMMERCE_BRAND.name}` };
   }
   if (resolved.variant !== "property") {
-    return { title: "Demo — DesignPick" };
+    return { title: "Demo — desigpick-digital" };
   }
   return { title: `關於我們 — ${PROPERTY_BRAND.name}` };
 }

@@ -127,7 +127,7 @@ export default function CorporateShell({
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-white/40">
-          © 2026 {CORPORATE_BRAND.name} · DesignPick 模板展示
+          © 2026 {CORPORATE_BRAND.name} · desigpick-digital 模板展示
         </div>
       </footer>
     </div>

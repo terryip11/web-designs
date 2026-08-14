@@ -48,7 +48,7 @@ export interface AdminInquiryRow {
 
 function buildWhatsAppReply(row: AdminInquiryRow) {
   return getWhatsAppUrl(
-    `你好 ${row.name}，我是 DesignPick 的 Terry，收到你對「${row.template_name}」方案的詢價，想進一步了解你的需求。`
+    `你好 ${row.name}，我是 desigpick-digital 的 Terry，收到你對「${row.template_name}」方案的詢價，想進一步了解你的需求。`
   );
 }
 

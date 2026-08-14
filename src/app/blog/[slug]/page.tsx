@@ -19,7 +19,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const supabase = createServerClient();
   const post = await getPublishedBlogPostBySlug(supabase, slug);
-  if (!post) return { title: "文章 — DesignPick" };
+  if (!post) return { title: "文章 — desigpick-digital" };
 
   return buildPageMetadata({
     title: post.title,

@@ -3,7 +3,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "註冊",
-  description: "建立 DesignPick 會員帳戶。",
+  description: "建立 desigpick-digital 會員帳戶。",
   path: "/signup",
   noIndex: true,
 });

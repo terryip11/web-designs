@@ -7,7 +7,7 @@ import { buildPageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildPageMetadata({
   title: "模板展示站",
-  description: "DesignPick 完整網站 Demo，依行業瀏覽展示站，供客戶預覽交付品質。",
+  description: "desigpick-digital 完整網站 Demo，依行業瀏覽展示站，供客戶預覽交付品質。",
   path: "/demos",
 });
 
@@ -19,7 +19,7 @@ export default function DemosIndexPage() {
       <div className="mb-10 max-w-2xl">
         <h1 className="text-3xl font-bold text-white">模板展示站</h1>
         <p className="mt-3 text-zinc-400">
-          完整可瀏覽的 Demo 網站，展示 DesignPick 模板的實際交付品質。精選模板可綁定獨立子網域，作為長期品牌展示。
+          完整可瀏覽的 Demo 網站，展示 desigpick-digital 模板的實際交付品質。精選模板可綁定獨立子網域，作為長期品牌展示。
         </p>
       </div>
 

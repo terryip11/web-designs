@@ -14,10 +14,10 @@ export async function generateMetadata({
 }) {
   const { id } = await params;
   const resolved = resolveLiveDemo(id);
-  if (!resolved) return { title: "Demo — DesignPick" };
+  if (!resolved) return { title: "Demo — desigpick-digital" };
   if (resolved.variant === "industry") {
     const brand = getIndustryBrand(id);
-    return { title: brand ? `服務 — ${brand.name}` : "Demo — DesignPick" };
+    return { title: brand ? `服務 — ${brand.name}` : "Demo — desigpick-digital" };
   }
   if (resolved.variant === "medical") {
     return { title: `服務項目 — ${MEDICAL_BRAND.name}` };
@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (resolved.variant === "corporate") {
     return { title: `服務介紹 — ${CORPORATE_BRAND.name}` };
   }
-  return { title: "Demo — DesignPick" };
+  return { title: "Demo — desigpick-digital" };
 }
 
 export default async function DemoServicesPage({

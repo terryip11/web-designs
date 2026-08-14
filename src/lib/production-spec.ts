@@ -62,7 +62,7 @@ export function buildProductionSpecMarkdown(input: ProductionSpecInput): string 
     : "4–6";
 
   const lines: string[] = [
-    `# DesignPick 製作規格 — ${input.name}`,
+    `# desigpick-digital 製作規格 — ${input.name}`,
     "",
     `> 詢價 ID：\`${input.id}\` · 建立時間：${new Date(input.created_at).toLocaleString("zh-HK")} · 狀態：${INQUIRY_STATUS_LABELS[input.status ?? "new"]}`,
     "",
@@ -146,7 +146,7 @@ export function buildProductionSpecMarkdown(input: ProductionSpecInput): string 
     "## Cursor AI 開工指令（複製貼上）",
     "",
     "```",
-    `依 DesignPick 製作規格為「${input.name}」建立正式網站。`,
+    `依 desigpick-digital 製作規格為「${input.name}」建立正式網站。`,
     `Template ID: ${input.template_id ?? "manual"}（${input.template_name}）`,
     template
       ? `頁面：${template.includedPages.join("、")}`

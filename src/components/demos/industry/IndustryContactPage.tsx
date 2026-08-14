@@ -45,7 +45,7 @@ export default function IndustryContactPage({
 
           <form className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
             <p className="mb-6 text-sm text-slate-500">
-              此為 DesignPick 展示表單，正式網站可連接真實詢價系統。
+              此為 desigpick-digital 展示表單，正式網站可連接真實詢價系統。
             </p>
             <div className="space-y-4">
               <input

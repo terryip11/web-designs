@@ -34,7 +34,7 @@ export default function DemoShowcaseBar({
         <div className="flex items-center gap-2 text-sm text-violet-100">
           <Layers className="h-4 w-4 shrink-0 text-violet-300" />
           <span>
-            DesignPick 模板展示 · <strong>{demo.brandName}</strong>
+            desigpick-digital 模板展示 · <strong>{demo.brandName}</strong>
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-2">

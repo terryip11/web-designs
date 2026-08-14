@@ -149,7 +149,7 @@ export default function PropertyShell({
           </div>
         </div>
         <div className="border-t border-white/10 py-4 text-center text-xs text-[#FFFBEB]/40">
-          © 2026 {PROPERTY_BRAND.name} · 此為 DesignPick 模板展示，非真實地產公司
+          © 2026 {PROPERTY_BRAND.name} · 此為 desigpick-digital 模板展示，非真實地產公司
         </div>
       </footer>
     </div>

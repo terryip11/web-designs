@@ -114,7 +114,7 @@ export default function EcommerceShell({
             {ECOMMERCE_BRAND.email} · {ECOMMERCE_BRAND.phone}
           </p>
           <p className="mt-8 text-center text-xs text-white/30">
-            © 2026 {ECOMMERCE_BRAND.name} · DesignPick 模板展示
+            © 2026 {ECOMMERCE_BRAND.name} · desigpick-digital 模板展示
           </p>
         </div>
       </footer>
